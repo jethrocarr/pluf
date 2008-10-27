@@ -1,0 +1,1082 @@
+
+Pluf.php,202
+class Pluf29,1139
+function __(257,8292
+function _n(275,8779
+function __autoload(301,9534
+class PlufErrorHandlerException 320,10037
+function PlufErrorHandler(336,10305
+function Pluf_esc(361,11013
+
+testrunner.php,192
+function usage(28,1066
+function e(37,1498
+function getTestDirs(41,1537
+function getTestFiles(54,1812
+define('IN_UNIT_TESTS'IN_UNIT_TESTS90,2849
+define('SIMPLE_TEST'SIMPLE_TEST110,3541
+
+GeoIP.php,2477
+define("GEOIP_COUNTRY_BEGIN"GEOIP_COUNTRY_BEGIN29,1023
+define("GEOIP_STATE_BEGIN_REV0"GEOIP_STATE_BEGIN_REV030,1064
+define("GEOIP_STATE_BEGIN_REV1"GEOIP_STATE_BEGIN_REV131,1108
+define("GEOIP_STANDARD"GEOIP_STANDARD32,1152
+define("GEOIP_MEMORY_CACHE"GEOIP_MEMORY_CACHE33,1181
+define("GEOIP_SHARED_MEMORY"GEOIP_SHARED_MEMORY34,1214
+define("STRUCTURE_INFO_MAX_SIZE"STRUCTURE_INFO_MAX_SIZE35,1248
+define("DATABASE_INFO_MAX_SIZE"DATABASE_INFO_MAX_SIZE36,1287
+define("GEOIP_COUNTRY_EDITION"GEOIP_COUNTRY_EDITION37,1326
+define("GEOIP_PROXY_EDITION"GEOIP_PROXY_EDITION38,1364
+define("GEOIP_ASNUM_EDITION"GEOIP_ASNUM_EDITION39,1398
+define("GEOIP_NETSPEED_EDITION"GEOIP_NETSPEED_EDITION40,1432
+define("GEOIP_REGION_EDITION_REV0"GEOIP_REGION_EDITION_REV041,1470
+define("GEOIP_REGION_EDITION_REV1"GEOIP_REGION_EDITION_REV142,1512
+define("GEOIP_CITY_EDITION_REV0"GEOIP_CITY_EDITION_REV043,1552
+define("GEOIP_CITY_EDITION_REV1"GEOIP_CITY_EDITION_REV144,1592
+define("GEOIP_ORG_EDITION"GEOIP_ORG_EDITION45,1630
+define("GEOIP_ISP_EDITION"GEOIP_ISP_EDITION46,1664
+define("SEGMENT_RECORD_LENGTH"SEGMENT_RECORD_LENGTH47,1696
+define("STANDARD_RECORD_LENGTH"STANDARD_RECORD_LENGTH48,1732
+define("ORG_RECORD_LENGTH"ORG_RECORD_LENGTH49,1769
+define("MAX_RECORD_LENGTH"MAX_RECORD_LENGTH50,1801
+define("MAX_ORG_RECORD_LENGTH"MAX_ORG_RECORD_LENGTH51,1833
+define("GEOIP_SHM_KEY"GEOIP_SHM_KEY52,1871
+define("US_OFFSET"US_OFFSET53,1908
+define("CANADA_OFFSET"CANADA_OFFSET54,1932
+define("WORLD_OFFSET"WORLD_OFFSET55,1962
+define("FIPS_RANGE"FIPS_RANGE56,1992
+define("GEOIP_UNKNOWN_SPEED"GEOIP_UNKNOWN_SPEED57,2019
+define("GEOIP_DIALUP_SPEED"GEOIP_DIALUP_SPEED58,2053
+define("GEOIP_CABLEDSL_SPEED"GEOIP_CABLEDSL_SPEED59,2086
+define("GEOIP_CORPORATE_SPEED"GEOIP_CORPORATE_SPEED60,2121
+class GeoIP 62,2158
+function GeoIP_load_shared_mem 212,12404
+function _setup_segments(230,12849
+function GeoIP_open(313,16346
+function GeoIP_close(330,16801
+function GeoIP_country_id_by_name(338,16930
+function GeoIP_country_code_by_name(346,17116
+function GeoIP_country_name_by_name(354,17327
+function GeoIP_country_id_by_addr(362,17538
+function GeoIP_country_code_by_addr(367,17681
+function GeoIP_country_name_by_addr(380,18046
+function _GeoIP_seek_country(393,18411
+function _get_org(431,19666
+function GeoIP_org_by_addr 447,20228
+function _get_region(455,20372
+function GeoIP_region_by_addr 486,21632
+function GeoIP_getdnsattributes 494,21782
+
+Pluf/Queue/Processor.php,35
+class Pluf_Queue_Processor32,1256
+
+Pluf/Image.php,25
+class Pluf_Image30,1168
+
+Pluf/Template.php,387
+class Pluf_Template27,1056
+    function __construct(48,1631
+    function render(73,2350
+    function getCompiledTemplateName(110,3517
+    function write(124,3995
+function Pluf_Template_unsafe(155,5003
+function Pluf_Template_htmlspecialchars(166,5291
+function Pluf_Template_dateFormat(180,5725
+function Pluf_Template_timeFormat(201,6416
+function Pluf_Template_safeEcho(214,6698
+
+Pluf/DB/Model.php,28
+class Pluf_DB_Model27,1098
+
+Pluf/DB/Schema.php,166
+class Pluf_DB_Schema27,1094
+    function __construct(44,1392
+    function getGenerator(57,1679
+    function createTables(67,1889
+    function dropTables(89,2571
+
+Pluf/DB/Introspect/PostgreSQL.php,77
+class Pluf_DB_Introspect_PostgreSQL25,1022
+    function listTables(41,1386
+
+Pluf/DB/Introspect.php,66
+class Pluf_DB_Introspect25,1022
+    function listTables(43,1494
+
+Pluf/DB/Schema/SQLite.php,178
+class Pluf_DB_Schema_SQLite30,1194
+    function __construct(74,2922
+    function getSqlCreate(87,3167
+    function getSqlIndexes(154,6049
+    function getSqlDelete(202,8087
+
+Pluf/DB/Schema/PostgreSQL.php,182
+class Pluf_DB_Schema_PostgreSQL30,1198
+    function __construct(74,2980
+    function getSqlCreate(87,3225
+    function getSqlIndexes(149,6068
+    function getSqlDelete(186,7462
+
+Pluf/DB/Schema/MySQL.php,177
+class Pluf_DB_Schema_MySQL30,1193
+    function __construct(73,3054
+    function getSqlCreate(86,3299
+    function getSqlIndexes(153,6162
+    function getSqlDelete(186,7528
+
+Pluf/DB/SQLite.php,457
+class Pluf_DB_SQLite27,1056
+    function __construct(37,1319
+    function getServerInfo(57,1931
+    function debug(70,2293
+    function close(80,2620
+    function select(86,2705
+    function execute(95,2950
+    function getLastID(105,3168
+    function getError(116,3409
+    function esc(123,3561
+    function qn(134,3768
+    function begin(142,3876
+    function commit(150,3988
+    function rollback(158,4104
+    function __toString(163,4177
+
+Pluf/DB/PostgreSQL.php,552
+class Pluf_DB_PostgreSQL27,1060
+    function __construct(37,1331
+    function getServerInfo(69,2330
+    function debug(83,2698
+    function close(93,3025
+    function select(103,3203
+    function execute(120,3641
+    function getLastID(132,3937
+    function getError(144,4227
+    function esc(156,4558
+    function setSearchPath(164,4710
+    function qn(179,5145
+    function begin(187,5253
+    function commit(195,5365
+    function rollback(203,5481
+    function __toString(208,5554
+function Pluf_DB_PostgreSQL_BooleanFromDb(214,5653
+
+Pluf/DB/BaseModel.php,29
+class Pluf_BaseModel28,1140
+
+Pluf/DB/SchemaInfo.php,61
+class Pluf_DB_SchemaInfo 24,1021
+    function init(28,1100
+
+Pluf/DB/Field/Float.php,35
+class Pluf_DB_Field_Float 24,1021
+
+Pluf/DB/Field/Datetime.php,70
+class Pluf_DB_Field_Datetime 24,1021
+    function formField(28,1106
+
+Pluf/DB/Field/Integer.php,37
+class Pluf_DB_Field_Integer 24,1021
+
+Pluf/DB/Field/Date.php,66
+class Pluf_DB_Field_Date 24,1021
+    function formField(28,1098
+
+Pluf/DB/Field/Manytomany.php,72
+class Pluf_DB_Field_Manytomany 24,1021
+    function formField(28,1110
+
+Pluf/DB/Field/File.php,183
+class Pluf_DB_Field_File 24,1021
+    function __construct(41,1370
+    function formField(49,1720
+function Pluf_DB_Field_File_Url(58,1900
+function Pluf_DB_Field_File_Path(69,2140
+
+Pluf/DB/Field/Email.php,67
+class Pluf_DB_Field_Email 24,1021
+    function formField(29,1144
+
+Pluf/DB/Field/Serialized.php,72
+class Pluf_DB_Field_Serialized 24,1021
+    function formField(28,1104
+
+Pluf/DB/Field/Foreignkey.php,72
+class Pluf_DB_Field_Foreignkey 24,1021
+    function formField(28,1110
+
+Pluf/DB/Field/Varchar.php,37
+class Pluf_DB_Field_Varchar 24,1021
+
+Pluf/DB/Field/Boolean.php,69
+class Pluf_DB_Field_Boolean 24,1021
+    function formField(28,1104
+
+Pluf/DB/Field/Sequence.php,70
+class Pluf_DB_Field_Sequence 24,1021
+    function formField(32,1231
+
+Pluf/DB/Field/Text.php,66
+class Pluf_DB_Field_Text 24,1021
+    function formField(28,1098
+
+Pluf/DB/Field/Password.php,70
+class Pluf_DB_Field_Password 24,1021
+    function formField(28,1105
+
+Pluf/DB/Field.php,94
+class Pluf_DB_Field27,1056
+    function __construct(62,1733
+    function formField(80,2315
+
+Pluf/DB/MySQL.php,398
+class Pluf_DB_MySQL27,1055
+    function __construct(37,1316
+    function database(52,1850
+    function getServerInfo(67,2191
+    function debug(80,2539
+    function close(90,2866
+    function select(100,3047
+    function execute(116,3456
+    function getLastID(127,3704
+    function getError(138,3945
+    function esc(150,4261
+    function qn(161,4497
+    function __toString(166,4561
+
+Pluf/Migration.php,29
+class Pluf_Migration48,1626
+
+Pluf/Encoder.php,94
+class Pluf_Encoder38,1468
+    function setFormData(50,1707
+    function checkEmpty(58,1837
+
+Pluf/Group.php,118
+class Pluf_Group 24,1021
+    function init(28,1095
+    function __toString(64,2682
+    function preDelete(72,2817
+
+Pluf/Template/Context.php,123
+class Pluf_Template_Context 27,1091
+    function __construct(31,1142
+    function get(36,1256
+    function set(44,1401
+
+Pluf/Template/SafeString.php,106
+class Pluf_Template_SafeString27,1083
+    function __construct(31,1141
+    function __toString(40,1447
+
+Pluf/Template/ContextVars.php,134
+class Pluf_Template_ContextVars 27,1101
+    function offsetGet(29,1155
+    function __get(37,1315
+    function __toString(46,1493
+
+Pluf/Template/Tag.php,66
+class Pluf_Template_Tag24,1021
+    function __construct(33,1163
+
+Pluf/Template/Context/Request.php,79
+class Pluf_Template_Context_Request 30,1223
+    function __construct(32,1291
+
+Pluf/Template/Compiler.php,372
+class Pluf_Template_Compiler37,1420
+    function __construct(183,6162
+    function compile(209,7215
+    function getCompiledTemplate(236,8316
+    function compileBlocks(259,9145
+    function loadTemplateFile(306,11240
+    function _callback(322,11866
+    function _parseVariable(357,13281
+    function _parseFunction(383,14345
+    function _parseFinal(558,21876
+
+Pluf/Template/Tag/Url.php,65
+class Pluf_Template_Tag_Url 26,1070
+    function start(28,1126
+
+Pluf/Template/Tag/RmediaUrl.php,69
+class Pluf_Template_Tag_RmediaUrl 10,263
+    function start(12,325
+
+Pluf/Template/Tag/Cfg.php,65
+class Pluf_Template_Tag_Cfg 30,1142
+    function start(40,1491
+
+Pluf/Template/Tag/Messages.php,70
+class Pluf_Template_Tag_Messages 27,1075
+    function start(29,1136
+
+Pluf/Template/Tag/Mytag.php,153
+class Pluf_Template_Tag_Mytag 27,1052
+    function start(36,1299
+    function genStart(53,1845
+    function end(65,2119
+    function genEnd(83,2648
+
+Pluf/Template/Tag/MediaUrl.php,70
+class Pluf_Template_Tag_MediaUrl 24,1021
+    function start(26,1082
+
+Pluf/Template/Tag/Rurl.php,66
+class Pluf_Template_Tag_Rurl 29,1120
+    function start(31,1177
+
+Pluf/Error.php,186
+class Pluf_Error30,1082
+    function resetError(38,1197
+    function setError(52,1530
+    function error(65,1832
+    function setDbError(91,2594
+    function bulkSetError(106,2987
+
+Pluf/Search.php,26
+class Pluf_Search29,1137
+
+Pluf/Crypt.php,119
+class Pluf_Crypt33,1312
+    function __construct(42,1463
+    function encrypt(57,1825
+    function decrypt(88,2775
+
+Pluf/HTTP/URL.php,161
+class Pluf_HTTP_URL32,1370
+function Pluf_HTTP_URL_urlForView(92,2968
+function Pluf_HTTP_URL_reverse(109,3505
+function Pluf_HTTP_URL_buildReverseUrl(146,4525
+
+Pluf/HTTP/Request.php,66
+class Pluf_HTTP_Request29,1121
+    function __construct(44,1475
+
+Pluf/HTTP/Response/Forbidden.php,78
+class Pluf_HTTP_Response_Forbidden 24,1021
+    function __construct(26,1085
+
+Pluf/HTTP/Response/RedirectToLogin.php,84
+class Pluf_HTTP_Response_RedirectToLogin 28,1116
+    function __construct(41,1598
+
+Pluf/HTTP/Response/ServerErrorDebug.php,323
+class Pluf_HTTP_Response_ServerErrorDebug 24,1021
+    function __construct(32,1238
+function Pluf_HTTP_Response_ServerErrorDebug_Pretty(42,1487
+    function getElementsByClassName(119,5068
+    function hideAll(136,5840
+    function toggle(141,5974
+    function varToggle(150,6245
+    function sectionToggle(158,6542
+
+Pluf/HTTP/Response/File.php,102
+class Pluf_HTTP_Response_File 24,1021
+    function __construct(28,1114
+    function render(37,1342
+
+Pluf/HTTP/Response/NotFound.php,77
+class Pluf_HTTP_Response_NotFound 24,1021
+    function __construct(26,1084
+
+Pluf/HTTP/Response/ServerError.php,136
+class Pluf_HTTP_Response_ServerError 24,1021
+    function __construct(26,1087
+function Pluf_HTTP_Response_ServerError_Pretty(57,2469
+
+Pluf/HTTP/Response/Redirect.php,77
+class Pluf_HTTP_Response_Redirect 24,1021
+    function __construct(26,1084
+
+Pluf/HTTP/Error500.php,34
+class Pluf_HTTP_Error500 24,1021
+
+Pluf/HTTP/Response.php,135
+class Pluf_HTTP_Response34,1453
+    function __construct(117,5044
+    function render(132,5503
+    function outputHeaders(148,5904
+
+Pluf/HTTP/Error404.php,34
+class Pluf_HTTP_Error404 24,1021
+
+Pluf/Image/Thumbnail.php,156
+class Pluf_Image_Thumbnail35,1260
+    function getPath(72,2360
+    function exists(80,2498
+    function getSize(89,2718
+    function generate(103,3026
+
+Pluf/Migrations/1Setup.php,90
+function Pluf_Migrations_1Setup_up(30,1121
+function Pluf_Migrations_1Setup_down(35,1225
+
+Pluf/Migrations/Install.php,99
+function Pluf_Migrations_Install_setup(30,1121
+function Pluf_Migrations_Install_teardown(52,1793
+
+Pluf/Migrations/2RowPermission.php,106
+function Pluf_Migrations_2RowPermission_up(28,1064
+function Pluf_Migrations_2RowPermission_down(43,1424
+
+Pluf/Migrations/3SearchEngine.php,104
+function Pluf_Migrations_3SearchEngine_up(28,1056
+function Pluf_Migrations_3SearchEngine_down(45,1496
+
+Pluf/Migrations/4QueueStats.php,100
+function Pluf_Migrations_4QueueStats_up(28,1056
+function Pluf_Migrations_4QueueStats_down(45,1490
+
+Pluf/Date.php,94
+class Pluf_Date25,1022
+function Pluf_Date_Compare(77,2659
+function Pluf_Date_Easy(111,3616
+
+Pluf/Queue.php,84
+class Pluf_Queue 45,1995
+    function init(49,2066
+    function preSave(116,5259
+
+Pluf/Session.php,246
+class Pluf_Session 24,1021
+    function init(35,1351
+    function setData(83,3325
+    function getData(93,3545
+    function clear(105,3814
+    function getNewSessionKey(115,3974
+    function preSave(131,4429
+    function restore(143,4778
+
+Pluf/Model.php,1207
+class Pluf_Model29,1064
+    function __construct(83,2806
+    function init(92,2996
+    function _init(101,3170
+    function getForeignKeysToModel(184,7229
+    function getData(201,7675
+    function setAssoc(211,7892
+    function delAssoc(233,8716
+    function batchAssoc(261,9796
+    function _getConnection(279,10223
+    function getSqlTable(290,10446
+    function __get(300,10636
+    function __set(316,11075
+    function __call(328,11360
+    function get(365,12920
+    function getList(410,14597
+    function getCount(531,18972
+    function getRelated(553,19607
+    function getSelect(613,22368
+    function update(637,23215
+    function create(677,24444
+    function getDeleteSideEffect(717,25781
+    function delete(746,26865
+    function _reset(790,28597
+    function __toString(810,29152
+    function restore(821,29407
+    function preSave(830,29594
+    function postSave(834,29630
+    function preDelete(843,29822
+    function setFromFormData(850,29914
+    function setView(863,30197
+    function _toDb(875,30456
+    function _fromDb(888,30757
+    function displayVal(903,31202
+function Pluf_Model_InArray(927,31814
+function Pluf_Model_RemoveDuplicates(947,32243
+
+Pluf/HTTP.php,146
+class Pluf_HTTP27,1049
+    function removeTheMagic(35,1148
+function Pluf_HTTP_magicStrip(66,1998
+function Pluf_HTTP_handleMagicQuotes(76,2146
+
+Pluf/Translation/Generator.php,41
+class Pluf_Translation_Generator28,1152
+
+Pluf/Translation/TemplateExtractor.php,423
+class Pluf_Translation_TemplateExtractor30,1185
+    function __construct(162,5469
+    function getBlockTrans(186,6436
+    function getSimpleTrans(202,6894
+    function compile(220,7423
+    function loadTemplateFile(263,9351
+    function _callback(279,9977
+    function _callbackInTransBlock(301,10710
+    function _parseVariable(317,11262
+    function _parseFunction(325,11497
+    function _parseFinal(354,12233
+
+Pluf/Tests/Fixture/LoadDump.php,198
+class Pluf_Tests_Fixture_LoadDump 24,1021
+    function __construct(26,1080
+    function setUp(31,1177
+    function tearDown(41,1422
+    function testDump(51,1638
+    function testLoad(64,2176
+
+Pluf/Tests/Text/Lang.php,140
+class Pluf_Tests_Text_Lang 24,1021
+    function __construct(26,1073
+    function testNGrams(31,1175
+    function testNGramsDist(37,1422
+
+Pluf/Tests/TemplateCompiler/BlockTrans.php,133
+class Pluf_Tests_TemplateCompiler_BlockTrans 24,1021
+    function __construct(26,1091
+    function testCompileSimpleBlock(31,1200
+
+Pluf/Precondition.php,32
+class Pluf_Precondition27,1098
+
+Pluf/Form.php,286
+class Pluf_Form 33,1235
+    function __construct(57,1804
+    function initFields(69,2160
+    function addPrefix(80,2449
+    function isValid(100,3118
+    function __get(306,10476
+function Pluf_Form_htmlspecialcharsArray(361,11615
+function Pluf_Form_renderErrorsAsHTML(366,11733
+
+Pluf/Form/Invalid.php,33
+class Pluf_Form_Invalid 24,1021
+
+Pluf/Form/Model.php,91
+class Pluf_Form_Model 29,1127
+    function initFields(36,1257
+    function save(71,2577
+
+Pluf/Form/Widget.php,73
+class Pluf_Form_Widget28,1071
+function Pluf_Form_Widget_Attrs(109,3713
+
+Pluf/Form/BoundField.php,69
+class Pluf_Form_BoundField29,1107
+    function mb_ucfirst(153,4996
+
+Pluf/Form/FieldProxy.php,35
+class Pluf_Form_FieldProxy29,1114
+
+Pluf/Form/Field/Url.php,35
+class Pluf_Form_Field_Url 24,1021
+
+Pluf/Form/Field/Float.php,37
+class Pluf_Form_Field_Float 24,1021
+
+Pluf/Form/Field/Datetime.php,40
+class Pluf_Form_Field_Datetime 24,1021
+
+Pluf/Form/Field/Integer.php,39
+class Pluf_Form_Field_Integer 24,1021
+
+Pluf/Form/Field/Date.php,36
+class Pluf_Form_Field_Date 24,1021
+
+Pluf/Form/Field/File.php,117
+class Pluf_Form_Field_File 24,1021
+    function clean(37,1440
+function Pluf_Form_Field_moveToUploadFolder(88,3770
+
+Pluf/Form/Field/Email.php,37
+class Pluf_Form_Field_Email 24,1021
+
+Pluf/Form/Field/Varchar.php,39
+class Pluf_Form_Field_Varchar 24,1021
+
+Pluf/Form/Field/Boolean.php,39
+class Pluf_Form_Field_Boolean 24,1021
+
+Pluf/Form/Widget/CheckboxInput.php,46
+class Pluf_Form_Widget_CheckboxInput 27,1049
+
+Pluf/Form/Widget/TinyMCEInput.php,45
+class Pluf_Form_Widget_TinyMCEInput 27,1064
+
+Pluf/Form/Widget/FileInput.php,42
+class Pluf_Form_Widget_FileInput 27,1059
+
+Pluf/Form/Widget/TextareaInput.php,46
+class Pluf_Form_Widget_TextareaInput 27,1042
+
+Pluf/Form/Widget/SelectMultipleInput.php,52
+class Pluf_Form_Widget_SelectMultipleInput 27,1049
+
+Pluf/Form/Widget/PasswordInput.php,46
+class Pluf_Form_Widget_PasswordInput 27,1059
+
+Pluf/Form/Widget/HiddenInput.php,44
+class Pluf_Form_Widget_HiddenInput 27,1059
+
+Pluf/Form/Widget/TextInput.php,42
+class Pluf_Form_Widget_TextInput 27,1059
+
+Pluf/Form/Widget/SelectMultipleInput/Checkbox.php,61
+class Pluf_Form_Widget_SelectMultipleInput_Checkbox 27,1049
+
+Pluf/Form/Widget/SelectInput.php,44
+class Pluf_Form_Widget_SelectInput 27,1049
+
+Pluf/Form/Widget/Input.php,38
+class Pluf_Form_Widget_Input 27,1099
+
+Pluf/Form/Widget/DatetimeInput.php,46
+class Pluf_Form_Widget_DatetimeInput 27,1063
+
+Pluf/Form/Field.php,93
+class Pluf_Form_Field32,1267
+    function __construct(68,2509
+    function clean(112,4316
+
+Pluf/l10n.php,281
+class Pluf_l10n42,1757
+    function __construct(59,2189
+    function loadDomain(75,2661
+    function loadFile(89,3001
+    function optimizeLocale(134,4585
+    function getAvailableLocales(173,5890
+    function getAcceptedLanguage(211,7209
+    function getIsoCodes(238,8033
+
+Pluf/Middleware/Debug.php,200
+class Pluf_Middleware_Debug30,1156
+    function process_response(43,1548
+    function pxDebugGetElementsByClassName(65,2251
+    function pxDebugHideAll(82,3030
+    function pxDebugToggle(87,3171
+
+Pluf/Middleware/Tidy.php,74
+class Pluf_Middleware_Tidy38,1495
+    function process_response(49,1805
+
+Pluf/Middleware/Session.php,249
+class Pluf_Middleware_Session31,1214
+    function process_request(46,1613
+    function process_response(116,4456
+    function _encodeData(143,5454
+    function _decodeData(160,5997
+function Pluf_Middleware_Session_ContextPreProcessor(185,6776
+
+Pluf/Middleware/Translation.php,119
+class Pluf_Middleware_Translation29,1122
+    function process_request(38,1280
+    function process_response(79,2910
+
+Pluf/Middleware/Maintenance.php,80
+class Pluf_Middleware_Maintenance39,1471
+    function process_request(48,1629
+
+Pluf/SQL.php,220
+class Pluf_SQL27,1092
+    function __construct(37,1260
+    function gen(50,1543
+    function Q(61,1773
+    function SAnd(79,2207
+    function SOr(89,2391
+    function SDef(100,2625
+    function keywords(125,3297
+
+Pluf/Calendar.php,617
+class Pluf_Calendar34,1376
+    function getEventGroup(113,3553
+    function getGroups(121,3701
+    function getGroupName(138,4140
+    function getBody(148,4373
+    function getEventCell(173,5091
+    function getEventRowSpanning(246,7739
+    function getHead(262,8135
+    function getDaySpanning(283,8764
+    function daysOfWeek(315,9893
+    function getDayNumber(335,10389
+    function getStartEndDays(347,10723
+    function cleanEventList(380,11699
+    function getTimeIntervals(398,12222
+    function getSimultaneous(422,12935
+    function getMaxSimultaneous(455,14216
+    function __get(479,14954
+
+Pluf/RowPermission.php,61
+class Pluf_RowPermission 24,1021
+    function init(28,1111
+
+Pluf/Translation.php,81
+class Pluf_Translation46,1916
+function Pluf_Translation_poCleanHelper(250,8424
+
+Pluf/Text.php,24
+class Pluf_Text28,1077
+
+Pluf/User.php,488
+class Pluf_User 24,1021
+    function init(39,1345
+    function __toString(147,6418
+    function preDelete(159,6685
+    function setPassword(178,7347
+    function checkPassword(191,7698
+    function checkCreditentials(211,8187
+    function preSave(228,8678
+    function isAnonymous(241,8978
+    function getAllPermissions(252,9235
+    function hasPerm(305,11487
+    function hasAppPerms(329,12176
+    function setMessage(349,12607
+    function getAndDeleteMessages(367,13010
+
+Pluf/Exception.php,30
+class Pluf_Exception 24,1021
+
+Pluf/Mail/Batch.php,373
+class Pluf_Mail_Batch96,3584
+    function __construct(112,3974
+    function setSubject(131,4627
+    function setTo(141,4819
+    function addTextMessage(151,5007
+    function setReturnPath(161,5188
+    function addHeaders(171,5376
+    function addHtmlMessage(181,5594
+    function addAttachment(196,6026
+    function sendMail(204,6200
+    function close(228,7233
+
+Pluf/Paginator.php,723
+class Pluf_Paginator49,1830
+    function __construct(186,4947
+    function configure(200,5392
+    function setFromRequest(244,7042
+    function render(271,7932
+    function footer(294,8705
+    function body(346,10781
+    function bodyLine(386,12216
+    function getEditAction(423,13386
+    function filter(452,14297
+    function colHeaders(484,15422
+    function headerSortLinks(514,16370
+    function searchField(537,17096
+    function getUrl(562,17970
+    function __get(584,18556
+function Pluf_Paginator_ToString(599,18843
+function Pluf_Paginator_FkToString(607,18991
+function Pluf_Paginator_DateYMDHMS(614,19129
+function Pluf_Paginator_DateYMD(620,19309
+function Pluf_Paginator_DisplayVal(626,19477
+
+Pluf/Message.php,88
+class Pluf_Message 24,1021
+    function init(28,1099
+    function __toString(55,2232
+
+Pluf/DB.php,472
+class Pluf_DB30,1150
+function Pluf_DB_getConnection(63,2149
+function Pluf_DB_defaultTypecast(96,3447
+function Pluf_DB_IdentityFromDb(134,5194
+function Pluf_DB_IdentityToDb(146,5385
+function Pluf_DB_SerializedFromDb(154,5512
+function Pluf_DB_SerializedToDb(169,5761
+function Pluf_DB_BooleanFromDb(177,5901
+function Pluf_DB_BooleanToDb(184,6004
+function Pluf_DB_IntegerFromDb(194,6181
+function Pluf_DB_IntegerToDb(199,6282
+function Pluf_DB_PasswordToDb(206,6411
+
+Pluf/Text/HTML/Filter.php,688
+class Pluf_Text_HTML_Filter 40,1496
+    function go(118,3621
+    function escape_comments(129,3951
+    function balance_html(135,4140
+    function check_tags(157,5107
+    function process_tag(170,5455
+    function process_param_protocol(240,8249
+    function process_remove_blanks(251,8593
+    function fix_case(260,8881
+    function fix_case_inner(279,9544
+    function validate_entities(290,9913
+    function check_entity(309,10703
+    function is_valid_entity(320,10963
+    function decode_entities(337,11499
+    function decode_hex_entity(346,11929
+    function decode_dec_entity(351,12040
+    function decode_num_entity(356,12151
+    function StripSingle(367,12485
+
+Pluf/Text/LaTeX/Equation.php,142
+class Pluf_Text_Latex_Equation 51,1824
+    function getFormulaURL(126,4427
+    function getPreamble(174,6143
+    function render(203,7361
+
+Pluf/Text/LaTeX/Texvc.php,36
+class Pluf_Text_LaTeX_Texvc28,1079
+
+Pluf/Text/Wiki/Tag.php,347
+class Pluf_Text_Wiki_Tag 36,1281
+    function __construct(48,1565
+    function addContent(67,2121
+    function addSeparator(79,2493
+    function getBeginTag(84,2568
+    function getEndTag(89,2641
+    function getNumberSeparator(94,2710
+    function useSeparator(99,2796
+    function isDummy(104,2874
+    function getHtmlContent(109,2942
+
+Pluf/Text/Wiki/Block/Pre.php,112
+class Pluf_Text_Wiki_Block_Pre 32,1183
+    function __construct(34,1253
+    function getRenderedLine(43,1476
+
+Pluf/Text/Wiki/Block/Hr.php,111
+class Pluf_Text_Wiki_Block_Hr 32,1182
+    function __construct(34,1251
+    function getRenderedLine(42,1437
+
+Pluf/Text/Wiki/Block/Definition.php,119
+class Pluf_Text_Wiki_Block_Definition 32,1192
+    function __construct(34,1269
+    function getRenderedLine(43,1498
+
+Pluf/Text/Wiki/Block/P.php,72
+class Pluf_Text_Wiki_Block_P 32,1190
+    function __construct(34,1258
+
+Pluf/Text/Wiki/Block/Title.php,114
+class Pluf_Text_Wiki_Block_Title 32,1185
+    function __construct(37,1313
+    function getRenderedLine(48,1635
+
+Pluf/Text/Wiki/Block/List.php,168
+class Pluf_Text_Wiki_Block_List 32,1184
+    function __construct(38,1332
+    function open(45,1486
+    function close(57,1789
+    function getRenderedLine(68,2032
+
+Pluf/Text/Wiki/Block/Table.php,141
+class Pluf_Text_Wiki_Block_Table 32,1185
+    function __construct(36,1285
+    function open(45,1529
+    function getRenderedLine(51,1623
+
+Pluf/Text/Wiki/Block/Blockquote.php,174
+class Pluf_Text_Wiki_Block_Blockquote 32,1190
+    function __construct(38,1344
+    function open(44,1487
+    function close(51,1731
+    function getRenderedLine(55,1840
+
+Pluf/Text/Wiki/BlockRenderer.php,409
+class Pluf_Text_Wiki_BlockRenderer35,1233
+    function __construct(85,2407
+    function open(95,2598
+    function close(105,2783
+    function closeNow(115,2965
+    function detect(126,3216
+    function getRenderedLine(136,3464
+    function getType(146,3682
+    function setMatch(156,3886
+    function getMatch(166,4105
+    function _renderInlineTag(178,4482
+    function _checkAttributes(189,4802
+
+Pluf/Text/Wiki/Configuration.php,280
+class Pluf_Text_Wiki_Configuration32,1190
+function Pluf_Text_Wiki_Configuration_buildlink(115,3965
+function Pluf_Text_Wiki_Configuration_buildanchor(146,4916
+function Pluf_Text_Wiki_Configuration_builddummie(151,5034
+function Pluf_Text_Wiki_Configuration_buildimage(156,5156
+
+Pluf/Text/Wiki/Renderer.php,309
+class Pluf_Text_Wiki_Renderer 43,1356
+    function __construct(89,2193
+    function render(120,3355
+    function getConfig(171,5464
+    function getInlineParser(182,5711
+    function getErrors(192,5910
+    function getVersion(202,6090
+    function _closeBloc(211,6211
+    function _openBloc(225,6642
+
+Pluf/Text/Wiki/InlineParser.php,207
+class Pluf_Text_Wiki_InlineParser 33,1244
+    function __construct(54,1809
+    function parse(81,2928
+    function _parse(112,4025
+    function _doCheckWikiWord(194,7233
+    function getError(203,7639
+
+Pluf/Text/Stemmer/Porter.php,39
+class Pluf_Text_Stemmer_Porter46,1511
+
+Pluf/Text/Lang.php,29
+class Pluf_Text_Lang31,1146
+
+Pluf/Text/MarkDown.php,3580
+function Markdown(43,1055
+function Pluf_Text_MarkDown_parse(58,1377
+class Markdown_Parser 79,1746
+	function Markdown_Parser(108,2531
+	function setup(138,3334
+	function teardown(151,3602
+	function transform(162,3833
+	function stripLinkDefinitions(209,5025
+	function _stripLinkDefinitions_callback(239,5777
+	function hashHTMLBlocks(248,6078
+	function _hashHTMLBlocks_callback(385,10098
+	function hashPart(392,10235
+	function hashBlock(415,11118
+	function runBlockGamut(436,11555
+	function runBasicBlockGamut(450,12075
+	function doHorizontalRules(467,12509
+	function runSpanGamut(509,13684
+	function doHardBreaks(521,13874
+	function _doHardBreaks_callback(526,14026
+	function doAnchors(531,14138
+	function _doAnchors_reference_callback(601,15751
+	function _doAnchors_inline_callback(635,16654
+	function doImages(656,17175
+	function _doImages_reference_callback(711,18349
+	function _doImages_inline_callback(738,19094
+	function doHeaders(757,19639
+	function _doHeaders_callback_setext(787,20272
+	function _doHeaders_callback_atx(792,20487
+	function doLists(799,20691
+	function _doLists_callback(856,22017
+	function processListItems(876,22603
+	function _processListItems_callback(920,24225
+	function doCodeBlocks(945,24943
+	function _doCodeBlocks_callback(963,25468
+	function makeCodeSpan(977,25869
+	function doItalicsAndBold(986,26084
+	function _doItalicAndBold_em_callback(1016,26975
+	function _doItalicAndBold_strong_callback(1021,27134
+	function doBlockQuotes(1028,27307
+	function _doBlockQuotes_callback(1043,27678
+	function _doBlockQuotes_callback2(1057,28225
+	function formParagraphs(1064,28357
+	function encodeAttribute(1134,30168
+	function encodeAmpsAndAngles(1144,30373
+	function doAutoLinks(1164,30943
+	function _doAutoLinks_url_callback(1183,31385
+	function _doAutoLinks_email_callback(1188,31554
+	function encodeEmailAddress(1195,31715
+	function parseSpan(1236,33141
+	function handleSpanToken(1292,34298
+	function outdent(1316,34962
+	function detab(1328,35293
+	function _detab_callback(1341,35674
+	function _initDetab(1358,36206
+	function unhash(1372,36691
+	function _unhash_callback(1379,36881
+class MarkdownExtra_Parser 1390,37005
+	function MarkdownExtra_Parser(1407,37502
+	function setup(1446,38471
+	function teardown(1464,38911
+	function hashHTMLBlocks(1496,39785
+	function _hashHTMLBlocks_inMarkdown(1519,40660
+	function _hashHTMLBlocks_inHTML(1744,47301
+	function hashClean(1917,52472
+	function doHeaders(1927,52736
+	function _doHeaders_attr(1967,53682
+	function _doHeaders_callback_setext(1971,53778
+	function _doHeaders_callback_atx(1977,54053
+	function doTables(1985,54317
+	function _doTable_leadingPipe_callback(2046,55778
+	function _doTable_callback(2056,56093
+	function doDefLists(2115,58028
+	function _doDefLists_callback(2157,58999
+	function processDefListItems(2169,59409
+	function _processDefListItems_callback_dt(2212,60807
+	function _processDefListItems_callback_dd(2221,61066
+	function doFencedCodeBlocks(2241,61612
+	function _doFencedCodeBlocks_callback(2274,62206
+	function _doFencedCodeBlocks_newlines(2282,62563
+	function doItalicsAndBold(2288,62699
+	function formParagraphs(2347,64405
+	function stripFootnotes(2385,65300
+	function _stripFootnotes_callback(2412,66048
+	function doFootnotes(2419,66258
+	function appendFootnotes(2431,66566
+	function _appendFootnotes_callback(2487,68303
+	function stripAbbreviations(2523,69338
+	function _stripAbbreviations_callback(2538,69787
+	function doAbbreviations(2547,70059
+	function _doAbbreviations_callback(2563,70501
+
+Pluf/Test/Client.php,31
+class Pluf_Test_Client35,1298
+
+Pluf/Test/Fixture.php,32
+class Pluf_Test_Fixture36,1387
+
+Pluf/Search/Stats.php,90
+class Pluf_Search_Stats 28,1118
+    function init(32,1196
+    function preSave(88,3771
+
+Pluf/Search/ResultSet.php,37
+class Pluf_Search_ResultSet 28,1084
+
+Pluf/Search/Occ.php,91
+class Pluf_Search_Occ 27,1071
+    function init(31,1155
+    function __toString(87,3733
+
+Pluf/Search/Word.php,92
+class Pluf_Search_Word 27,1054
+    function init(31,1140
+    function __toString(56,2175
+
+Pluf/Permission.php,91
+class Pluf_Permission 24,1021
+    function init(28,1105
+    function __toString(95,4507
+
+Pluf/Shortcuts.php,147
+function Pluf_Shortcuts_GetObjectOr404(37,1270
+function Pluf_Shortcuts_RenderToResponse(59,1960
+function Pluf_Shortcuts_GetFormForModel(80,2556
+
+Pluf/Utils.php,25
+class Pluf_Utils29,1121
+
+Pluf/Views.php,82
+class Pluf_Views35,1430
+    function login(52,2029
+    function logout(98,4064
+
+Pluf/Signal.php,26
+class Pluf_Signal27,1047
+
+Pluf/Mail.php,275
+class Pluf_Mail95,3679
+    function __construct(111,4106
+    function addTextMessage(131,4846
+    function setReturnPath(141,5027
+    function addHeaders(151,5215
+    function addHtmlMessage(161,5433
+    function addAttachment(176,5865
+    function sendMail(184,6039
+
+Pluf/Exception/NotImplemented.php,45
+class Pluf_Exception_NotImplemented 24,1021
+
+Pluf/Dispatcher.php,30
+class Pluf_Dispatcher24,1021
+
+migrate.php,48
+function debug(41,1342
+function usage(49,1438
+
+packager.php,71
+class DirectoryTreeIterator 24,1021
+    function __construct(26,1085
+
+extracttemplates.php,48
+function usage(30,1072
+function debug(36,1219
+
+Pluf/relations.php,0
+
+Pluf/conf/pluf.test.php,0
+
+Pluf/papp.php,0

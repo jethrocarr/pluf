@@ -1,0 +1,539 @@
+# French translations of Pluf.
+# Copyright (C) 2008 Loïc d'Anterroches and contributors
+# This file is distributed under the same license as the Pluf package.
+# Loïc d'Anterroches <titoo@users.sourceforge.net>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Pluf\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-07 11:50+0200\n"
+"PO-Revision-Date: 2008-05-08 13:29+0100\n"
+"Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
+"Language-Team: French <pluf-users@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: France\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../../../\n"
+
+#: Pluf/papp.php:29
+msgid "Authentication"
+msgstr "Authentification"
+
+#: Pluf/Template.php:132
+#, php-format
+msgid "Cannot write the compiled template: %s"
+msgstr "Ne peut pas écrire le gabarit compilé: %s"
+
+#: Pluf/Encoder.php:62
+msgid "The value must not be empty."
+msgstr "La valeur ne doit pas être vide."
+
+#: Pluf/Encoder.php:81
+#, php-format
+msgid "The URL <em>%s</em> is not valid."
+msgstr "L'URL <em>%s</em> n'est pas valide."
+
+#: Pluf/Encoder.php:88
+#, php-format
+msgid "The value should not be more than <em>%s</em> characters long."
+msgstr "La valeur ne doit pas faire plus de <em>%s</em> caractères."
+
+#: Pluf/Encoder.php:96
+#, php-format
+msgid "The password must be at least <em>%s</em> characters long."
+msgstr "Le password doit avoir au minimum <em>%s</em> caractères."
+
+#: Pluf/Encoder.php:106
+#, php-format
+msgid "The email address \"%s\" is not valid."
+msgstr "L'adresse email \"%s\" n'est pas valid."
+
+#: Pluf/Encoder.php:138
+#: Pluf/Form/Field/Integer.php:40
+#: Pluf/Form/Field/Integer.php:49
+msgid "The value must be an integer."
+msgstr "La valeur doit être un nombre entier."
+
+#: Pluf/Encoder.php:146
+#, php-format
+msgid "The date and time <em>%s</em> are not valid."
+msgstr "Le jour et l'heure <em>%s</em> ne sont pas valides."
+
+#: Pluf/Encoder.php:157
+#, php-format
+msgid "The date <em>%s</em> is not valid."
+msgstr "La date <em>%s</em> n'est pas valide."
+
+#: Pluf/Group.php:28
+msgid "group"
+msgstr "groupe"
+
+#: Pluf/Group.php:44
+#: Pluf/Permission.php:44
+msgid "name"
+msgstr "nom"
+
+#: Pluf/Group.php:51
+#: Pluf/Permission.php:59
+msgid "description"
+msgstr "description"
+
+#: Pluf/Template/Compiler.php:223
+#: Pluf/Template/Compiler.php:388
+#: Pluf/Template/Compiler.php:394
+#: Pluf/Template/Compiler.php:411
+#: Pluf/Template/Compiler.php:454
+#, php-format
+msgid "End tag of a block missing: %s"
+msgstr "Fin du marqueur de bloc manquant: %s"
+
+#: Pluf/Template/Compiler.php:306
+#: Pluf/Translation/TemplateExtractor.php:267
+#, php-format
+msgid "Template file contains invalid characters: %s"
+msgstr "Le chemin du gabarit contient des caractères invalides: %s"
+
+#: Pluf/Template/Compiler.php:315
+#: Pluf/Translation/TemplateExtractor.php:276
+#, php-format
+msgid "Template file not found: %s"
+msgstr "Fichier gabarit %s introuvable."
+
+#: Pluf/Template/Compiler.php:322
+#: Pluf/Translation/TemplateExtractor.php:305
+#, php-format
+msgid "Invalid tag syntax: %s"
+msgstr "Syntaxe du marqueur invalide : %s"
+
+#: Pluf/Template/Compiler.php:336
+#: Pluf/Translation/TemplateExtractor.php:288
+#, php-format
+msgid "Invalid function syntax: %s"
+msgstr "Syntaxe de fonction invalide : %s"
+
+#: Pluf/Template/Compiler.php:359
+#, php-format
+msgid "Invalid modifier syntax: (%s) %s"
+msgstr "Syntaxe de modificateur invalide : %s"
+
+#: Pluf/Template/Compiler.php:369
+#, php-format
+msgid "Unknown modifier: (%s) %s"
+msgstr "Modificateur inconnu: (%s) %s"
+
+#: Pluf/Template/Compiler.php:423
+msgid "End tag of a block missing: literal"
+msgstr "Fin du marqueur de bloc manquant: literal"
+
+#: Pluf/Template/Compiler.php:427
+msgid "Start tag of a block missing: literal"
+msgstr "Début du marqueur de bloc manquant: literal"
+
+#: Pluf/Template/Compiler.php:509
+#, php-format
+msgid "The function tag \"%s\" is not allowed."
+msgstr ""
+
+#: Pluf/Template/Compiler.php:531
+#, php-format
+msgid "The function tag \"{%s ...}\" is not supported."
+msgstr ""
+
+#: Pluf/Template/Compiler.php:588
+#: Pluf/Translation/TemplateExtractor.php:390
+#, php-format
+msgid "Invalid syntax: (%s) %s."
+msgstr "Syntaxe invalide : (%s) %s."
+
+#: Pluf/Template/Compiler.php:593
+#: Pluf/Translation/TemplateExtractor.php:395
+#, php-format
+msgid "Invalid character: (%s) %s."
+msgstr "Caractère invalide : (%s) %s."
+
+#: Pluf/Error.php:93
+msgid "DB error:"
+msgstr "Erreur de la base de données :"
+
+#: Pluf/HTTP/Response/RedirectToLogin.php:56
+#: Pluf/HTTP/Response/Redirect.php:28
+#, php-format
+msgid "<a href=\"%s\">Please, click here to be redirected</a>."
+msgstr "<a href=\"%s\">S'il vous plaît, cliquez ici pour être redirigé</a>."
+
+#: Pluf/Date.php:135
+msgid "year"
+msgstr "année"
+
+#: Pluf/Date.php:135
+msgid "month"
+msgstr "mois"
+
+#: Pluf/Date.php:135
+msgid "day"
+msgstr "jour"
+
+#: Pluf/Date.php:135
+msgid "hour"
+msgstr "heure"
+
+#: Pluf/Date.php:136
+msgid "minute"
+msgstr "minute"
+
+#: Pluf/Date.php:136
+msgid "second"
+msgstr "seconde"
+
+#: Pluf/Date.php:137
+msgid "years"
+msgstr "années"
+
+#: Pluf/Date.php:137
+msgid "months"
+msgstr "mois"
+
+#: Pluf/Date.php:137
+msgid "days"
+msgstr "jours"
+
+#: Pluf/Date.php:137
+msgid "hours"
+msgstr "heures"
+
+#: Pluf/Date.php:138
+msgid "minutes"
+msgstr "minutes"
+
+#: Pluf/Date.php:138
+msgid "seconds"
+msgstr "secondes"
+
+#: Pluf/Date.php:157
+msgid "ago"
+msgstr ""
+
+#: Pluf/Date.php:159
+msgid "left"
+msgstr "restant"
+
+#: Pluf/Model.php:410
+#, php-format
+msgid "The view \"%s\" is not defined."
+msgstr "La vue \"%s\" n'est pas définie."
+
+#: Pluf/Model.php:566
+#, php-format
+msgid "No matching foreign key found in model: %s for model %s"
+msgstr "Aucune clef étrangère trouvé dans le modèle %s pour le modèle %s"
+
+#: Pluf/Translation/TemplateExtractor.php:283
+#, php-format
+msgid "Invalid tag in translation extractor: %s"
+msgstr "Marqueur invalide dans l'extraction des traductions: %s"
+
+#: Pluf/Form.php:214
+#, php-format
+msgid "(Hidden field %1$s) %2$s"
+msgstr "(Champ caché %1$s) %2$s"
+
+#: Pluf/Form/Model.php:82
+msgid "Cannot save the model from an invalid form."
+msgstr "Ne peut pas sauvegarder le modèle depuis un formulaire non valide."
+
+#: Pluf/Form/Field/Url.php:35
+msgid "Enter a valid address."
+msgstr "Entrez une adresse valide."
+
+#: Pluf/Form/Field/Float.php:39
+msgid "Enter a number."
+msgstr "Entrez un nombre."
+
+#: Pluf/Form/Field/Float.php:42
+#, php-format
+msgid "Ensure this value is less than or equal to %s."
+msgstr "Assurez-vous que la valeur est inférieure ou égale à %s. "
+
+#: Pluf/Form/Field/Float.php:45
+#, php-format
+msgid "Ensure this value is greater than or equal to %s."
+msgstr "Assurez-vous que la valeur est supérieure ou égale à %s."
+
+#: Pluf/Form/Field/Datetime.php:61
+msgid "Enter a valid date/time."
+msgstr "Entrez une date/heure valide."
+
+#: Pluf/Form/Field/Integer.php:59
+#, php-format
+msgid "Ensure that this value is not greater than %1$d."
+msgstr "Assurez-vous que la valeur ne soit pas supérieure à %1$d."
+
+#: Pluf/Form/Field/Integer.php:62
+#, php-format
+msgid "Ensure that this value is not lower than %1$d."
+msgstr "Assurez-vous que la valeur ne soit pas inférieure à %1$d."
+
+#: Pluf/Form/Field/Date.php:46
+msgid "Enter a valid date."
+msgstr "Entrez une date valide."
+
+#: Pluf/Form/Field/File.php:47
+msgid "The uploaded file is too large. Reduce the size of the file and send it again."
+msgstr "Le fichier transmis est trop gros. Réduisez la taille du fichier et transmettez le une nouvelle fois."
+
+#: Pluf/Form/Field/File.php:50
+msgid "The upload did not complete. Please try to send the file again."
+msgstr "L'envoi du fichier ne s'est pas achevé. Essayez de l'envoyer une nouvelle fois."
+
+#: Pluf/Form/Field/File.php:53
+msgid "No files were uploaded. Please try to send the file again."
+msgstr "Aucun fichier n'a été transmis. Essayez d'envoyer le fichier une nouvelle fois."
+
+#: Pluf/Form/Field/File.php:57
+msgid "The server has no temporary folder correctly configured to store the uploaded file."
+msgstr "Le serveur n'a pas de répertoire temporaire correctement configuré pour stocker les fichiers transmis."
+
+#: Pluf/Form/Field/File.php:60
+msgid "The uploaded file has been stopped by an extension."
+msgstr "Le fichier transmis a été bloqué par une extension."
+
+#: Pluf/Form/Field/File.php:63
+#: Pluf/Form/Field/File.php:97
+msgid "An error occured when upload the file. Please try to send the file again."
+msgstr "Une erreur est survenu pendant la transmission du fichier. Essayez de transmettre le fichier de nouveau."
+
+#: Pluf/Form/Field/File.php:66
+#, php-format
+msgid "The uploaded file is to big (%1$s). Reduce the size to less than %2$s and try again."
+msgstr "Le fichier transmis est trop gros (%1$s). Essayez d'obtenir une taille inférieure à %2$s et essayez de nouveau."
+
+#: Pluf/Form/Field/Email.php:35
+msgid "Enter a valid email address."
+msgstr "Entrez une adresse email valide."
+
+#: Pluf/Form/Field/Varchar.php:38
+#, php-format
+msgid "Ensure this value has at most %1$d characters (it has %2$d)."
+msgstr "Assurez-vous que la valeur ait au maximum %1$d caractères (elle en contient %2$d)."
+
+#: Pluf/Form/Field/Varchar.php:41
+#, php-format
+msgid "Ensure this value has at least %1$d characters (it has %2$d)."
+msgstr "Assurez-vous que la valeur ait au minimum %1$d caractères (elle en contient %2$d)."
+
+#: Pluf/Form/Field.php:115
+msgid "This field is required."
+msgstr "Ce champ est à fournir."
+
+#: Pluf/Calendar.php:318
+msgid "Sunday"
+msgstr "dimanche"
+
+#: Pluf/Calendar.php:319
+msgid "Monday"
+msgstr "lundi"
+
+#: Pluf/Calendar.php:320
+msgid "Tuesday"
+msgstr "mardi"
+
+#: Pluf/Calendar.php:321
+msgid "Wednesday"
+msgstr "mercredi"
+
+#: Pluf/Calendar.php:322
+msgid "Thursday"
+msgstr "jeudi"
+
+#: Pluf/Calendar.php:323
+msgid "Friday"
+msgstr "vendredi"
+
+#: Pluf/Calendar.php:324
+msgid "Saturday"
+msgstr "samedi"
+
+#: Pluf/RowPermission.php:42
+msgid "model ID"
+msgstr "ID du modèle"
+
+#: Pluf/RowPermission.php:49
+msgid "model class"
+msgstr "Class du modèle"
+
+#: Pluf/RowPermission.php:55
+msgid "owner ID"
+msgstr "ID du propriétaire"
+
+#: Pluf/RowPermission.php:62
+msgid "owner class"
+msgstr "Class du propriètaire"
+
+#: Pluf/RowPermission.php:63
+msgid "For example Pluf_User or Pluf_Group."
+msgstr "Par exemple Pluf_User ou Pluf_Group."
+
+#: Pluf/RowPermission.php:70
+msgid "do not have the permission"
+msgstr "n'a pas la permission"
+
+#: Pluf/RowPermission.php:77
+#: Pluf/Permission.php:28
+msgid "permission"
+msgstr "permission"
+
+#: Pluf/User.php:39
+#: Pluf/Message.php:43
+msgid "user"
+msgstr "utilisateur"
+
+#: Pluf/User.php:56
+msgid "login"
+msgstr "identifiant"
+
+#: Pluf/User.php:63
+msgid "first name"
+msgstr "prénom"
+
+#: Pluf/User.php:70
+msgid "last name"
+msgstr "nom de famille"
+
+#: Pluf/User.php:76
+msgid "email"
+msgstr "email"
+
+#: Pluf/User.php:82
+msgid "password"
+msgstr "mot de passe"
+
+#: Pluf/User.php:84
+msgid "Format: [algo]:[salt]:[hash]"
+msgstr "Format : [algo]:[salt]:[hash]"
+
+#: Pluf/User.php:103
+msgid "administrator"
+msgstr "administrateur"
+
+#: Pluf/User.php:110
+msgid "staff"
+msgstr "staff"
+
+#: Pluf/User.php:117
+msgid "active"
+msgstr "actif"
+
+#: Pluf/User.php:123
+msgid "date joined"
+msgstr "date d'inscription"
+
+#: Pluf/User.php:129
+msgid "last login"
+msgstr "dernière connexion"
+
+#: Pluf/Paginator.php:326
+msgid "Prev"
+msgstr "Préc"
+
+#: Pluf/Paginator.php:337
+msgid "Next"
+msgstr "Suivant"
+
+#: Pluf/Paginator.php:494
+msgid "Name"
+msgstr "Nom"
+
+#: Pluf/Paginator.php:531
+msgid "Sort"
+msgstr "Ordre"
+
+#: Pluf/Paginator.php:534
+msgid "asc"
+msgstr "asc"
+
+#: Pluf/Paginator.php:537
+msgid "desc"
+msgstr "desc"
+
+#: Pluf/Paginator.php:553
+msgid "Filter the list:"
+msgstr "Filtrer la liste :"
+
+#: Pluf/Paginator.php:556
+msgid "Filter"
+msgstr "Filtre"
+
+#: Pluf/Text/LaTeX/Equation.php:243
+msgid "Unable to generate the dvi file."
+msgstr "Impossible de générer le fichier dvi."
+
+#: Pluf/Text/LaTeX/Equation.php:260
+msgid "Unable to generate the png file."
+msgstr "Impossible de générer le fichier png."
+
+#: Pluf/Text/LaTeX/Equation.php:270
+msgid "Unable to move the png file."
+msgstr "Impossible de déplacer le fichier png."
+
+#: Pluf/Text/LaTeX/Equation.php:308
+#, php-format
+msgid "The LaTeX tag \"%s\" is not acceptable."
+msgstr "Le marqueur LaTeX \"%s\" n'est pas autorisé."
+
+#: Pluf/Permission.php:51
+msgid "code name"
+msgstr "nom de code"
+
+#: Pluf/Permission.php:52
+msgid "The code name must be unique for each application. Standard permissions to manage a model in the interface are \"Model_Name.create\", \"Model_Name.update\", \"Model_Name.list\" and \"Model_Name.delete\"."
+msgstr ""
+
+#: Pluf/Permission.php:66
+msgid "application"
+msgstr "application"
+
+#: Pluf/Permission.php:67
+msgid "The application using this permission, for example \"YourApp\", \"CMS\" or \"SView\"."
+msgstr ""
+
+#: Pluf/Utils.php:90
+msgid "MB"
+msgstr "Mo"
+
+#: Pluf/Utils.php:92
+msgid "KB"
+msgstr "Ko"
+
+#: Pluf/Utils.php:94
+msgid "bytes"
+msgstr "octets"
+
+#: Pluf/Views.php:60
+msgid "The login or the password is not valid. The login and the password are case sensitive."
+msgstr "L'identifiant ou le mot de passe n'est pas valide. Les majuscules/minuscules doivent être respectées."
+
+#: Pluf/Views.php:73
+msgid "Sign In"
+msgstr "Se connecter"
+
+#: Pluf/Views.php:165
+#: Pluf/Views.php:241
+#, php-format
+msgid "The %s was created successfully."
+msgstr "Le %s a été crée avec succès."
+
+#: Pluf/Views.php:310
+#, php-format
+msgid "The %s was deleted successfully."
+msgstr "Le %s a été supprimé avec succès."
+
+#: Pluf/Dispatcher.php:114
+#, php-format
+msgid "The page <em>%s</em> was not found on the server."
+msgstr "La page <em>%s</em> n'a pas été trouvée sur le serveur."
+
