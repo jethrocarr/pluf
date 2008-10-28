@@ -30,28 +30,23 @@ $cfg['debug'] = true;
 // If your models are using models from applications outside of the
 // base objects of the framework, you need to list them here. 
 // You need to include the name of the current application.
-$cfg['installed_apps'] = array('Todo');
+$cfg['installed_apps'] = array('Pluf', 'Todo');
 
 // Base URL of the application. Note that it is not something like
 // 'root_base' not to overwrite the base of another application when
-// several application are running on the same host.
-// If with Apache you access the index.php file with:
-//  http://localhost/path/to/index.php
-// Just put '/path/to/index.php' or '/path/to/index'
-$cfg['todo_base'] = '/path/to/index.php';
+// several application are running on the same host. 
+// No / at the end.
+$cfg['todo_base'] = '/~loa/todo/index';
 
 // View file of the Todo application. They can be hardcoded in the 
 // Dispatcher, but it is often better to have them in a separated file
 // for readability.
-$cfg['todo_views'] = dirname(__FILE__).'/views.php';
+$cfg['todo_urls'] = dirname(__FILE__).'/urls.php';
 
 // Temporary folder where the script is writing the compiled templates,
 // cached data and other temporary resources.
 // It must be writeable by your webserver instance.
 // It is mandatory if you are using the template system.
-// You need to create this folder if needed. If you are using Windows
-// you can create a 'tmp' folder on you C: drive and put 'c:/tmp'
-// (note the forward slash / and not \)
 $cfg['tmp_folder'] = '/tmp';
 
 // The folder in which the templates of the application are located.
