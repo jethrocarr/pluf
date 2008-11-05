@@ -35,18 +35,18 @@ class Pluf_DB_Schema_MySQL
     public $mappings = array(
                              'varchar' => 'varchar(%s)',
                              'sequence' => 'mediumint(9) unsigned not null auto_increment',
-                             'boolean' => 'bool not null',
-                             'date' => 'date not null',
-                             'datetime' => 'datetime not null',
-                             'file' => 'varchar(150) not null',
+                             'boolean' => 'bool',
+                             'date' => 'date',
+                             'datetime' => 'datetime',
+                             'file' => 'varchar(150)',
                              'manytomany' => null,
-                             'foreignkey' => 'mediumint(9) unsigned not null',
-                             'text' => 'longtext not null',
-                             'html' => 'longtext not null',
-                             'time' => 'time not null',
+                             'foreignkey' => 'mediumint(9) unsigned',
+                             'text' => 'longtext',
+                             'html' => 'longtext',
+                             'time' => 'time',
                              'integer' => 'integer',
-                             'email' => 'varchar(150) not null',
-                             'password' => 'varchar(150) not null',
+                             'email' => 'varchar(150)',
+                             'password' => 'varchar(150)',
                              'float' => 'numeric(%s, %s)',
                              );
 
@@ -93,7 +93,7 @@ class Pluf_DB_Schema_MySQL
         foreach ($cols as $col => $val) {
             $field = new $val['type']();
             if ($field->type != 'manytomany') {
-                $sql .= "\n`".$col.'` ';
+                $sql .= "\n".$this->con->qn($col).' ';
                 $_tmp = $this->mappings[$field->type];
                 if ($field->type == 'varchar') {
                     if (isset($val['size'])) {
@@ -113,7 +113,8 @@ class Pluf_DB_Schema_MySQL
                 }
                 $sql .= $_tmp;
                 if (isset($val['default'])) {
-                    $sql .= ' default '.$this->con->esc($val['default']);
+                    $sql .= ' default ';
+                    $sql .= $model->_toDb($val['default'], $col);
                 } elseif ($field->type != 'sequence') {
                     $sql .= ' default '.$this->defaults[$field->type];
                 }
@@ -170,8 +171,10 @@ class Pluf_DB_Schema_MySQL
             }
             if (isset($val['unique']) and $val['unique'] == true) {
                 $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_unique'] = 
-                    sprintf('CREATE UNIQUE INDEX `%s` ON `%s` (`%s`);',
-                        $col.'_unique_idx', $this->con->pfx.$model->_a['table'], $col);
+                    sprintf('CREATE UNIQUE INDEX `%s` ON `%s` (%s);',
+                            $col.'_unique_idx', 
+                            $this->con->pfx.$model->_a['table'], 
+                            $col);
             }
         }
         return $index;
