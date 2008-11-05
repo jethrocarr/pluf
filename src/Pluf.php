@@ -299,11 +299,15 @@ function __autoload($class_name)
     try {
         Pluf::loadClass($class_name);
     } catch (Exception $e) {
-        return eval ('class '.$class_name.' {' .
-                     '  function '.$class_name.'() {' .
-                     '    throw new Exception("Class not found: '.$class_name.'");' .
-                     '  }' .
-                     '}');
+        eval("class $class_name { 
+          function __construct() { 
+            throw new Exception('Class $class_name not found');
+          }
+          
+          static function __callstatic(\$m, \$args) {
+            throw new Exception('Class $class_name not found');
+          }
+        }"); 
     }
 }
 
