@@ -282,6 +282,14 @@ class Pluf_Model
     }
 
     /**
+     * Get a database connection.
+     */
+    function getDbConnection()
+    {
+        return Pluf::db($this);
+    }
+
+    /**
      * Get the table of the model.
      *
      * Avoid doing the concatenation of the prefix and the table
