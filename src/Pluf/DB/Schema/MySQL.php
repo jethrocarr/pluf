@@ -112,6 +112,9 @@ class Pluf_DB_Schema_MySQL
                     $_tmp = sprintf($this->mappings['float'], $val['max_digits'], $val['decimal_places']);
                 }
                 $sql .= $_tmp;
+                if (empty($val['is_null'])) {
+                    $sql .= ' NOT NULL';
+                }
                 if (isset($val['default'])) {
                     $sql .= ' default ';
                     $sql .= $model->_toDb($val['default'], $col);
