@@ -114,21 +114,41 @@ class Pluf_User extends Pluf_Model
                             'active' =>
                             array(
                                   'type' => 'Pluf_DB_Field_Boolean',
-                                  'default' => false,
+                                  'default' => true,
                                   'blank' => true,
                                   'verbose' => __('active'),
+                                  ),
+                            'language' => 
+                            array(
+                                  'type' => 'Pluf_DB_Field_Varchar',
+                                  'blank' => true,
+                                  'default' => 'en',
+                                  'size' => 5,
+                                  'verbose' => __('language'),
+                                  'help_text' => __('Prefered language of the user for the interface. Use the 2 or 5 letter code like "fr", "en", "fr_QC" or "en_US".')
+                                  ),
+                            'timezone' => 
+                            array(
+                                  'type' => 'Pluf_DB_Field_Varchar',
+                                  'blank' => true,
+                                  'default' => 'Europe/Berlin',
+                                  'size' => 45,
+                                  'verbose' => __('time zone'),
+                                  'help_text' => __('Time zone of the user to display the time in local time.')
                                   ),
                             'date_joined' =>
                             array(
                                   'type' => 'Pluf_DB_Field_Datetime',
                                   'blank' => true,
                                   'verbose' => __('date joined'),
+                                  'editable' => false,
                                   ),
                             'last_login' =>
                             array(
                                   'type' => 'Pluf_DB_Field_Datetime',
                                   'blank' => true,
                                   'verbose' => __('last login'),
+                                  'editable' => false,
                                   ),
                             );
         $this->_a['idx'] = array(                           
@@ -376,5 +396,30 @@ class Pluf_User extends Pluf_Model
             $m->delete();
         }
         return $messages;
+    }
+
+    /**
+     * Get profile.
+     *
+     * Retrieve the profile of the current user. If not profile in the
+     * database a Pluf_Exception_DoesNotExist exception is thrown,
+     * just catch it and create a profile.
+     *
+     * @return Pluf_Model User profile
+     */
+    function getProfile()
+    {
+        $pclass = Pluf::f('user_profile_class', false);
+        if (false == $pclass) {
+            throw new Pluf_Exception_SettingError(__('"user_profile_class" setting not defined.'));
+        }
+        $db = $this->getDbConnection();
+        $sql = new Pluf_SQL(sprintf('%s=%%s', $db->qn('user')), 
+                            array($this->id));
+        $users = Pluf::factory($pclass)->getList(array('filter' => $sql->gen()));
+        if ($users->count() != 1) {
+            throw new Pluf_Exception_DoesNotExist(sprintf(__('No profiles available for user: %s'), (string) $this));
+        }
+        return $users[0];
     }
 }
