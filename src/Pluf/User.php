@@ -291,7 +291,7 @@ class Pluf_User extends Pluf_Model
                 $this->_cache_perms[] = $perm->application.'.'.$perm->code_name;
             }
         }
-        if (Pluf::f('pluf_use_rowpermission', false)) {
+        if (Pluf::f('pluf_use_rowpermission', false) and $this->id) {
             $growp = new Pluf_RowPermission();
             $sql = new Pluf_SQL('owner_id=%s AND owner_class=%s',
                                 array($this->id, 'Pluf_User'));
