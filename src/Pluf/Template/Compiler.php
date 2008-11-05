@@ -128,6 +128,7 @@ class Pluf_Template_Compiler
                                     'aurl' => 'Pluf_Template_Tag_Rurl',
                                     'media' => 'Pluf_Template_Tag_MediaUrl',
                                     'amedia' => 'Pluf_Template_Tag_RmediaUrl',
+                                    'aperm' => 'Pluf_Template_Tag_APerm',
                                     'getmsgs' => 'Pluf_Template_Tag_Messages',
                                     );
     /**
