@@ -122,6 +122,8 @@ function Pluf_DB_defaultTypecast()
                      array('Pluf_DB_IdentityFromDb', 'Pluf_DB_IdentityToDb'),
                  'Pluf_DB_Field_Serialized' => 
                      array('Pluf_DB_SerializedFromDb', 'Pluf_DB_SerializedToDb'),
+                 'Pluf_DB_Field_Compressed' => 
+                     array('Pluf_DB_CompressedFromDb', 'Pluf_DB_CompressedToDb'),
                  );
 }
 
@@ -159,19 +161,22 @@ function Pluf_DB_SerializedFromDb($val)
     return $val;
 }
 
-/**
- * Identity function.
- *
- * @param mixed Value.
- * @param object Database handler.
- * @return string Ready to use for SQL.
- */
 function Pluf_DB_SerializedToDb($val, $db)
 {
     if (is_null($val)) {
         return 'NULL';
     }
     return $db->esc(serialize($val));
+}
+
+function Pluf_DB_CompressedFromDb($val)
+{
+    return ($val) ? gzinflate($val) : $val;
+}
+
+function Pluf_DB_CompressedToDb($val, $db)
+{
+    return (is_null($val)) ? 'NULL' : $db->esc(gzdeflate($val, 9));
 }
 
 function Pluf_DB_BooleanFromDb($val) {
