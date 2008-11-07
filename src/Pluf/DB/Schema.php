@@ -96,4 +96,27 @@ class Pluf_DB_Schema
         }
         return true;
     }
+
+    /**
+     * Given a column name or a string with column names in the format
+     * "column1, column2, column3", returns the escaped correctly
+     * quoted column names. This is good for index creation.
+     *
+     * @param string Column
+     * @param Pluf_DB DB handler
+     * @return string Quoted for the DB column(s)
+     */
+    public static function quoteColumn($col, $db)
+    {
+        if (false !== strpos($col, ',')) {
+            $cols = explode(',', $col);
+        } else {
+            $cols = array($col);
+        }
+        $res = array();
+        foreach ($cols as $col) {
+            $res[] = $db->qn(trim($col));
+        }
+        return implode(', ', $res);
+    }
 }

@@ -53,7 +53,7 @@ $cfg['app_views'] = dirname(__FILE__).'/../app-views.php';
 $cfg['db_login'] = 'testpluf';
 $cfg['db_password'] = 'testpluf';
 $cfg['db_server'] = 'localhost';
-$cfg['db_database'] = $cfg['tmp_folder'].'/pluf.tmp.sqlite.db';
+$cfg['db_database'] = ':memory:';
 
 $cfg['app_base'] = '/testapp';
 $cfg['url_format'] = 'simple';

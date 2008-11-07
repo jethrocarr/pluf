@@ -158,11 +158,13 @@ class Pluf_DB_Schema_PostgreSQL
             } else {
                 $unique = '';
             }
+
             $index[$this->con->pfx.$model->_a['table'].'_'.$idx] = 
                 sprintf('CREATE '.$unique.'INDEX %s ON %s (%s);',
                         $this->con->pfx.$model->_a['table'].'_'.$idx, 
                         $this->con->pfx.$model->_a['table'], 
-                        $val['col']);
+                        Pluf_DB_Schema::quoteColumn($val['col'], $this->con)
+                        );
         }
         foreach ($model->_a['cols'] as $col => $val) {
             $field = new $val['type']();
@@ -171,7 +173,8 @@ class Pluf_DB_Schema_PostgreSQL
                     sprintf('CREATE UNIQUE INDEX %s ON %s (%s);',
                             $this->con->pfx.$model->_a['table'].'_'.$col.'_unique_idx', 
                             $this->con->pfx.$model->_a['table'], 
-                            $col);
+                            Pluf_DB_Schema::quoteColumn($col, $this->con)
+                            );
             }
         }
         return $index;

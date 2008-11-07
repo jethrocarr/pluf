@@ -158,20 +158,14 @@ class Pluf_DB_Schema_SQLite
             if (!isset($val['col'])) {
                 $val['col'] = $idx;
             }
-            if (false !== strpos($val['col'], ',')) {
-                $out = array();
-                foreach (explode(',', $val['col']) as $col) {
-                    $out[] = $this->con->qn(trim($col));
-                }
-                $val['col'] = implode(', ', $out);
-            } else {
-                $val['col'] = $this->con->qn($val['col']);
-            }
+            $unique =  (isset($val['type']) && ($val['type'] == 'unique')) ? 'UNIQUE ' : '';
             $index[$this->con->pfx.$model->_a['table'].'_'.$idx] = 
-                sprintf('CREATE INDEX %s ON %s (%s);',
+                sprintf('CREATE %sINDEX %s ON %s (%s);',
+                        $unique,
                         $this->con->pfx.$model->_a['table'].'_'.$idx, 
                         $this->con->pfx.$model->_a['table'], 
-                        $val['col']);
+                        Pluf_DB_Schema::quoteColumn($val['col'], $this->con)
+                        );
         }
         foreach ($model->_a['cols'] as $col => $val) {
             $field = new $val['type']();
@@ -180,14 +174,15 @@ class Pluf_DB_Schema_SQLite
                     sprintf('CREATE INDEX %s ON %s (%s);',
                             $this->con->pfx.$model->_a['table'].'_'.$col.'_foreignkey_idx', 
                             $this->con->pfx.$model->_a['table'], 
-                            $this->con->qn($col));
+                            Pluf_DB_Schema::quoteColumn($col, $this->con));
             }
             if (isset($val['unique']) and $val['unique'] == true) {
                 $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_unique'] = 
                     sprintf('CREATE UNIQUE INDEX %s ON %s (%s);',
                             $this->con->pfx.$model->_a['table'].'_'.$col.'_unique_idx', 
                             $this->con->pfx.$model->_a['table'], 
-                            $this->con->qn($col));
+                            Pluf_DB_Schema::quoteColumn($col, $this->con)
+                            );
             }
         }
         return $index;
