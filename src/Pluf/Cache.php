@@ -25,13 +25,15 @@
  * Cache class.
  *
  * You should not use this class directly, but one of the subclasses
- * implementing a given engine.
+ * implementing a given engine. This is done automatically when using
+ * the factory. It will use the engine defined by the 'cache_engine'
+ * configuration variable.
  *
  * Default timeout in seconds is defined by the 'cache_timeout'
  * configuration variable.
  *
  * <code>
- * $cache = new Pluf_Cache_File();
+ * $cache = new Pluf_Cache::factory();
  * if (null === ($foo=$cache->get('my-key'))) {
  *     $foo = run_complex_operation();
  *     $cache->set('my-key', $foo);
@@ -45,6 +47,19 @@
  */
 class Pluf_Cache
 {
+    /**
+     * Factory.
+     *
+     * @return Pluf_Cache_* Cache object
+     */
+    public static function factory()
+    {
+        if (false == ($engine = Pluf::f('cache_engine', false))) {
+            throw new Pluf_Exception_SettingError('"cache_engine" setting not defined.');
+        }
+        return new $engine();
+    }
+
     /**
      * Set a value in the cache.
      *
