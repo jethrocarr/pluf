@@ -162,8 +162,9 @@ class Pluf_DB_Schema_MySQL
                 $val['col'] = $idx;
             }
             $index[$this->con->pfx.$model->_a['table'].'_'.$idx] = 
-                sprintf('CREATE INDEX `%s` ON `%s` (`%s`);',
-                        $idx, $this->con->pfx.$model->_a['table'], $val['col']);
+                sprintf('CREATE INDEX `%s` ON `%s` (%s);',
+                        $idx, $this->con->pfx.$model->_a['table'], 
+                        Pluf_DB_Schema::quoteColumn($val['col'], $this->con));
         }
         foreach ($model->_a['cols'] as $col => $val) {
             $field = new $val['type']();
@@ -177,7 +178,8 @@ class Pluf_DB_Schema_MySQL
                     sprintf('CREATE UNIQUE INDEX `%s` ON `%s` (%s);',
                             $col.'_unique_idx', 
                             $this->con->pfx.$model->_a['table'], 
-                            $col);
+                            Pluf_DB_Schema::quoteColumn($col, $this->con)
+                            );
             }
         }
         return $index;
