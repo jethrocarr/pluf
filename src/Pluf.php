@@ -341,6 +341,7 @@ function PlufErrorHandler($code, $string, $file, $line)
          0 === strpos($file, Pluf::f('pear_path','/usr/share/php/'))
          or
          false !== strripos($file, 'pear') // if pear in the path, ignore
+         )
         ) {
         return;
     }
