@@ -335,8 +335,13 @@ class PlufErrorHandlerException extends Exception
  */
 function PlufErrorHandler($code, $string, $file, $line) 
 { 
-    if (E_STRICT == $code && 
-        0 === strpos($file, Pluf::f('pear_path','/usr/share/php/'))) {
+    if (E_STRICT == $code 
+        && 
+        (
+         0 === strpos($file, Pluf::f('pear_path','/usr/share/php/'))
+         or
+         false !== strripos($file, 'pear') // if pear in the path, ignore
+        ) {
         return;
     }
     $exception = new PlufErrorHandlerException($string, $code);
