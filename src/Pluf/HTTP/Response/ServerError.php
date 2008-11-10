@@ -68,7 +68,7 @@ function Pluf_HTTP_Response_ServerError_Pretty($e)
         return $params;');
     $src2lines = create_function('$file','$src=nl2br(highlight_file($file,TRUE));
         return explode("<br />",$src);');
-    $clean = create_function('$line','return html_entity_decode(trim(strip_tags($line)));');
+    $clean = create_function('$line','return html_entity_decode(str_replace("&nbsp;", " ", $line));');
     $desc = get_class($e)." making ".$_SERVER['REQUEST_METHOD']." request to ".$_SERVER['REQUEST_URI'];
     $out = $desc."\n";
     if ($e->getCode()) { 
@@ -86,19 +86,6 @@ function Pluf_HTTP_Response_ServerError_Pretty($e)
         }
         $out .= '* '.$sub($frame).'
         ['.$frame['file'].', line '.$frame['line'].'] *'."\n";
-        /*
-        if (count($frame['args']) > 0) {
-            $params = $parms($frame);
-            $out .= '* Args *'."\n";
-            foreach ($frame['args'] as $k => $v) {
-                $name = isset($params[$k]) ? '$'.$params[$k]->name : '?';
-                $out .= 'Arg:   '.$k."\n";
-                $out .= 'Name:  '.$name."\n";
-                $out .= 'Value: '.print_r($v,true)."\n";
-            }
-            $out .= "\n";
-        } 
-        */
         if (is_readable($frame['file']) ) { 
             $out .= '* Src *'."\n";
             $lines = $src2lines($frame['file']);
