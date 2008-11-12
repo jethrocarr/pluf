@@ -50,7 +50,11 @@ class Pluf_Form_Field_File extends Pluf_Form_Field
             throw new Pluf_Form_Invalid(__('The upload did not complete. Please try to send the file again.'));
             break;
         case UPLOAD_ERR_NO_FILE:
-            throw new Pluf_Form_Invalid(__('No files were uploaded. Please try to send the file again.'));
+            if ($this->required) {
+                throw new Pluf_Form_Invalid(__('No files were uploaded. Please try to send the file again.'));
+            } else {
+                return ''; // no file
+            }
             break;
         case UPLOAD_ERR_NO_TMP_DIR:
         case UPLOAD_ERR_CANT_WRITE:
@@ -110,14 +114,6 @@ function Pluf_Form_Field_File_moveToUploadFolder($value, $params=array())
 {
     $name = Pluf_Utils::cleanFileName($value['name']);
     $upload_path = Pluf::f('upload_path', '/tmp');
-    if (isset($params['upload_path'])) {
-        $upload_path = $params['upload_path'];
-    }
-    if (isset($params['upload_path_create']) and !is_dir($upload_path)) {
-        if (false == @mkdir($upload_path, 0777, true)) {
-            throw new Pluf_Form_Invalid(__('An error occured when creating the upload path. Please try to send the file again.'));
-        }
-    }
     if (isset($params['file_name'])) {
         if (false !== strpos($params['file_name'], '%s')) {
             $name = sprintf($params['file_name'], $name);
@@ -125,11 +121,20 @@ function Pluf_Form_Field_File_moveToUploadFolder($value, $params=array())
             $name = $params['file_name'];
         }
     }
+    if (isset($params['upload_path'])) {
+        $upload_path = $params['upload_path'];
+    }
     $dest = $upload_path.'/'.$name;
+    if (isset($params['upload_path_create']) 
+        and !is_dir(dirname($dest))) {
+        if (false == @mkdir(dirname($dest), 0777, true)) {
+            throw new Pluf_Form_Invalid(__('An error occured when creating the upload path. Please try to send the file again.'));
+        }
+    }
     if ((!isset($params['upload_overwrite']) or $params['upload_overwrite'] == false) and file_exists($dest)) {
         throw new Pluf_Form_Invalid(sprintf(__('A file with the name "%s" has already been uploaded.'), $name));
     }
-    if (!@move_uploaded_file($value['tmp_name'], $dest)) {
+    if (@!move_uploaded_file($value['tmp_name'], $dest)) {
         throw new Pluf_Form_Invalid(__('An error occured when uploading the file. Please try to send the file again.'));
     } 
     @chmod($dest, 0666);
