@@ -27,38 +27,23 @@ $cfg = array();
 // the templates each time during development
 $cfg['debug'] = true;
 
-// If your models are using models from applications outside of the
-// base objects of the framework, you need to list them here. 
-// You need to include the name of the current application.
-$cfg['installed_apps'] = array('Pluf', 'Todo');
-
 // Base URL of the application. Note that it is not something like
 // 'root_base' not to overwrite the base of another application when
 // several application are running on the same host. 
 // No / at the end.
-$cfg['todo_base'] = '/~loa/todo/index';
-
-// View file of the Todo application. They can be hardcoded in the 
-// Dispatcher, but it is often better to have them in a separated file
-// for readability.
-$cfg['todo_urls'] = dirname(__FILE__).'/urls.php';
+//
+// If you access the index.php file in the www folder using the url:
+//  http://localhost/todos/www/index.php
+// you must put:
+//  $cfg['todo_base'] = '/todos/www/index.php';
+// 
+$cfg['todo_base'] = '/todos/www/index.php';
 
 // Temporary folder where the script is writing the compiled templates,
 // cached data and other temporary resources.
 // It must be writeable by your webserver instance.
 // It is mandatory if you are using the template system.
 $cfg['tmp_folder'] = '/tmp';
-
-// The folder in which the templates of the application are located.
-$cfg['template_folders'] = array(dirname(__FILE__).'/../templates');
-
-// Default mimetype of the document your application is sending.
-// It can be overwritten for a given response if needed.
-$cfg['mimetype'] = 'text/html';
-
-$cfg['template_tags'] = array(
-                              'url' => 'Pluf_Template_Tag_Url',
-                              );
 
 // Default database configuration. The database defined here will be
 // directly accessible from Pluf::db() of course it is still possible
@@ -76,4 +61,29 @@ $cfg['db_table_prefix'] = 'pluf_testapp_';
 // The reason of the db_version for MySQL is only for that.
 $cfg['db_version'] = '';
 $cfg['db_engine'] = 'SQLite';
+
+// -- From this point you do not need to update anything --
+
+// If your models are using models from applications outside of the
+// base objects of the framework, you need to list them here. 
+// You need to include the name of the current application.
+$cfg['installed_apps'] = array('Pluf', 'Todo');
+
+// View file of the Todo application. They can be hardcoded in the 
+// Dispatcher, but it is often better to have them in a separated file
+// for readability.
+$cfg['todo_urls'] = dirname(__FILE__).'/urls.php';
+
+
+// The folder in which the templates of the application are located.
+$cfg['template_folders'] = array(dirname(__FILE__).'/../templates');
+
+// Default mimetype of the document your application is sending.
+// It can be overwritten for a given response if needed.
+$cfg['mimetype'] = 'text/html';
+
+$cfg['template_tags'] = array(
+                              'url' => 'Pluf_Template_Tag_Url',
+                              );
+
 return $cfg;
