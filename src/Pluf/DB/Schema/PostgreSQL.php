@@ -68,7 +68,7 @@ class Pluf_DB_Schema_PostgreSQL
                              'email' => "''",
                              'password' => "''",
                              'float' => 0.0,
-                             'blob' => '',
+                             'blob' => "''",
 
                              );
     private $con = null;
