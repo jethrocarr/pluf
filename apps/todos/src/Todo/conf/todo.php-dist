@@ -62,6 +62,10 @@ $cfg['db_table_prefix'] = 'pluf_testapp_';
 $cfg['db_version'] = '';
 $cfg['db_engine'] = 'SQLite';
 
+// If you are using OSX with MAMP, you must also define this variable
+// to ignore PHP5 errors coming from the PEAR modules.
+// $cfg['pear_path'] = '/Applications/MAMP/bin/php5/lib/php';
+
 // -- From this point you do not need to update anything --
 
 // If your models are using models from applications outside of the
