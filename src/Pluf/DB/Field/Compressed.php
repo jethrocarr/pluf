@@ -30,7 +30,7 @@
  */
 class Pluf_DB_Field_Compressed extends Pluf_DB_Field
 {
-    public $type = 'text';
+    public $type = 'blob';
 
     function formField($def, $form_field='Pluf_Form_Field_Varchar')
     {

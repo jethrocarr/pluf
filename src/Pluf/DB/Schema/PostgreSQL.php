@@ -49,6 +49,7 @@ class Pluf_DB_Schema_PostgreSQL
                              'email' => 'character varying',
                              'password' => 'character varying',
                              'float' => 'real',
+                             'blob' => 'bytea',
                              );
 
     public $defaults = array(
@@ -67,6 +68,7 @@ class Pluf_DB_Schema_PostgreSQL
                              'email' => "''",
                              'password' => "''",
                              'float' => 0.0,
+                             'bytea' => '',
 
                              );
     private $con = null;
