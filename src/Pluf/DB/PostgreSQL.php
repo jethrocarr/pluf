@@ -39,6 +39,7 @@ class Pluf_DB_PostgreSQL
         Pluf::loadFunction('Pluf_DB_defaultTypecast');
         $this->type_cast = Pluf_DB_defaultTypecast();
         $this->type_cast['Pluf_DB_Field_Boolean'] = array('Pluf_DB_PostgreSQL_BooleanFromDb', 'Pluf_DB_BooleanToDb');
+        $this->type_cast['Pluf_DB_Field_Compressed'] = array('Pluf_DB_PostgreSQL_CompressedFromDb', 'Pluf_DB_PostgreSQL_CompressedToDb');
 
         $this->debug('* POSTGRESQL CONNECT');
         $cstring = '';
@@ -211,10 +212,24 @@ class Pluf_DB_PostgreSQL
     }
 }
 
-function Pluf_DB_PostgreSQL_BooleanFromDb($val) {
+function Pluf_DB_PostgreSQL_BooleanFromDb($val) 
+{
     if (!$val) {
         return false;
     }
     return (strtolower(substr($val, 0, 1)) == 't');
+}
+
+function Pluf_DB_PostgreSQL_CompressedToDb($val, $con) 
+{
+    if (is_null($val)) {
+        return 'NULL';
+    }
+    return "'".pg_escape_bytea($val)."'";
+}
+
+function Pluf_DB_PostgreSQL_CompressedFromDb($val)
+{
+    return pg_unescape_bytea($val);
 }
 
