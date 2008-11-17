@@ -51,7 +51,7 @@ class Pluf_Cache_File extends Pluf_Cache
         if ($timeout == null) $timeout = Pluf::f('cache_timeout', 300);
         if (!file_exists($dir)) mkdir($dir, 0777, true);
         $expire = time()+$timeout;
-        file_put_contents($fname, $expire."\n".serialize($value));
+        file_put_contents($fname, $expire."\n".serialize($value), LOCK_EX);
     }
 
     /**
@@ -67,7 +67,7 @@ class Pluf_Cache_File extends Pluf_Cache
         if (!file_exists($fname)) return $default;
         list($timeout, $content) = explode("\n", file_get_contents($fname), 2);
         if ($timeout < time()) {
-            unlink($fname);
+            @unlink($fname);
             return $default;
         }
         return unserialize($content);
