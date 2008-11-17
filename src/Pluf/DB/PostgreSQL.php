@@ -225,11 +225,11 @@ function Pluf_DB_PostgreSQL_CompressedToDb($val, $con)
     if (is_null($val)) {
         return 'NULL';
     }
-    return "'".pg_escape_bytea($val)."'";
+    return "'".pg_escape_bytea(gzdeflate($val, 9))."'";
 }
 
 function Pluf_DB_PostgreSQL_CompressedFromDb($val)
 {
-    return pg_unescape_bytea($val);
+    return ($val) ? gzinflate(pg_unescape_bytea($val)) : $val;
 }
 
