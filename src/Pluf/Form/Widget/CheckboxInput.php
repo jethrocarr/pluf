@@ -43,10 +43,9 @@ class Pluf_Form_Widget_CheckboxInput extends Pluf_Form_Widget_Input
             // true, then we check the box.
             $extra_attrs['checked'] = 'checked';
         }
-        // We force the value to '', the "real" value is passed
-        // through the extra_attrs. This is because a checkbox can
-        // have a value and also the checked/unchecked state.
-        return parent::render($name, '', $extra_attrs);
+        // Value of a checkbox is always "1" but when not checked, the
+        // corresponding key in the form associative array is not set.
+        return parent::render($name, '1', $extra_attrs);
     }
 
     /**
@@ -58,8 +57,8 @@ class Pluf_Form_Widget_CheckboxInput extends Pluf_Form_Widget_Input
      */
     public function valueFromFormData($name, $data)
     {
-        if (!isset($data[$name]) 
-            or false === $data[$name] or (string)$data[$name] === '0') {
+        if (!isset($data[$name]) or false === $data[$name] 
+            or (string)$data[$name] === '0' or $data[$name] == '') {
             return false;
         }
         return true;
