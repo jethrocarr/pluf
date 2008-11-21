@@ -299,6 +299,56 @@ class Pluf_Paginator
     }
 
     /**
+     * Render as array.
+     *
+     * An array rendering do not honor the limits, that is, all the
+     * items are returned. Also, the output is not formatted values
+     * from the db are directly returned. This is perfect to then use
+     * the values in a JSON response.
+     *
+     * @return Array.
+     */
+    function render_array()
+    {
+        if (count($this->sort_order) != 2) {
+            $order = null;
+        } else {
+            $s = $this->sort_order[1];
+            if (in_array($this->sort_order[0], $this->sort_reverse_order)) {
+                $s = ($s == 'ASC') ? 'DESC' : 'ASC';
+            }
+            $order = $this->sort_order[0].' '.$s;
+        }
+        if (!is_null($this->model)) {
+            $items = $this->model->getList(array('view' => $this->model_view, 
+                                                 'filter' => $this->filter(), 
+                                                 'order' => $order, 
+                                                 ));
+        } else {
+            $items = $this->items;
+        }
+        $out = array();
+        foreach ($items as $item) {
+            $idata = array();
+            if (!empty($this->list_display)) {
+                $i = 0;
+                foreach ($this->list_display as $key=>$col) {
+                    if (!is_array($col)) {
+                        $idata[$key] = $item->$key;
+                    } else {
+                        $_col = $col[0];
+                        $idata[$col[0]] = $item->$_col;
+                    }
+                }
+            } else {
+                $idata = $item->id;
+            }
+            $out[] = $idata;
+        }
+        return $out;
+    }
+
+    /**
      * Generate the footer of the table.
      */
     function footer()
