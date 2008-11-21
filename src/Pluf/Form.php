@@ -290,7 +290,7 @@ class Pluf_Form implements Iterator
     }
 
     /**
-     * Render the form as a list without the <ul></ul>.
+     * Render the form as a table without <table></table>.
      */
     public function render_table()
     {
