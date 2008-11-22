@@ -49,6 +49,7 @@ class Pluf_DB_Schema_SQLite
                              'email' => 'varchar(150)',
                              'password' => 'varchar(150)',
                              'float' => 'real',
+                             'blob' => 'blob',
                              );
 
     public $defaults = array(
@@ -67,7 +68,7 @@ class Pluf_DB_Schema_SQLite
                              'email' => "''",
                              'password' => "''",
                              'float' => 0.0,
-
+                             'blob' => "''",
                              );
     private $con = null;
 
