@@ -41,6 +41,7 @@ class Pluf_DB_SQLite
         $this->debug = $debug;
         $this->pfx = $pfx;
         $this->debug('* SQLITE OPEN');
+        $this->type_cast['Pluf_DB_Field_Compressed'] = array('Pluf_DB_CompressedFromDb', 'Pluf_DB_SQLite_CompressedToDb');
         // Connect and let the Exception be thrown in case of problem
         try {
             $this->con_id = new PDO('sqlite:'.$dbname);
@@ -167,3 +168,11 @@ class Pluf_DB_SQLite
 
 }
 
+
+function Pluf_DB_SQLite_CompressedToDb($val, $con) 
+{
+    if (is_null($val)) {
+        return 'NULL';
+    }
+    return 'X'.$con->esc(bin2hex(gzdeflate($val, 9)));
+}
