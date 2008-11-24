@@ -42,11 +42,11 @@ class Pluf_Cache_Memcached extends Pluf_Cache
     private $memcache = null;
     private $keyprefix = '';
 
-    public function __constructor()
+    public function __construct()
     {
         $this->memcache = memcache_connect(Pluf::f('cache_memcached_server', 'localhost'),
                                            Pluf::f('cache_memcached_port', 11211));
-        if (false == $this->memcache) {
+        if (false === $this->memcache) {
             $this->memcache = null;
         }
         $this->keyprefix = Pluf::f('cache_memcached_keyprefix', '');

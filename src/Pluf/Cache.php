@@ -57,7 +57,10 @@ class Pluf_Cache
         if (false == ($engine = Pluf::f('cache_engine', false))) {
             throw new Pluf_Exception_SettingError('"cache_engine" setting not defined.');
         }
-        return new $engine();
+        if (!isset($GLOBALS['_PX_Pluf_Cache-'.$engine])) {
+            $GLOBALS['_PX_Pluf_Cache-'.$engine] = new $engine();
+        } 
+        return $GLOBALS['_PX_Pluf_Cache-'.$engine];
     }
 
     /**

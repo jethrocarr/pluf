@@ -29,7 +29,7 @@
  */
 class Pluf_Cache_File extends Pluf_Cache
 {
-    public function __constructor()
+    public function __construct()
     {
         if (false == Pluf::f('cache_file_folder', false)) {
             throw new Pluf_Exception_SettingError('"cache_file_folder" setting not defined.');
