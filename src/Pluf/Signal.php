@@ -40,7 +40,8 @@ class Pluf_Signal
         if (!empty($GLOBALS['_PX_signal'][$signal])) {
             foreach ($GLOBALS['_PX_signal'][$signal] as $key=>$val) {
                 if ($val[2] === null or $sender == $val[2]) {
-                    call_user_func(array($val[0], $val[1]), $signal, &$params);
+                    call_user_func_array(array($val[0], $val[1]), 
+                                         array($signal, &$params));
                 }
             }
         }
