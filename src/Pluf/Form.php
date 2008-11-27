@@ -137,6 +137,7 @@ class Pluf_Form implements Iterator
             return true;
         } 
         // as some errors, we do not have cleaned data available.
+        $this->failed();
         $this->cleaned_data = array();
         $this->is_valid = false;
         return false;
@@ -153,6 +154,17 @@ class Pluf_Form implements Iterator
     public function clean()
     {
         return $this->cleaned_data;
+    }
+
+    /**
+     * Method just called after the validation if the validation
+     * failed.  This can be used to remove uploaded
+     * files. $this->['cleaned_data'] will be available but of course
+     * not fully populated and with possible garbage due to the error.
+     *
+     */
+    public function failed()
+    {
     }
 
     /**
