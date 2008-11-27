@@ -37,6 +37,11 @@ class Pluf_Form_Field_File extends Pluf_Form_Field
     function clean($value)
     {
         parent::clean($value);
+        if (is_null($value) and !$this->required) {
+            return ''; // no file
+        } elseif (is_null($value) and $this->required) {
+            throw new Pluf_Form_Invalid(__('No files were uploaded. Please try to send the file again.'));
+        }
         $errors = array();
         $no_files = false;
         switch ($value['error']) {

@@ -79,7 +79,6 @@ class Pluf_Utils
      */
     static function cleanFileName($name)
     {
-        $name = mb_strtolower($name, 'UTF-8');
         return mb_ereg_replace("/\015\012|\015|\012|\s|[^A-Za-z0-9\.\-\_]/", '_', $name);
     }
 
