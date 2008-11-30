@@ -30,7 +30,7 @@
  * The form handling is heavily inspired by the Django form handling.
  *
  */
-class Pluf_Form implements Iterator
+class Pluf_Form implements Iterator, ArrayAccess
 {
     /**
      * The fields of the form. 
@@ -369,6 +369,28 @@ class Pluf_Form implements Iterator
         return (false !== current($this->fields));
     }
 
+    public function offsetUnset($index) 
+    {
+        unset($this->fields[$index]);
+    }
+ 
+    public function offsetSet($index, $value) 
+    {
+        $this->fields[$index] = $value;
+    }
+
+    public function offsetGet($index) 
+    {
+        if (!isset($this->fields[$index])) {
+            throw new Exception('Undefined index: '.$index);
+        }
+        return $this->fields[$index];
+    }
+
+    public function offsetExists($index) 
+    {
+        return (isset($this->fields[$index]));
+    }
 }
 
 
