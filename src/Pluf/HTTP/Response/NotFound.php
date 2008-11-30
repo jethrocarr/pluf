@@ -23,8 +23,20 @@
 
 class Pluf_HTTP_Response_NotFound extends Pluf_HTTP_Response
 {
-    function __construct($content, $mimetype=null)
+    function __construct($request)
     {
+        $content = '';
+        try {
+            $context = new Pluf_Template_Context(array('query' => $request->query));
+            $tmpl = new Pluf_Template('404.html');
+            $content = $tmpl->render($context);
+            $mimetype = null;
+        } catch (Exception $e) {
+            $mimetype = 'text/plain';
+            $content = sprintf('The requested URL %s was not found on this server.'."\n"
+                               .'Please check the URL and try again.'."\n\n".'404 - Not Found',
+                               Pluf_esc($request->query));
+        }
         parent::__construct($content, $mimetype);
         $this->status_code = 404;
     }

@@ -116,7 +116,7 @@ class Pluf_Dispatcher
                 }
             }
         }
-        return new Pluf_HTTP_Response_NotFound(sprintf(__('The page <em>%s</em> was not found on the server.'), htmlspecialchars($req->query)));
+        return new Pluf_HTTP_Response_NotFound($req);
     }
 
     /**
