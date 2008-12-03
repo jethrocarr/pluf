@@ -38,6 +38,20 @@ class Pluf_Date
          return strftime($format, $time);
      }
 
+    /**
+     * Get a GM Date in the format YYYY-MM-DD HH:MM:SS and returns a
+     * string with the given format in GMT.
+     *
+     * @param string GMDate
+     * @param string Format to be given to date ('c')
+     * @return string Formated GMDate into GMT
+     */
+     public static function gmDateToGmString($gmdate, $format='c')
+     {
+         $time = strtotime($gmdate.'Z');
+         return date($format, $time);
+     }
+
      /**
       * Day compare.
       *
