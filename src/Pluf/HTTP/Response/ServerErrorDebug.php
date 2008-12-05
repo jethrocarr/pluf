@@ -225,15 +225,15 @@ function Pluf_HTTP_Response_ServerErrorDebug_Pretty($e)
             </thead>
             <tbody>';
             foreach ($frame['args'] as $k => $v) {
-                $name = isset($params[$k]) ? '$'.$params[$k]->name : '?';
+                $name = (isset($params[$k]) and isset($params[$k]->name)) ? '$'.$params[$k]->name : '?';
                 $out .= '
                 <tr>
                   <td>'.$o($k).'</td>
                   <td>'.$o($name).'</td>
                   <td class="code">
-                    <div>'.highlight_string(print_r($v,true), true).'</div>
+                    <div>'.Pluf_esc(print_r($v, true)).'</div>
                   </td>
-                </tr>';
+                  </tr>'; 
             }
             $out .= '</tbody></table>';
         } 
@@ -270,7 +270,7 @@ function Pluf_HTTP_Response_ServerErrorDebug_Pretty($e)
             $out .= '<div class="commands">No src available</div>';
         } 
         $out .= '</li>';
-    } 
+    } // End of foreach $frames
     $out .= '
   </ul>
   
