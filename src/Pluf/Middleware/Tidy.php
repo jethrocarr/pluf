@@ -53,7 +53,7 @@ class Pluf_Middleware_Tidy
             return $response;
         }
         $ok = false;
-        $cts = array('text/html', 'text/html', 'application/xhtml+xml');
+        $cts = array('text/html', 'application/xhtml+xml');
         foreach ($cts as $ct) {
             if (false !== strripos($response->headers['Content-Type'], $ct)) {
                 $ok = true;

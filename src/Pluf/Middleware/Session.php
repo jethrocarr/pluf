@@ -58,7 +58,7 @@ class Pluf_Middleware_Session
             return false;
         }
         try {
-            $data = $this->_decodeData($request->COOKIE[$session->cookie_name]);
+            $data = self::_decodeData($request->COOKIE[$session->cookie_name]);
         } catch (Exception $e) {
             $request->user = $user;
             $request->session = $session;
@@ -126,7 +126,7 @@ class Pluf_Middleware_Session
                 $data[$request->user->session_key] = $request->user->id;
             }
             $data['Pluf_Session_key'] = $request->session->session_key;
-            $response->cookies[$request->session->cookie_name] = $this->_encodeData($data);
+            $response->cookies[$request->session->cookie_name] = self::_encodeData($data);
         }
         if ($request->session->set_test_cookie != null) {
             $response->cookies[$request->session->test_cookie_name] = $request->session->test_cookie_value;
@@ -140,7 +140,7 @@ class Pluf_Middleware_Session
      * @param mixed Data to encode
      * @return string Encoded data ready for the cookie
      */
-    function _encodeData($data)
+    public static function _encodeData($data)
     {
         if ('' == ($key = Pluf::f('secret_key'))) {
             throw new Exception('Security error: "secret_key" is not set in the configuration file.');
@@ -157,7 +157,7 @@ class Pluf_Middleware_Session
      * @param string Encoded data
      * @return mixed Decoded data
      */
-    function _decodeData($encoded_data)
+    public static function _decodeData($encoded_data)
     {
         $check = substr($encoded_data, -32);
         $base64_data = substr($encoded_data, 0, strlen($encoded_data)-32);
