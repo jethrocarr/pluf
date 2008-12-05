@@ -188,11 +188,39 @@ class Pluf_Template_Compiler
      */
     function __construct($template_file, $folders=array(), $load=true)
     {
-        $allowedtags = Pluf::f('template_tags', array());
-        $this->_allowedTags = array_merge($allowedtags, $this->_allowedTags);
-        $modifiers = Pluf::f('template_modifiers', array());
-        $this->_modifier = array_merge($modifiers, $this->_modifier);
-
+        /**
+         * [signal]
+         *
+         * Pluf_Template_Compiler::construct_template_tags_modifiers
+         *
+         * [sender]
+         *
+         * Pluf_Template_Compiler
+         *
+         * [description]
+         *
+         * This signal allows an application to dynamically modify the
+         * allowed template tags. The order of the merge with the ones
+         * configured in the configuration files and the default one
+         * is: default -> signal -> configuration file.
+         * That is, the configuration file is the highest authority.
+         *
+         * [parameters]
+         *
+         * array('tags' => array(),
+         *       'modifiers' => array());
+         *
+         */
+        $params = array('tags' => array(),
+                        'modifiers' => array());
+        Pluf_Signal::send('Pluf_Template_Compiler::construct_template_tags_modifiers', 
+                          'Pluf_Template_Compiler', $params);
+        $this->_allowedTags = array_merge($this->_allowedTags,
+                                          $params['tags'],
+                                          Pluf::f('template_tags', array()));
+        $this->_modifier = array_merge($this->_modifier,
+                                       $params['modifiers'],
+                                       Pluf::f('template_modifiers', array()));
         foreach ($this->_allowedTags as $name=>$model) {
             $this->_extraTags[$name] = new $model();
         }
