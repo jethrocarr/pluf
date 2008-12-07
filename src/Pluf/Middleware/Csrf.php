@@ -92,6 +92,9 @@ class Pluf_Middleware_Csrf
             // no session, nothing to do
             return $response;
         }
+        if (!isset($response->headers['Content-Type'])) {
+            return $response;
+        }
         try {
             $data = Pluf_Middleware_Session::_decodeData($request->COOKIE[$cookie_name]);
         } catch (Exception $e) {
