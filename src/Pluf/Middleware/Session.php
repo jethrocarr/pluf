@@ -67,6 +67,7 @@ class Pluf_Middleware_Session
             }
             return false;
         }
+        $set_lang = false;
         if (isset($data[$user->session_key])) {
             // We can get the corresponding user
             $found_user = new Pluf_User($data[$user->session_key]);
@@ -80,6 +81,7 @@ class Pluf_Middleware_Session
                     $request->user->last_login = gmdate('Y-m-d H:i:s');
                     $request->user->update();
                 }
+                $set_lang = $found_user->language;
             } else {
                 $request->user = $user;
             }
@@ -96,6 +98,9 @@ class Pluf_Middleware_Session
             }
         } else {
             $request->session = $session;
+        }
+        if ($set_lang) {
+            $request->session->setData('pluf_language', $set_lang);
         }
         if (isset($request->COOKIE[$request->session->test_cookie_name])) {
             $request->session->test_cookie = $request->COOKIE[$request->session->test_cookie_name];
