@@ -160,6 +160,7 @@ class Pluf_Session extends Pluf_Model
 
     public function deleteTestCookie()
     {
-        $this->set_test_cookie = false;
+        $this->set_test_cookie = true;
+        $this->test_cookie_value = null;
     }
 }

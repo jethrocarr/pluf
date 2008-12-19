@@ -156,8 +156,9 @@ class Pluf_HTTP_Response
             }
             foreach ($this->cookies as $cookie => $data) {
                 // name, data, expiration, path, domain, secure, http only
-                setcookie($cookie, $data, 
-                          time()+31536000, 
+                $expire = (null == $data) ? time()-31536000 : time()+31536000;
+                $data = (null == $data) ? '' : $data;
+                setcookie($cookie, $data, $expire,
                           Pluf::f('cookie_path', '/'), 
                           Pluf::f('cookie_domain', null), 
                           Pluf::f('cookie_secure', false), 

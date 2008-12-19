@@ -128,7 +128,7 @@ class Pluf_Middleware_Session
             $data['Pluf_Session_key'] = $request->session->session_key;
             $response->cookies[$request->session->cookie_name] = self::_encodeData($data);
         }
-        if ($request->session->set_test_cookie != null) {
+        if ($request->session->set_test_cookie != false) {
             $response->cookies[$request->session->test_cookie_name] = $request->session->test_cookie_value;
         }
         return $response;
