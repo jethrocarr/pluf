@@ -30,34 +30,49 @@ class Pluf_Dispatcher
      */
     public static function dispatch($query='')
     {
-		$query = preg_replace('#^(/)+#', '/', '/'.$query);
-        $req = new Pluf_HTTP_Request($query);
-        $middleware = array();
-        foreach (Pluf::f('middleware_classes', array()) as $mw) {
-            $middleware[] = new $mw();
-        }
-        $skip = false;
-        foreach ($middleware as $mw) {
-            if (method_exists($mw, 'process_request')) {
-                $response = $mw->process_request($req);
-                if ($response !== false) {
-                    // $response is a response
-                    $response->render($req->method != 'HEAD' and !defined('IN_UNIT_TESTS'));
-                    $skip = true;
-                    break;
-                }    
+        try {
+            $query = preg_replace('#^(/)+#', '/', '/'.$query);
+            $req = new Pluf_HTTP_Request($query);
+            $middleware = array();
+            foreach (Pluf::f('middleware_classes', array()) as $mw) {
+                $middleware[] = new $mw();
             }
-        }
-        if ($skip === false) {   
-            $response = self::match($req);
-            if (!empty($req->response_vary_on)) {
-                $response->headers['Vary'] = $req->response_vary_on;
-            }
-            $middleware = array_reverse($middleware);
+            $skip = false;
             foreach ($middleware as $mw) {
-                if (method_exists($mw, 'process_response')) {
-                    $response = $mw->process_response($req, $response);
-                }    
+                if (method_exists($mw, 'process_request')) {
+                    $response = $mw->process_request($req);
+                    if ($response !== false) {
+                        // $response is a response
+                        if (Pluf::f('pluf_runtime_header', false)) {
+                            $response->headers['X-Perf-Runtime'] = sprintf('%.5f', (microtime(true) - $GLOBALS['_PX_starttime']));
+                        }
+                        $response->render($req->method != 'HEAD' and !defined('IN_UNIT_TESTS'));
+                        $skip = true;
+                        break;
+                    }    
+                }
+            }
+            if ($skip === false) {   
+                $response = self::match($req);
+                if (!empty($req->response_vary_on)) {
+                    $response->headers['Vary'] = $req->response_vary_on;
+                }
+                $middleware = array_reverse($middleware);
+                foreach ($middleware as $mw) {
+                    if (method_exists($mw, 'process_response')) {
+                        $response = $mw->process_response($req, $response);
+                    }    
+                }
+                if (Pluf::f('pluf_runtime_header', false)) {
+                    $response->headers['X-Perf-Runtime'] = sprintf('%.5f', (microtime(true) - $GLOBALS['_PX_starttime']));
+                }
+                $response->render($req->method != 'HEAD' and !defined('IN_UNIT_TESTS'));
+            }
+        } catch (Exception $e) {
+            if (Pluf::f('debug', false) == true) {
+                $response = new Pluf_HTTP_Response_ServerErrorDebug($e);
+            } else {
+                $response = new Pluf_HTTP_Response_ServerError($e);
             }
             $response->render($req->method != 'HEAD' and !defined('IN_UNIT_TESTS'));
         }
@@ -77,10 +92,10 @@ class Pluf_Dispatcher
             $priority[$key] = $control['priority'];
         }
         array_multisort($priority, SORT_ASC, $GLOBALS['_PX_views']);
-        foreach ($GLOBALS['_PX_views'] as $key => $ctl) {
-            $match = array();
-            if (preg_match($ctl['regex'], $req->query, $match)) {
-                try {
+        try {
+            foreach ($GLOBALS['_PX_views'] as $key => $ctl) {
+                $match = array();
+                if (preg_match($ctl['regex'], $req->query, $match)) {
                     $req->view = $ctl;
                     $m = new $ctl['model']();
                     if (isset($m->{$ctl['method'].'_precond'})) {
@@ -104,17 +119,11 @@ class Pluf_Dispatcher
                     } else {
                         return $m->$ctl['method']($req, $match, $ctl['params']);
                     }
-                } catch (Pluf_HTTP_Error404 $e) {
-                    // Need to add a 404 error handler
-                    // something like Pluf::f('404_handler', 'class::method')
-                } catch (Exception $e) {
-                    if (Pluf::f('debug', false) == true) {
-                        return new Pluf_HTTP_Response_ServerErrorDebug($e);
-                    } else {
-                        return new Pluf_HTTP_Response_ServerError($e);
-                    }
                 }
             }
+        } catch (Pluf_HTTP_Error404 $e) {
+            // Need to add a 404 error handler
+            // something like Pluf::f('404_handler', 'class::method')
         }
         return new Pluf_HTTP_Response_NotFound($req);
     }
