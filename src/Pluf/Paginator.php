@@ -84,6 +84,16 @@ class Pluf_Paginator
      * you can create new columns in the table.
      */
     protected $list_display = array();
+    
+    /**
+     * Extra classes that will be applied to the td of each cell of
+     * each column.
+     *
+     * If you have 3 columns and put array('one', '', 'foo') all the
+     * td of the first column will have the class 'one' set and the
+     * tds of the last column will have the 'foo' class set.
+     */
+    public $extra_classes = array();
 
     /**
      * The fields being searched.
@@ -466,7 +476,8 @@ class Pluf_Paginator
                 if ($i == 0) {
                     $text = $this->getEditAction($text, $item);
                 }
-                $out.='<td>'.$text.'</td>';
+                $class = (isset($this->extra_classes[$i]) and $this->extra_classes[$i] != '') ? ' class="'.$this->extra_classes[$i].'"' : '';
+                $out.='<td'.$class.'>'.$text.'</td>';
                 $i++;
             }
         } else {
@@ -675,6 +686,12 @@ function Pluf_Paginator_DateYMDHMS($field, $item)
 {
     Pluf::loadFunction('Pluf_Template_dateFormat');
     return Pluf_Template_dateFormat($item->$field, '%Y-%m-%d %H:%M:%S');
+}
+
+function Pluf_Paginator_DateYMDHM($field, $item)
+{
+    Pluf::loadFunction('Pluf_Template_dateFormat');
+    return Pluf_Template_dateFormat($item->$field, '%Y-%m-%d %H:%M');
 }
 
 function Pluf_Paginator_DateYMD($field, $item)
