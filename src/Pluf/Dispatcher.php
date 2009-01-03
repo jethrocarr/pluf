@@ -109,10 +109,16 @@ class Pluf_Dispatcher
                         }
                         foreach ($preconds as $precond) {
                             if (!is_array($precond)) {
-                                $res = call_user_func(explode('::', $precond), $req);
+                                $res = call_user_func_array(
+                                              explode('::', $precond), 
+                                              array(&$req)
+                                                            );
                             } else {
-                                $res = call_user_func(explode('::', $precond[0]), 
-                                                      $req, array_slice($precond, 1));
+                                $res = call_user_func_array(
+                                              explode('::', $precond[0]), 
+                                              array_merge(array(&$req), 
+                                                          array_slice($precond, 1))
+                                                            );
                             }
                             if ($res !== true) {
                                 return $res;
