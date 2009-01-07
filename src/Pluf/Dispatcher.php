@@ -76,6 +76,31 @@ class Pluf_Dispatcher
             }
             $response->render($req->method != 'HEAD' and !defined('IN_UNIT_TESTS'));
         }
+        /**
+         * [signal]
+         *
+         * Pluf_Dispatcher::postDispatch
+         *
+         * [sender]
+         *
+         * Pluf_Dispatcher
+         *
+         * [description]
+         *
+         * This signal is sent after the rendering of a request. This
+         * means you cannot affect the response but you can use this
+         * hook to do some cleaning.
+         *
+         * [parameters]
+         *
+         * array('request' => $request,
+         *       'response' => $response)
+         *
+         */
+        $params = array('request' => $req,
+                        'response' => $response);
+        Pluf_Signal::send('Pluf_Dispatcher::postDispatch',
+                          'Pluf_Dispatcher', $params);
         return array($req, $response);
     }
 
