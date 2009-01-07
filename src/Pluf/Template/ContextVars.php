@@ -36,11 +36,7 @@ class Pluf_Template_ContextVars extends ArrayObject
 
     function __get($prop)
     {
-        if (isset($this->$prop)) {
-            return $this->$prop;
-        } else {
-            return $this->offsetGet($prop);
-        }
+        return $this->offsetGet($prop);
     }
 
     function __toString()
