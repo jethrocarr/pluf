@@ -121,6 +121,12 @@ class Pluf_Queue extends Pluf_Model
         $this->modif_dtime = gmdate('Y-m-d H:i:s');
     }
 
+    /**
+     * Add an object to the queue.
+     *
+     * @param Pluf_Model Your model
+     * @param string Action for the object
+     */
     public static function addTo($object, $action='')
     {
         $q = new Pluf_Queue();
