@@ -107,6 +107,7 @@ class Pluf_Template_Compiler
                                  'time' => 'Pluf_Template_timeFormat',
                                  'dateago' => 'Pluf_Template_dateAgo',
                                  'timeago' => 'Pluf_Template_timeAgo',
+                                 'email' => 'Pluf_Template_safeEmail',
                                  );
 
     /**

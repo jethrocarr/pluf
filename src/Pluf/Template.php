@@ -286,3 +286,13 @@ function Pluf_Template_timeAgo($date, $f="withal")
         return Pluf_Date_Easy($date, null, 2, __('now'), false);
     }
 }
+
+/**
+ * Hex encode an email excluding the "mailto:".
+ */
+function Pluf_Template_safeEmail($email)
+{
+    $email = chunk_split(bin2hex($email), 2, '%');
+    $email = '%'.substr($email, 0, strlen($email) - 1);
+    return Pluf_Template::markSafe($email);
+}
