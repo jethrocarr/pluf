@@ -21,6 +21,9 @@
 #
 # ***** END LICENSE BLOCK ***** */
 
+/**
+ * User Model.
+ */
 class Pluf_User extends Pluf_Model
 {
     public $_model = 'Pluf_User';
