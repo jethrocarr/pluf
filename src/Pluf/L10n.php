@@ -140,12 +140,9 @@ class Pluf_L10n
             .str_replace(DIRECTORY_SEPARATOR, '_', substr($file, 0, -5))
             .'.php';
         $lines = file($file);
-        if (false === ($fp = @fopen($phpfile,'w'))) {
-            return false;
-        }
-        fputs($fp, '<?php '."\n".'/* automatically generated file from: '
-              .$file.'  */'."\n\n");
-        fputs($fp, '$l = array();'."\n");
+        $out = '<?php '."\n".'/* automatically generated file from: '
+            .$file.'  */'."\n\n";
+        $out .= '$l = array();'."\n";
         $count = count($lines);
         for ($i=1; $i<$count; $i++) {
             $tmp = (!empty($lines[$i+1])) ? trim($lines[$i+1]) : '';
@@ -153,13 +150,12 @@ class Pluf_L10n
                 $string = '$l[\''
                     .str_replace("'", "\\'", trim(substr($lines[$i],1)))
                     .'\'] = \''.str_replace("'", "\\'", $tmp).'\';'."\n";
-                fputs($fp, $string);
+                $out .= $string;
                 $i++;
             }
         }
-        fputs($fp, 'return $l;'."\n");
-        fputs($fp, "\n".'?>');
-        @fclose($fp);
+        $out .= 'return $l;'."\n\n".'?>';
+        file_put_contents($phpfile, $out, LOCK_EX);
         @chmod($phpfile, 0777);
         return true;
     }
