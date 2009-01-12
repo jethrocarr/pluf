@@ -26,20 +26,53 @@
  */
 class Pluf_DB_PostgreSQL
 {
+    /**
+     * The connection resource.
+     */
     public $con_id;
+
+    /**
+     * The prefix for the table names.
+     */
     public $pfx = '';
+
+    /**
+     * Debug mode.
+     */
     private $debug = false;
-    /** The last query, set with debug(). Used when an error is returned. */
+
+    /** 
+     * The last query, set with debug(). Used when an error is
+     * returned. 
+     */
     public $lastquery = '';
+
+    /**
+     * Name of the engine.
+     */
     public $engine = 'PostgreSQL';
+
+    /**
+     * Used by the model to convert the values from and to the
+     * database.
+     *
+     * @see Pluf_DB_defaultTypecast
+     */
     public $type_cast = array();
+
+    /**
+     * Current query cursor.
+     */
+    private $cur = null;
 
     function __construct($user, $pwd, $server, $dbname, $pfx='', $debug=false)
     {
         Pluf::loadFunction('Pluf_DB_defaultTypecast');
         $this->type_cast = Pluf_DB_defaultTypecast();
-        $this->type_cast['Pluf_DB_Field_Boolean'] = array('Pluf_DB_PostgreSQL_BooleanFromDb', 'Pluf_DB_BooleanToDb');
-        $this->type_cast['Pluf_DB_Field_Compressed'] = array('Pluf_DB_PostgreSQL_CompressedFromDb', 'Pluf_DB_PostgreSQL_CompressedToDb');
+        $this->type_cast['Pluf_DB_Field_Boolean'] =
+            array('Pluf_DB_PostgreSQL_BooleanFromDb', 'Pluf_DB_BooleanToDb');
+        $this->type_cast['Pluf_DB_Field_Compressed'] = 
+            array('Pluf_DB_PostgreSQL_CompressedFromDb', 'Pluf_DB_PostgreSQL_CompressedToDb');
 
         $this->debug('* POSTGRESQL CONNECT');
         $cstring = '';
@@ -50,10 +83,10 @@ class Pluf_DB_PostgreSQL
         if ($pwd) {
             $cstring .= ' password='.$pwd;
         }
-        $this->con_id = pg_connect($cstring);
         $this->debug = $debug;
         $this->pfx = $pfx;
-        $this->cur = null; //Current query cursor.
+        $this->cur = null; 
+        $this->con_id = @pg_connect($cstring);
         if (!$this->con_id) {
             throw new Exception($this->getError());
         }
@@ -104,13 +137,12 @@ class Pluf_DB_PostgreSQL
     function select($query)
     {
         $this->debug($query);
-        try {
-            $this->cur = @pg_query($this->con_id, $query);
-        } catch (Exception $e) {
+        $this->cur = @pg_query($this->con_id, $query);
+        if (!$this->cur) {
             throw new Exception($this->getError());
         }
         $res = array();
-        while ($row = @pg_fetch_assoc($this->cur)) {
+        while ($row = pg_fetch_assoc($this->cur)) {
             $res[] = $row;
         }
         @pg_free_result($this->cur);
@@ -121,13 +153,11 @@ class Pluf_DB_PostgreSQL
     function execute($query)
     {
         $this->debug($query);
-        try {
-            $this->cur = @pg_query($this->con_id, $query);
-            $this->cur = null;
-            return true;
-        } catch (Exception $e) {
+        $this->cur = @pg_query($this->con_id, $query);
+        if (!$this->cur) {
             throw new Exception($this->getError());
         }
+        return true;
     }
 
     function getLastID()
