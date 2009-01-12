@@ -29,13 +29,14 @@
  *
  * Example of configuration:
  *
+ * <pre>
  * $cfg['cache_engine'] = 'Pluf_Cache_Memcached';
  * $cfg['cache_timeout'] = 300;
  * $cfg['cache_memcached_keyprefix'] = 'uniqueforapp';
  * $cfg['cache_memcached_server'] = 'localhost';
  * $cfg['cache_memcached_port'] = 11211;
  * $cfg['cache_memcached_compress'] = 0; (or MEMCACHE_COMPRESSED)
- *
+ * </pre>
  */
 class Pluf_Cache_Memcached extends Pluf_Cache
 {
