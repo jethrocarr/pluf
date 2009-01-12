@@ -32,14 +32,14 @@
  * Default timeout in seconds is defined by the 'cache_timeout'
  * configuration variable.
  *
- * <code>
+ * <pre>
  * $cache = new Pluf_Cache::factory();
  * if (null === ($foo=$cache->get('my-key'))) {
  *     $foo = run_complex_operation();
  *     $cache->set('my-key', $foo);
  * }
  * return $foo;
- * </code>
+ * </pre>
  *
  * The value to be stored in the cache must be serializable.
  *
@@ -54,7 +54,7 @@ class Pluf_Cache
      */
     public static function factory()
     {
-        if (false == ($engine = Pluf::f('cache_engine', false))) {
+        if (false === ($engine=Pluf::f('cache_engine', false))) {
             throw new Pluf_Exception_SettingError('"cache_engine" setting not defined.');
         }
         if (!isset($GLOBALS['_PX_Pluf_Cache-'.$engine])) {
