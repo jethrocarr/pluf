@@ -141,6 +141,9 @@ class Pluf_Translation
      */
     public static function readPoFile($file)
     {
+        if (false !== ($hash=self::getCachedFile($file))) {
+            return $hash;
+        }
         // read .po file
         $fc= file_get_contents($file);
         // normalize newlines
@@ -241,8 +244,38 @@ class Pluf_Translation
                 $hash[$entry['msgid']]= $entry['msgstr'];
             }
         }
-
+        self::cacheFile($file, $hash);
         return $hash;
+    }
+
+    /**
+     * Load optimized version of a language file if available.
+     *
+     * @return mixed false or array with value
+     */
+    public static function getCachedFile($file)
+    {
+        $phpfile = Pluf::f('tmp_folder').'/Pluf_L10n-'.md5($file).'.phps';
+        if (file_exists($phpfile) 
+            && (filemtime($file) < filemtime($phpfile))) {
+            return include $phpfile;
+        }
+        return false;
+    }
+
+    /**
+     * Cache an optimized version of a language file.
+     *
+     * @param string File
+     * @param array Parsed hash
+     */
+    public static function cacheFile($file, $hash)
+    {
+        $phpfile = Pluf::f('tmp_folder').'/Pluf_L10n-'.md5($file).'.phps';
+        file_put_contents($phpfile, 
+                          '<?php return '.var_export($hash, true).'; ?>',
+                          LOCK_EX);
+        @chmod($phpfile, 0666);
     }
 }
 
