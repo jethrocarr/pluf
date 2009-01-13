@@ -63,20 +63,14 @@ class Pluf_HTTP_URL
     /**
      * Get the action of the request.
      *
-     * Depending of the format, the action is either the path_info,
-     * the query string or the _px_action parameter.
+     * We directly get the PATH_INFO variable or return '/'
      *
      * @return string Action
      */
     public static function getAction()
     {
-        if (isset($_SERVER['ORIG_PATH_INFO'])) {
-            return $_SERVER['ORIG_PATH_INFO'];
-        }
-        if (isset($_SERVER['PATH_INFO'])) {
-            return $_SERVER['PATH_INFO'];
-        }
-        return '/';
+        return (isset($_SERVER['PATH_INFO'])) ?
+            $_SERVER['PATH_INFO'] : '/';
     }
 }
 
