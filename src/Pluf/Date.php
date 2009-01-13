@@ -191,9 +191,9 @@ function Pluf_Date_Easy($date, $ref=null, $blocks=2, $notime='now', $show=true)
     }
     if ($show) {
         if ($past) {
-            $res .= ' '.__('ago');
+            $res = sprintf(__('%s ago'), $res);
         } else {
-            $res .= ' '.__('left');
+            $res = sprintf(__('%s left'), $res);
         }
     }
     return $res;
