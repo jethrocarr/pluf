@@ -54,7 +54,7 @@ class Pluf_HTTP_Request
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->uri = $_SERVER['REQUEST_URI'];
         $this->remote_addr = $_SERVER['REMOTE_ADDR'];
-        $this->http_host = $_SERVER['HTTP_HOST'];
+        $this->http_host = (isset($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : '';
         $this->SERVER =& $_SERVER;
     }
 }
