@@ -65,6 +65,11 @@ class Pluf_DB_PostgreSQL
      */
     private $cur = null;
 
+    /**
+     * Current search path.
+     */
+    public $search_path = 'public';
+
     function __construct($user, $pwd, $server, $dbname, $pfx='', $debug=false)
     {
         Pluf::loadFunction('Pluf_DB_defaultTypecast');
@@ -198,6 +203,7 @@ class Pluf_DB_PostgreSQL
             throw new Exception('The search path: "'.$search_path.'" is not valid.');            
         }
         $this->execute('SET search_path TO '.$search_path);
+        $this->search_path = $search_path;
         return true;
     }
 
