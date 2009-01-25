@@ -31,6 +31,9 @@ class Pluf_Form_Field_Email extends Pluf_Form_Field
         if (in_array($value, $this->empty_values)) {
             $value = '';
         }
+        if ($value == '') {
+            return $value;
+        }
         if (!Pluf_Utils::isValidEmail($value)) {
             throw new Pluf_Form_Invalid(__('Enter a valid email address.'));
         }
