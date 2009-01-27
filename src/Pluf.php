@@ -359,12 +359,18 @@ if (!defined('IN_UNIT_TESTS')) {
 
 
 /**
- * Shortcut to avoid typing again and again this htmlspecialchars call.
+ * Shortcut needed all over the place.
  *
- * @param string Raw string.
- * @return string HTML escaped string.
+ * Note that in some cases, we need to escape strings not in UTF-8, so
+ * this is not possible to safely use a call to htmlspecialchars. This
+ * is why str_replace is used.
+ *
+ * @param string Raw string
+ * @return string HTML escaped string
  */
 function Pluf_esc($string) 
 {
-    return htmlspecialchars((string)$string, ENT_COMPAT, 'UTF-8');
+    return str_replace(array('&',     '"',      '<',    '>'),
+                       array('&amp;', '&quot;', '&lt;', '&gt;'),
+                       (string) $string);
 }
