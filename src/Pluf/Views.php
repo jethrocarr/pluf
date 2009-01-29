@@ -310,14 +310,14 @@ class Pluf_Views
         $model = $p['model'];
         $context = (isset($p['extra_context'])) ? $p['extra_context'] : array();
         $template = (isset($p['template'])) ? $p['template'] : strtolower($model).'_confirm_delete.html';
-        $post_save_keys = (isset($p['post_save_redirect_keys'])) ? $p['post_save_redirect_keys'] : array();
+        $post_delete_keys = (isset($p['post_delete_redirect_keys'])) ? $p['post_delete_redirect_keys'] : array();
 
         $object = Pluf_Shortcuts_GetObjectOr404($model, $id);
         if ($request->method == 'POST') {
             $object->delete();
-            if (isset($p['post_save_redirect'])) {
-                $url = Pluf_HTTP_URL_urlForView($p['post_save_redirect'],
-                                                $post_save_keys);
+            if (isset($p['post_delete_redirect'])) {
+                $url = Pluf_HTTP_URL_urlForView($p['post_delete_redirect'],
+                                                $post_delete_keys);
             } else {
                 throw new Exception('No URL to redirect to from generic delete view.');
             }
