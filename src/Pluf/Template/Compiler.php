@@ -48,7 +48,7 @@ class Pluf_Template_Compiler
     protected $_vartype = array(T_CHARACTER, T_CONSTANT_ENCAPSED_STRING, 
                                 T_DNUMBER, T_ENCAPSED_AND_WHITESPACE, 
                                 T_LNUMBER, T_OBJECT_OPERATOR, T_STRING, 
-                                T_WHITESPACE, T_ARRAY, T_CLASS);
+                                T_WHITESPACE, T_ARRAY, T_CLASS, T_PRIVATE);
 
     /** 
      * Assignation operators. 
