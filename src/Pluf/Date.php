@@ -168,21 +168,33 @@ function Pluf_Date_Easy($date, $ref=null, $blocks=2, $notime='now', $show=true)
             $retain = 1;
         }
     }
-    $val = array(__('year'), __('month'), __('day'), __('hour'),
-                 __('minute'), __('second'));
-    $vals = array(__('years'), __('months'), __('days'), __('hours'),
-                 __('minutes'), __('seconds'));
     $res = '';
     $total = 0;
     for ($i=0; $i<5; $i++) {
         if ($diffs[$i] > 0) {
             $total++;
             $res .= $diffs[$i].' ';
-            if ($diffs[$i] > 1) {
-                $res .= $vals[$i].' ';
-            } else {
-                $res .= $val[$i].' ';
+            switch ($i) {
+            case 0: 
+                $res .= ngettext('year', 'years', $diffs[$i]);
+            	break;
+            case 1: 
+                $res .= ngettext('month', 'months', $diffs[$i]);
+            	break;
+            case 2: 
+                $res .= ngettext('day', 'days', $diffs[$i]);
+            	break;
+            case 3: 
+                $res .= ngettext('hour', 'hours', $diffs[$i]);
+            	break;
+            case 4: 
+                $res .= ngettext('minute', 'minutes', $diffs[$i]);
+            	break;
+            case 5: 
+                $res .= ngettext('second', 'seconds', $diffs[$i]);
+            	break;
             }
+            $res .= ' ';
         }
         if ($total >= $blocks) break;
     }
