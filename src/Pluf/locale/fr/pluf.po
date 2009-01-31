@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pluf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-13 09:44+0100\n"
-"PO-Revision-Date: 2009-01-13 09:56+0100\n"
+"POT-Creation-Date: 2009-01-31 22:35+0100\n"
+"PO-Revision-Date: 2009-01-31 22:39+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: French <pluf-users@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -225,7 +225,7 @@ msgstr "Assurez-vous que la valeur est inférieure ou égale à %s. "
 msgid "Ensure this value is greater than or equal to %s."
 msgstr "Assurez-vous que la valeur est supérieure ou égale à %s."
 
-#: Pluf/Form/Field/Email.php:35
+#: Pluf/Form/Field/Email.php:38
 msgid "Enter a valid email address."
 msgstr "Entrez une adresse email valide."
 
@@ -377,60 +377,12 @@ msgstr "application"
 msgid "The application using this permission, for example \"YourApp\", \"CMS\" or \"SView\"."
 msgstr "L'application utilisant cette permission, par exemple \"VotreApp\", \"CMS\", etc."
 
-#: Pluf/Date.php:171
-msgid "year"
-msgstr "année"
-
-#: Pluf/Date.php:171
-msgid "month"
-msgstr "mois"
-
-#: Pluf/Date.php:171
-msgid "day"
-msgstr "jour"
-
-#: Pluf/Date.php:171
-msgid "hour"
-msgstr "heure"
-
-#: Pluf/Date.php:172
-msgid "minute"
-msgstr "minute"
-
-#: Pluf/Date.php:172
-msgid "second"
-msgstr "seconde"
-
-#: Pluf/Date.php:173
-msgid "years"
-msgstr "années"
-
-#: Pluf/Date.php:173
-msgid "months"
-msgstr "mois"
-
-#: Pluf/Date.php:173
-msgid "days"
-msgstr "jours"
-
-#: Pluf/Date.php:173
-msgid "hours"
-msgstr "heures"
-
-#: Pluf/Date.php:174
-msgid "minutes"
-msgstr "minutes"
-
-#: Pluf/Date.php:174
-msgid "seconds"
-msgstr "secondes"
-
-#: Pluf/Date.php:194
+#: Pluf/Date.php:206
 #, php-format
 msgid "%s ago"
 msgstr "il y a %s"
 
-#: Pluf/Date.php:196
+#: Pluf/Date.php:208
 #, php-format
 msgid "%s left"
 msgstr "%s restant"
@@ -659,6 +611,54 @@ msgstr "Par exemple Pluf_User ou Pluf_Group."
 msgid "do not have the permission"
 msgstr "n'a pas la permission"
 
+#: Pluf/Date.php:179
+msgid "year"
+msgid_plural "years"
+msgstr[0] "an"
+msgstr[1] "ans"
+
+#: Pluf/Date.php:182
+msgid "month"
+msgid_plural "months"
+msgstr[0] "mois"
+msgstr[1] "mois"
+
+#: Pluf/Date.php:185
+msgid "day"
+msgid_plural "days"
+msgstr[0] "jour"
+msgstr[1] "jours"
+
+#: Pluf/Date.php:188
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "heure"
+msgstr[1] "heures"
+
+#: Pluf/Date.php:191
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "minute"
+msgstr[1] "minutes"
+
+#: Pluf/Date.php:194
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "seconde"
+msgstr[1] "secondes"
+
+#~ msgid "years"
+#~ msgstr "années"
+#~ msgid "months"
+#~ msgstr "mois"
+#~ msgid "days"
+#~ msgstr "jours"
+#~ msgid "hours"
+#~ msgstr "heures"
+#~ msgid "minutes"
+#~ msgstr "minutes"
+#~ msgid "seconds"
+#~ msgstr "secondes"
 #~ msgid "Authentication"
 #~ msgstr "Authentification"
 #~ msgid "KB"

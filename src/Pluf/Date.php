@@ -176,22 +176,22 @@ function Pluf_Date_Easy($date, $ref=null, $blocks=2, $notime='now', $show=true)
             $res .= $diffs[$i].' ';
             switch ($i) {
             case 0: 
-                $res .= ngettext('year', 'years', $diffs[$i]);
+                $res .= _n('year', 'years', $diffs[$i]);
             	break;
             case 1: 
-                $res .= ngettext('month', 'months', $diffs[$i]);
+                $res .= _n('month', 'months', $diffs[$i]);
             	break;
             case 2: 
-                $res .= ngettext('day', 'days', $diffs[$i]);
+                $res .= _n('day', 'days', $diffs[$i]);
             	break;
             case 3: 
-                $res .= ngettext('hour', 'hours', $diffs[$i]);
+                $res .= _n('hour', 'hours', $diffs[$i]);
             	break;
             case 4: 
-                $res .= ngettext('minute', 'minutes', $diffs[$i]);
+                $res .= _n('minute', 'minutes', $diffs[$i]);
             	break;
             case 5: 
-                $res .= ngettext('second', 'seconds', $diffs[$i]);
+                $res .= _n('second', 'seconds', $diffs[$i]);
             	break;
             }
             $res .= ' ';
