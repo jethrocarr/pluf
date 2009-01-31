@@ -47,8 +47,9 @@ class Pluf_Translation
 {
 
     public static $plural_forms = array(
-                         'fr' => 'singular0and1',
-                         'en' => 'pluralnot1', // This is the default.
+                         'fr' => 'plural_2gt1',
+                         'en' => 'plural_2not1', // This is the default.
+                         'de' => 'plural_2not1',
                                         );
 
     /**
@@ -62,7 +63,7 @@ class Pluf_Translation
         if (isset(self::$plural_forms[substr($locale, 0, 2)])) {
             return self::$plural_forms[substr($locale, 0, 2)];
         }
-        return '2pluralnot1';
+        return 'plural_2not1';
     }
 
     /**
@@ -118,12 +119,12 @@ class Pluf_Translation
     /**
      * French, Brazilian Portuguese
      */
-    public static function singular0and1($n)
+    public static function plural_2gt1($n)
     {
         return (int) ($n>1);
     }
 
-    public static function pluralnot1($n)
+    public static function plural_2not1($n)
     {
         return (int) ($n!=1);
     }
