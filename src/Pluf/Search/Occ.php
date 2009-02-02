@@ -71,7 +71,7 @@ class Pluf_Search_Occ extends Pluf_Model
                             array(
                                   'type' => 'Pluf_DB_Field_Float',
                                   'blank' => false,
-                                  'verbose' => __('ponderated occurence'),
+                                  'verbose' => __('weighted occurence'),
                                   ),
                             );
         $this->_a['idx'] = array(                           
