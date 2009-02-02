@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-31 22:35+0100\n"
+"POT-Creation-Date: 2009-02-02 13:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgid "occurences"
 msgstr ""
 
 #: Pluf/Search/Occ.php:74
-msgid "ponderated occurence"
+msgid "weighted occurence"
 msgstr ""
 
 #: Pluf/Message.php:45 Pluf/User.php:44
@@ -371,6 +371,42 @@ msgid ""
 "\"SView\"."
 msgstr ""
 
+#: Pluf/Date.php:179
+msgid "year"
+msgid_plural "years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: Pluf/Date.php:182
+msgid "month"
+msgid_plural "months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: Pluf/Date.php:185
+msgid "day"
+msgid_plural "days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: Pluf/Date.php:188
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: Pluf/Date.php:191
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: Pluf/Date.php:194
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] ""
+msgstr[1] ""
+
 #: Pluf/Date.php:206
 #, php-format
 msgid "%s ago"
@@ -600,39 +636,3 @@ msgstr ""
 #: Pluf/RowPermission.php:72
 msgid "do not have the permission"
 msgstr ""
-
-#: Pluf/Date.php:179
-msgid "year"
-msgid_plural "years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: Pluf/Date.php:182
-msgid "month"
-msgid_plural "months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: Pluf/Date.php:185
-msgid "day"
-msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: Pluf/Date.php:188
-msgid "hour"
-msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: Pluf/Date.php:191
-msgid "minute"
-msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: Pluf/Date.php:194
-msgid "second"
-msgid_plural "seconds"
-msgstr[0] ""
-msgstr[1] ""
