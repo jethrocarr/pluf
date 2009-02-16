@@ -23,11 +23,17 @@
 
 class Pluf_HTTP_Response_Redirect extends Pluf_HTTP_Response
 {
-    function __construct($url)
+    /**
+     * Redirect response to a given URL.
+     *
+     * @param string URL
+     * @paran int Redirect code (302) or 301 for permanent
+     */
+    function __construct($url, $code=302)
     {
         $content = sprintf(__('<a href="%s">Please, click here to be redirected</a>.'), $url);
         parent::__construct($content);
         $this->headers['Location'] = $url;
-        $this->status_code = 302;
+        $this->status_code = $code;
     }
 }

@@ -121,7 +121,7 @@ class Pluf_Dispatcher
             foreach ($GLOBALS['_PX_views'] as $key => $ctl) {
                 $match = array();
                 if (preg_match($ctl['regex'], $req->query, $match)) {
-                    $req->view = $ctl;
+                    $req->view = array($ctl, $match);
                     $m = new $ctl['model']();
                     if (isset($m->{$ctl['method'].'_precond'})) {
                         // Here we have preconditions to respects. If
@@ -163,7 +163,15 @@ class Pluf_Dispatcher
         }
         if ($firstpass and substr($req->query, -1) != '/') {
             $req->query .= '/';
-            return self::match($req, false);
+            $res = self::match($req, false);
+            if ($res->status_code != 404) {
+                Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+                $name = (isset($req->view[0]['name'])) ? 
+                    $req->view[0]['name'] : 
+                    $req->view[0]['model'].'::'.$req->view[0]['method'];
+                $url = Pluf_HTTP_URL_urlForView($name, array_slice($req->view[1], 1));
+                return new Pluf_HTTP_Response_Redirect($url, 301);
+            }
         }
         return new Pluf_HTTP_Response_NotFound($req);
     }
