@@ -110,7 +110,7 @@ class Pluf_Dispatcher
      * @param Pluf_HTTP_Request Request object
      * @return Pluf_HTTP_Response Response object
      */
-    public static function match($req)
+    public static function match($req, $firstpass=true)
     {
         // Order the controllers by priority
         foreach ($GLOBALS['_PX_views'] as $key => $control) {
@@ -160,6 +160,10 @@ class Pluf_Dispatcher
         } catch (Pluf_HTTP_Error404 $e) {
             // Need to add a 404 error handler
             // something like Pluf::f('404_handler', 'class::method')
+        }
+        if ($firstpass and substr($req->query, -1) != '/') {
+            $req->query .= '/';
+            return self::match($req, false);
         }
         return new Pluf_HTTP_Response_NotFound($req);
     }
