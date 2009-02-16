@@ -48,8 +48,12 @@ class Pluf_Form_Field_File extends Pluf_Form_Field
         case UPLOAD_ERR_OK:
             break;
         case UPLOAD_ERR_INI_SIZE:
+            throw new Pluf_Form_Invalid(sprintf(__('The uploaded file is too large. Reduce the size of the file to %s and send it again.'),
+                      Pluf_Utils::prettySize(ini_get('upload_max_filesize'))));
+            break;
         case UPLOAD_ERR_FORM_SIZE:
-            throw new Pluf_Form_Invalid(__('The uploaded file is too large. Reduce the size of the file and send it again.'));
+            throw new Pluf_Form_Invalid(sprintf(__('The uploaded file is too large. Reduce the size of the file to %s and send it again.'),
+                      Pluf_Utils::prettySize($_REQUEST['MAX_FILE_SIZE'])));
             break;
         case UPLOAD_ERR_PARTIAL:
             throw new Pluf_Form_Invalid(__('The upload did not complete. Please try to send the file again.'));
