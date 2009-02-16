@@ -84,9 +84,19 @@ class Pluf_Utils
 
     static function prettySize($size)
     {
-        $mb = 1024*1024;
-        if ($size > $mb) {
-            $mysize = sprintf('%01.2f', $size/$mb).' '. __('MB');
+    	switch (strtolower(substr($size, -1))) {
+        case 'k': 
+            $size = substr($size, 0, -1) * 1024;
+    		break;
+        case 'm': 
+            $size = substr($size, 0, -1) * 1024*1024;
+    		break;
+        case 'g': 
+            $size = substr($size, 0, -1) * 1024*1024*1024;
+    		break;
+    	}
+        if ($size > (1024*1024)) {
+            $mysize = sprintf('%01.2f', $size/(1024*1024)).' '. __('MB');
         } elseif ($size >= 1024) {
             $mysize = sprintf('%01.2f', $size/1024).' '.__('kB');
         } else {
