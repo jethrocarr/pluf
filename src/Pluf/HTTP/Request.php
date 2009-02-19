@@ -40,6 +40,7 @@ class Pluf_HTTP_Request
     public $remote_addr = '';
     public $http_host = '';
     public $SERVER = array();
+    public $uid = '';
 
     function __construct($query)
     {
@@ -56,5 +57,6 @@ class Pluf_HTTP_Request
         $this->remote_addr = $_SERVER['REMOTE_ADDR'];
         $this->http_host = (isset($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : '';
         $this->SERVER =& $_SERVER;
+        $this->uid = $GLOBALS['_PX_uniqid']; 
     }
 }

@@ -31,14 +31,14 @@ class Pluf
     /**
      * Start the Plume Framework.
      *
-     * Load the configuration files. If not configuration file is given
-     * load the dirname(__FILE__).'/conf/pluf.config.php' config file.
+     * Load the configuration files. 
      *
      * @param string Configuration file to use
      */
     static function start($config)
     {
         $GLOBALS['_PX_starttime'] = microtime(true);
+        $GLOBALS['_PX_uniqid'] = uniqid($GLOBALS['_PX_starttime'], true);
         Pluf::loadConfig($config);
         date_default_timezone_set(Pluf::f('time_zone', 'Europe/Berlin'));
         mb_internal_encoding(Pluf::f('encoding', 'UTF-8'));
