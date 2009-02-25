@@ -176,8 +176,18 @@ class Pluf_Search
             if ($ids[$i] === null) {
                 $word = new Pluf_Search_Word();
                 $word->word = $words_flat[$i];
-                $word->create();
-                $ids[$i] = $word->id;
+                try {
+                    $word->create();
+                    $ids[$i] = $word->id;
+                } catch (Exception $e) {
+                    // most likely concurrent addition of a word, try
+                    // to read it.
+                    $_ids = self::getWordIds(array($words_flat[$i]));
+                    if ($_ids[0] !== null) {
+                        // if we miss it here, just forget about it
+                        $ids[$i] = $_ids[0];
+                    }
+                }
                 $new_words++;
             }
             if (isset($done[$ids[$i]])) {
