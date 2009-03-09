@@ -25,10 +25,12 @@
  * APC based cache.
  *
  * You need APC installed on your server for this cache system to
- * work.
+ * work. You can install APC with <code>$ sudo pecl install apc</code>
+ * on most systems.
  *
- * A special 'cache_apc_keyprefix' can be set to use one
- * memcached for different applications and avoid conflict.
+ * A special 'cache_apc_keyprefix' can be set to use APC for different
+ * applications and avoid conflict. Compression is performed at the
+ * PHP level using the gz(in|de)flate functions.
  *
  * Example of configuration:
  *
@@ -38,6 +40,10 @@
  * $cfg['cache_apc_keyprefix'] = 'uniqueforapp';
  * $cfg['cache_apc_compress'] = true;
  * </pre>
+ *
+ * @see Pluf_Cache
+ * @see http://www.php.net/gzdeflate
+ * @see http://www.php.net/gzinflate
  */
 class Pluf_Cache_Apc extends Pluf_Cache
 {
@@ -47,8 +53,8 @@ class Pluf_Cache_Apc extends Pluf_Cache
     private $keyprefix = '';
 
     /**
-     * Auto compress the data to save memory against a performance
-     * loss.
+     * Auto compress the data to save memory against a small
+     * performance loss.
      */
     private $compress = false;
 
@@ -83,7 +89,7 @@ class Pluf_Cache_Apc extends Pluf_Cache
      *
      * @param string Key to get the information
      * @param mixed Default value to return if cache miss (null)
-     * @param mixed Stored value or default
+     * @return mixed Stored value or default
      */
     public function get($key, $default=null)
     {
