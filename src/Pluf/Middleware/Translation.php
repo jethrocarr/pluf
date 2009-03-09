@@ -62,8 +62,9 @@ class Pluf_Middleware_Translation
         $GLOBALS['_PX_locale'] = array();
         $GLOBALS['_PX_locale'][$lang] = array();
         foreach (Pluf::f('installed_apps') as $app) {
-            $pofile = Pluf::fileExists($app.'/locale/'.$lang.'/'.strtolower($app).'.po');
-            $GLOBALS['_PX_locale'][$lang] += Pluf_Translation::readPoFile($pofile);
+            if (false != ($pofile=Pluf::fileExists($app.'/locale/'.$lang.'/'.strtolower($app).'.po'))) {
+                $GLOBALS['_PX_locale'][$lang] += Pluf_Translation::readPoFile($pofile);
+            }
         }
         $request->language_code = $lang;
         return false;
