@@ -69,6 +69,9 @@ class Pluf_HTTP_URL
      */
     public static function getAction()
     {
+        if (isset($_GET['_pluf_action'])) {
+            return $_GET['_pluf_action'];
+        }
         return (isset($_SERVER['PATH_INFO'])) ?
             $_SERVER['PATH_INFO'] : '/';
     }
