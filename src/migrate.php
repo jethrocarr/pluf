@@ -24,7 +24,10 @@
 /**
  * Migration script.
  */
-
+if (version_compare(PHP_VERSION, '5.2.4', '<')) {
+    echo 'Error: You need at least PHP 5.2.4'."\n";
+    exit(1);
+}
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
 require 'Pluf.php';
 require 'Console/Getopt.php';
@@ -195,18 +198,17 @@ if ($debug) {
     $m->display = true;
 }
 $m->dry_run = $what['dry_run'];
-try {
-    if ($what['install']) {
-        debug('Install '.$app_disp);
-        $m->install();
-    } elseif ($what['un-install']) {
-        debug('Uninstall '.$app_disp);
-        $m->unInstall();
-    } else {
-        debug('Migrate '.$app.' to version '.$what['version']);
-        $m->migrate($what['version']);
-    }
-} catch (Exception $e) {
-    echo 'Error: '.$e->getMessage()."\n";
-    die();
+
+if ($what['install']) {
+    debug('Install '.$app_disp);
+    $m->install();
+} elseif ($what['un-install']) {
+    debug('Uninstall '.$app_disp);
+    $m->unInstall();
+} else {
+    debug('Migrate '.$app.' to version '.$what['version']);
+    $m->migrate($what['version']);
 }
+
+
+
