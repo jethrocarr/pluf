@@ -39,7 +39,7 @@ class Pluf_DB_MySQL
         Pluf::loadFunction('Pluf_DB_defaultTypecast');
         $this->type_cast = Pluf_DB_defaultTypecast();
         $this->debug('* MYSQL CONNECT');
-        $this->con_id = @mysql_connect($server, $user, $pwd);
+        $this->con_id = mysql_connect($server, $user, $pwd);
         $this->debug = $debug;
         $this->pfx = $pfx;
         if (!$this->con_id) {
@@ -51,7 +51,7 @@ class Pluf_DB_MySQL
 
     function database($dbname)
     {
-        $db = @mysql_select_db($dbname);
+        $db = mysql_select_db($dbname);
         $this->debug('* USE DATABASE '.$dbname);
         if (!$db) {
             throw new Exception($this->getError());
