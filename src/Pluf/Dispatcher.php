@@ -206,99 +206,15 @@ class Pluf_Dispatcher
      * Load the controllers.
      *
      * @param string File including the views.
-     * @param string Possible prefix to add to the views.
      * @return bool Success.
      */
-    public static function loadControllers($file, $prefix='')
+    public static function loadControllers($file)
     {
         if (file_exists($file)) {
-            if ($prefix == '') {
-                $GLOBALS['_PX_views'] = include $file;
-            } else {
-                $GLOBALS['_PX_views'] = Pluf_Dispatcher::addPrefixToViewFile($prefix, $file);
-            }
+            $GLOBALS['_PX_views'] = include $file;
             return true;
         }
         return false;
 	}
-
-
-    /**
-     * Register an action controller.
-     *
-     * - The class must provide a "standalone" action method
-     * class::actionmethod($request, $match)
-     * - The priority is to order the controller matches. 
-     * 5: Default, if the controller provides some content
-     * 1: If the controller provides a control before, without providing
-     * content, note that in this case the return code must be a redirection.
-     * 8: If the controller is providing a catch all case to replace the
-     * default 404 error page.
-     *
-     * @param string Class name providing the action controller
-     * @param string The method of the plugin to be called
-     * @param string Regex to match on the query string
-     * @param int Priority (5)
-     * @return void
-     */
-    public static function registerController($model, $method, $regex, $priority=5)
-    {
-        if (!isset($GLOBALS['_PX_views'])) {
-            $GLOBALS['_PX_views'] = array();
-        }
-        $GLOBALS['_PX_views'][] = array('model' => $model,
-                                        'regex' => $regex,
-                                        'priority' => $priority,
-                                        'method' => $method);
-    }
-
-    /**
-     * Add the controllers of an application with a given prefix.
-     *
-     * Suppose you have a new app you want to use within another
-     * existing application, you may need to change the base URL not
-     * to conflict with the existing one. For example you want to have
-     * domain.com/forum-a/ and domain.com/forum-b/ to use 2 forums at
-     * the same time. 
-     *
-     * This method do that, it takes a typical "view" file and rewrite
-     * the regex to append the prefix. Note that you should use the
-     * 'url' tag in the template and use Pluf_HTTP_URL_reverse in the
-     * views to not hardcode the urls or this will not work.
-     *
-     * @param string Prefix, for example '/alternate'.
-     * @param string File with the views.
-     * @return array Prefixed views.
-     */
-    static public function addPrefixToViewFile($prefix, $file)
-    {
-        if (file_exists($file)) {
-            $views = include $file;
-        } else {
-            throw new Exception('View file not found: '.$file);
-        }
-        return Pluf_Dispatcher::addPrefixToViews($prefix, $views);
-    }
-
-    /**
-     * Add a prefix to an array of views. 
-     *
-     * You can use it for example to not hardcode that in your CMS the
-     * blog is located as /blog but is configured in the configuration
-     * of the CMS, that way in French this could be /carnet.
-     *
-     * @param string Prefix, for example '/alternate'.
-     * @param array Array of the views.
-     * @return array Prefixed views.
-     */
-    static public function addPrefixToViews($prefix, $views)
-    {
-        $res = array();
-        foreach ($views as $view) {
-            $view['regex'] = '#^'.$prefix.substr($view['regex'], 2);
-            $res[] = $view;
-        }
-        return $res;
-    }
 }
 
