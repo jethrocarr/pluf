@@ -105,30 +105,60 @@ function Pluf_HTTP_URL_urlForView($view, $params=array(),
  */
 function Pluf_HTTP_URL_reverse($view, $params=array())
 {
-    $regex = null;
     $model = '';
     $method = '';
     if (false !== strpos($view, '::')) {
         list($model, $method) = split('::', $view);
     }
-    foreach ($GLOBALS['_PX_views'] as $dview) {
-        if (
-            (isset($dview['name']) && $dview['name'] == $view)
-            or
-            ($dview['model'] == $model && $dview['method'] == $method)
-            ) {
-            $regex = $dview['regex'];
-            break;
-        }
-    }
-    if ($regex === null) {
+    $vdef = array($model, $method, $view);
+    $regbase = array('', array());
+    $regbase = Pluf_HTTP_URL_find($GLOBALS['_PX_views'], $vdef, $regbase);
+    if ($regbase === false) {
         throw new Exception(sprintf('Error, the view: %s has not been found.', $view));
     }
-    $url = Pluf_HTTP_URL_buildReverseUrl($regex, $params);
-    if (isset($dview['base']) and !defined('IN_UNIT_TESTS')) {
-        $url = $dview['base'].$url;
+    $url = '';
+    foreach ($regbase[1] as $regex) {
+        $url .= Pluf_HTTP_URL_buildReverseUrl($regex, $params);
+    }
+    if (!defined('IN_UNIT_TESTS')) {
+        $url = $regbase[0].$url;
     }
     return $url;
+}
+
+
+/**
+ * Go in the list of views to find the matching one.
+ *
+ * @param array Views
+ * @param array View definition array(model, method, name)
+ * @param array Regex of the view up to now and base
+ * @return mixed Regex of the view or false
+ */
+function Pluf_HTTP_URL_find($views, $vdef, $regbase)
+{
+    foreach ($views as $dview) {
+        if (
+            (isset($dview['name']) && $dview['name'] == $vdef[2])
+            or
+            ($dview['model'] == $vdef[0] && $dview['method'] == $vdef[1])
+            ) {
+            $regbase[1][] = $dview['regex'];
+            if (!empty($dview['base'])) {
+                $regbase[0] = $dview['base'];
+            }
+            return $regbase;
+        }
+        if (isset($dview['sub'])) {
+            $regbase2 = $regbase;
+            $regbase2[1][] = $dview['regex'];
+            $res = Pluf_HTTP_URL_find($dview['sub'], $vdef, $regbase2);
+            if ($res) {
+                return $res;
+            }
+        }
+    }
+    return false;
 }
 
 /**
@@ -165,9 +195,6 @@ function Pluf_HTTP_URL_buildReverseUrl($url_regex, $params=array())
                                 'return $a;');
         $url = preg_replace_callback($groups, $func, $url_regex);
     }
-    $url = substr(substr($url, 2), 0, -2);
-    if (substr($url, -1) !== '$') {
-        return $url;
-    }
-    return substr($url, 0, -1);
+    preg_match('/^#\^?([^#\$]+)/', $url, $matches);
+    return $matches[1];
 }

@@ -36,7 +36,7 @@ $cfg['installed_apps'] = array('Pluf');
 $cfg['tmp_folder'] = '/tmp';
 
 // The folder in which the templates of the application are located.
-$cfg['templates_folder'] = array(dirname(__FILE__).'/../templates');
+$cfg['template_folders'] = array(dirname(__FILE__).'/../templates');
 
 $cfg['pluf_use_rowpermission'] = true;
 

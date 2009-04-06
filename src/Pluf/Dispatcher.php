@@ -107,55 +107,33 @@ class Pluf_Dispatcher
     /**
      * Match a query against the actions controllers.
      *
+     * @see Pluf_HTTP_URL_reverse
+     *
      * @param Pluf_HTTP_Request Request object
      * @return Pluf_HTTP_Response Response object
      */
     public static function match($req, $firstpass=true)
     {
-        // Order the controllers by priority
-        foreach ($GLOBALS['_PX_views'] as $key => $control) {
-            $priority[$key] = $control['priority'];
-        }
-        array_multisort($priority, SORT_ASC, $GLOBALS['_PX_views']);
         try {
-            foreach ($GLOBALS['_PX_views'] as $key => $ctl) {
-                $match = array();
-                if (preg_match($ctl['regex'], $req->query, $match)) {
-                    $req->view = array($ctl, $match);
-                    $m = new $ctl['model']();
-                    if (isset($m->{$ctl['method'].'_precond'})) {
-                        // Here we have preconditions to respects. If
-                        // the "answer" is true, then ok go ahead, if
-                        // not then it a response so return it or an
-                        // exception so let it go.
-                        $preconds = $m->{$ctl['method'].'_precond'};
-                        if (!is_array($preconds)) {
-                            $preconds = array($preconds);
-                        }
-                        foreach ($preconds as $precond) {
-                            if (!is_array($precond)) {
-                                $res = call_user_func_array(
-                                              explode('::', $precond), 
-                                              array(&$req)
-                                                            );
-                            } else {
-                                $res = call_user_func_array(
-                                              explode('::', $precond[0]), 
-                                              array_merge(array(&$req), 
-                                                          array_slice($precond, 1))
-                                                            );
-                            }
-                            if ($res !== true) {
-                                return $res;
-                            }
-                        } 
-                    }
-                    if (!isset($ctl['params'])) {
-                        return $m->$ctl['method']($req, $match);
+            $views = $GLOBALS['_PX_views'];
+            $to_match = $req->query;
+            $n = count($views);
+            $i = 0;
+            while ($i<$n) {
+                $ctl = $views[$i];
+                if (preg_match($ctl['regex'], $to_match, $match)) {
+                    if (!isset($ctl['sub'])) {
+                        return self::send($req, $ctl, $match);
                     } else {
-                        return $m->$ctl['method']($req, $match, $ctl['params']);
+                        // Go in the subtree
+                        $views = $ctl['sub'];
+                        $i = 0;
+                        $n = count($views);
+                        $to_match = substr($to_match, strlen($match[0]));
+                        continue;
                     }
                 }
+                $i++;
             }
         } catch (Pluf_HTTP_Error404 $e) {
             // Need to add a 404 error handler
@@ -174,6 +152,54 @@ class Pluf_Dispatcher
             }
         }
         return new Pluf_HTTP_Response_NotFound($req);
+    }
+
+    /**
+     * Call the view found by self::match.
+     *
+     * The called view can throw an exception. This is fine and
+     * normal.
+     *
+     * @param Pluf_HTTP_Request Current request
+     * @param array The url definition matching the request
+     * @param array The match found by preg_match
+     * @return Pluf_HTTP_Response Response object
+     */
+    public static function send($req, $ctl, $match)
+    {
+        $req->view = array($ctl, $match);
+        $m = new $ctl['model']();
+        if (isset($m->{$ctl['method'].'_precond'})) {
+            // Here we have preconditions to respects. If the "answer"
+            // is true, then ok go ahead, if not then it a response so
+            // return it or an exception so let it go.
+            $preconds = $m->{$ctl['method'].'_precond'};
+            if (!is_array($preconds)) {
+                $preconds = array($preconds);
+            }
+            foreach ($preconds as $precond) {
+                if (!is_array($precond)) {
+                    $res = call_user_func_array(
+                                                explode('::', $precond), 
+                                                array(&$req)
+                                                );
+                } else {
+                    $res = call_user_func_array(
+                                                explode('::', $precond[0]), 
+                                                array_merge(array(&$req), 
+                                                            array_slice($precond, 1))
+                                                );
+                }
+                if ($res !== true) {
+                    return $res;
+                }
+            } 
+        }
+        if (!isset($ctl['params'])) {
+            return $m->$ctl['method']($req, $match);
+        } else {
+            return $m->$ctl['method']($req, $match, $ctl['params']);
+        }
     }
 
     /**
