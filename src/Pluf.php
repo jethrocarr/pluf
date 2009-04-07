@@ -60,13 +60,44 @@ class Pluf
         } else {
             throw new Exception('Configuration file does not exist: '.$config_file);
         }
-        // Load the relations for each installed application.
-        // Each application folder must be in the include path.
+        // Load the relations for each installed application. Each
+        // application folder must be in the include path.
+        self::loadRelations(!Pluf::f('debug', false));
+    }
+
+    /**
+     * Get the model relations and signals.
+     *
+     * If not in debug mode, it will automatically cache the
+     * information. This allows one include file when many
+     * applications and thus many includes are needed.
+     *
+     * Signals and relations are cached in the same file as the way to
+     * go for signals is to put them in the relations.php file.
+     *
+     * @param bool Use the cache (true)
+     */
+    static function loadRelations($usecache=true)
+    {
         $GLOBALS['_PX_models'] = array(); 
         $GLOBALS['_PX_models_init_cache'] = array();
-        foreach (Pluf::f('installed_apps', array()) as $app) {
+        $apps = Pluf::f('installed_apps', array());
+        $cache = Pluf::f('tmp_folder').'/Pluf_relations_cache_'.md5(serialize($apps)).'.phps';
+        if ($usecache and file_exists($cache)) {
+            list($GLOBALS['_PX_models'], $GLOBALS['_PX_signal']) = include $cache;
+            return;
+        }
+        foreach ($apps as $app) {
             $m = require $app.'/relations.php';
             $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
+        }
+        // $GLOBALS['_PX_signal'] is automatically set by the require
+        // statement and possibly in the configuration file.
+        if ($usecache) {
+            $s = var_export(array($GLOBALS['_PX_models'], $GLOBALS['_PX_signal']), true);
+            file_put_contents($cache,
+                              '<?php return '.$s.';'."\n", 
+                              LOCK_EX);
         }
     }
 
