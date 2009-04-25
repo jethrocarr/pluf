@@ -98,6 +98,7 @@ class Pluf
             file_put_contents($cache,
                               '<?php return '.$s.';'."\n", 
                               LOCK_EX);
+            chmod($cache, 0755);
         }
     }
 
@@ -171,9 +172,7 @@ class Pluf
             return;
         }
         $file = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
-        if (false !== ($file=Pluf::fileExists($file))) {
-            include $file;
-        }
+        include $file;
         if (!class_exists($class, false)) {
             throw new Exception('Impossible to load the class: '.$class);
         }
