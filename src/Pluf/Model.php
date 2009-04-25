@@ -278,7 +278,11 @@ class Pluf_Model
      */
     function _getConnection()
     {
+        if ($this->_con !== null) {
+            return $this->_con;
+        }
         $this->_con = &Pluf::db($this);
+        return $this->_con;
     }
 
     /**
@@ -286,7 +290,7 @@ class Pluf_Model
      */
     function getDbConnection()
     {
-        return Pluf::db($this);
+        return $this->_getConnection();
     }
 
     /**
