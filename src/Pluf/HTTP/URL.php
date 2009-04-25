@@ -89,11 +89,8 @@ class Pluf_HTTP_URL
 function Pluf_HTTP_URL_urlForView($view, $params=array(), 
                                   $get_params=array(), $encoded=true)
 {
-    $action = Pluf_HTTP_URL_reverse($view, $params);
-    if (!is_array($get_params)) {
-        throw new Exception('Bad call to urlForView.');
-    }
-    return Pluf_HTTP_URL::generate($action, $get_params, $encoded);
+    return Pluf_HTTP_URL::generate(Pluf_HTTP_URL_reverse($view, $params), 
+                                   $get_params, $encoded);
 }
 
 /**
@@ -172,28 +169,10 @@ function Pluf_HTTP_URL_find($views, $vdef, $regbase)
  */
 function Pluf_HTTP_URL_buildReverseUrl($url_regex, $params=array())
 {
-    $url_regex = str_replace('\\.', '.', $url_regex);
-    $url_regex = str_replace('\\-', '-', $url_regex);
-    $url = $url_regex;
-    $groups = '#\(([^)]+)\)#';
-    $matches = array();
-    preg_match_all($groups, $url_regex, $matches);
-    reset($params);
-    if (count($matches[0]) && count($matches[0]) == count($params)) {
-        // Test the params against the pattern
-        foreach ($matches[0] as $pattern) {
-            $in = current($params);
-            if (0 === preg_match('#'.$pattern.'#', $in)) {
-                throw new Exception('Error, param: '.$in.' is not matching the pattern: '.$pattern);
-            }
-            next($params);
-        }
-        $func = create_function('$matches', 
-                                'static $p = '.var_export($params, true).'; '.
-                                '$a = current($p); '.
-                                'next($p); '.
-                                'return $a;');
-        $url = preg_replace_callback($groups, $func, $url_regex);
+    $url = str_replace(array('\\.', '\\-'), array('.', '-'), $url_regex);
+    if (count($params)) {
+        $groups = array_fill(0, count($params), '#\(([^)]+)\)#'); 
+        $url = preg_replace($groups, $params, $url, 1);
     }
     preg_match('/^#\^?([^#\$]+)/', $url, $matches);
     return $matches[1];
