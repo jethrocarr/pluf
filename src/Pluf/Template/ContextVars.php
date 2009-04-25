@@ -28,10 +28,11 @@ class Pluf_Template_ContextVars extends ArrayObject
 {
     function offsetGet($prop)
     {
-        if (!$this->offsetExists($prop)) {
+        try {
+            return parent::offsetGet($prop);
+        } catch (Exception $e) {
             return '';
         }
-        return parent::offsetGet($prop);
     }
 
     function __get($prop)
