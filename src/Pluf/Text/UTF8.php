@@ -115,6 +115,64 @@ class Pluf_Text_UTF8
         return true;
     }
 
+    /**
+     * Detect if a string is in a Russian charset.
+     *
+     * This should be used when the mb_string detection encoding is
+     * failing. For example:
+     *
+     * <pre>
+     * $encoding = mb_detect_encoding($string, mb_detect_order(), true);
+     * if ($encoding == false) {
+     *     $encoding = Pluf_Text_UTF8::detect_cyr_charset($string);
+     * }
+     * </pre>
+     *
+     * @link http://forum.php.su/topic.php?forum=1&topic=1346
+     *
+     * @param string 
+     * @return string Possible Russian encoding
+     */
+    public static function detect_cyr_charset($str) 
+    {
+        $charsets = array(
+                          'KOI8-R' => 0,
+                          'Windows-1251' => 0,
+                          'CP-866' => 0,
+                          'ISO-8859-5' => 0,
+                          'MacCyrillic' => 0
+                          );
+        $length = strlen($str);
+        for ($i=0; $i<$length; $i++) {
+            $char = ord($str[$i]);
+            //non-russian characters
+            if ($char < 128 || $char > 256) continue;
+
+            //CP866
+            if (($char > 159 && $char < 176) || ($char > 223 && $char < 242))
+                $charsets['CP-866']+=3;
+            if (($char > 127 && $char < 160)) $charsets['CP-866']+=1;
+
+            //KOI8-R
+            if (($char > 191 && $char < 223)) $charsets['KOI8-R']+=3;
+            if (($char > 222 && $char < 256)) $charsets['KOI8-R']+=1;
+
+            //WIN-1251
+            if ($char > 223 && $char < 256) $charsets['Windows-1251']+=3;
+            if ($char > 191 && $char < 224) $charsets['Windows-1251']+=1;
+
+            //MAC
+            if ($char > 221 && $char < 255) $charsets['MacCyrillic']+=3;
+            if ($char > 127 && $char < 160) $charsets['MacCyrillic']+=1;
+
+            //ISO-8859-5
+            if ($char > 207 && $char < 240) $charsets['ISO-8859-5']+=3;
+            if ($char > 175 && $char < 208) $charsets['ISO-8859-5']+=1;
+
+        }
+        arsort($charsets);
+        return key($charsets);
+    }
 
 
     /**
