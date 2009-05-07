@@ -57,9 +57,6 @@ class Pluf_Signal
      */
     public static function connect($signal, $who, $sender=null)
     {
-        if (!isset($GLOBALS['_PX_signal'])) {
-            $GLOBALS['_PX_signal'] = array();
-        }
         if (!isset($GLOBALS['_PX_signal'][$signal])) {
             $GLOBALS['_PX_signal'][$signal] = array();
         }

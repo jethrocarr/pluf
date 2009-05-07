@@ -39,6 +39,7 @@ class Pluf
     {
         $GLOBALS['_PX_starttime'] = microtime(true);
         $GLOBALS['_PX_uniqid'] = uniqid($GLOBALS['_PX_starttime'], true);
+        $GLOBALS['_PX_signal'] = array();
         Pluf::loadConfig($config);
         date_default_timezone_set(Pluf::f('time_zone', 'Europe/Berlin'));
         mb_internal_encoding(Pluf::f('encoding', 'UTF-8'));
