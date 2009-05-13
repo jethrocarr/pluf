@@ -51,6 +51,10 @@ class Pluf_Form_Field
      */
     public $hidden_widget = 'Pluf_Form_Widget_HiddenInput';
     public $value = ''; /**< Current value of the field. */
+    /**
+     * Returning multiple values (select multiple etc.)
+     */
+    public $multiple = false; 
     protected $empty_values = array('', null, array());
 
     /**
@@ -111,10 +115,61 @@ class Pluf_Form_Field
      */
     function clean($value)
     {
-        if ($this->required and in_array($value, $this->empty_values)) {
+        if (!$this->multiple and $this->required 
+            and in_array($value, $this->empty_values)) {
+            throw new Pluf_Form_Invalid(__('This field is required.'));
+        }
+        if ($this->multiple and $this->required and empty($value)) {
             throw new Pluf_Form_Invalid(__('This field is required.'));
         }
         return $value;
+    }
+
+    /**
+     * Set the default empty value for a field.
+     *
+     * @param mixed Value
+     * @return mixed Value
+     */
+    function setDefaultEmpty($value) 
+    {
+        if (in_array($value, $this->empty_values) and !$this->multiple) {
+            $value = '';
+        }
+        if (in_array($value, $this->empty_values) and $this->multiple) {
+            $value = array();
+        }
+        return $value;
+    }
+
+    /**
+     * Multi-clean a value.
+     *
+     * If you are getting multiple values, you need to go through all
+     * of them and validate them against the requirements. This will
+     * do that for you. Basically, it is cloning the field, marking it
+     * as not multiple and validate each value. It will throw an
+     * exception in case of failure.
+     *
+     * If you are implementing your own field which could be filled by
+     * a "multiple" widget, you need to perform a check on
+     * $this->multiple.
+     *
+     * @see Pluf_Form_Field_Integer::clean
+     *
+     * @param array Values
+     * @return array Values
+     */
+    public function multiClean($value)
+    {
+        $field = clone($this);
+        $field->multiple = false;
+        reset($value);
+        while (list($i, $val) = each($value)) {
+            $value[$i] = $field->clean($val);
+        }
+        reset($value);
+        return $value;        
     }
 
     /**

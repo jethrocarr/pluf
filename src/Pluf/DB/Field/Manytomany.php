@@ -25,15 +25,18 @@ class Pluf_DB_Field_Manytomany extends Pluf_DB_Field
 {
     public $type = 'manytomany';
 
-    function formField($def, $form_field='Pluf_Form_Field_Varchar')
+    function formField($def, $form_field='Pluf_Form_Field_Integer')
     {
         $method = 'get_'.$def['name'].'_list';
-        $items = $def['model_instance']->$method();
-        $choices = array();
-        foreach ($items as $item) {
-            $choices[(string) $item] = $item->id;
+        $def['multiple'] = true;
+        $def['initial'] = array();
+        foreach ($def['model_instance']->$method() as $item) {
+            $def['initial'][(string) $item] = $item->id;
         }
-        $def['choices'] = $choices;
+        $def['choices'] = array();
+        foreach (Pluf::factory($def['model'])->getList() as $item) {
+            $def['choices'][(string) $item] = $item->id;
+        }
         if (!isset($def['widget'])) {
             $def['widget'] = 'Pluf_Form_Widget_SelectMultipleInput';
         }

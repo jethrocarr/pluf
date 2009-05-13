@@ -30,22 +30,11 @@ class Pluf_Form_Field_Integer extends Pluf_Form_Field
     public function clean($value)
     {
         parent::clean($value);
-        if (in_array($value, $this->empty_values)) {
-            $value = '';
-        }
-        if (is_array($value)) {
-            reset($value);
-            while (list($i, $val) = each($value)) {
-                if (!preg_match('/[0-9]+/', $val)) {
-                    throw new Pluf_Form_Invalid(__('The value must be an integer.'));
-                }
-                $this->checkMinMax($val);
-                $value[$i] = (int) $val;
-            }
-            reset($value);
-            return $value;
+        $value = $this->setDefaultEmpty($value);
+        if ($this->multiple) {
+            return $this->multiClean($value);
         } else {
-            if (!preg_match('/[0-9]+/', $value)) {
+            if (!preg_match('/^[\+\-]?[0-9]+$/', $value)) {
                 throw new Pluf_Form_Invalid(__('The value must be an integer.'));
             }
             $this->checkMinMax($value);

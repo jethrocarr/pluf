@@ -196,10 +196,22 @@ class Pluf_Model
     /**
      * Get the raw data of the object.
      *
+     * For the many to many relations, the value is an array of ids.
+     *
      * @return array Associative array of the data.
      */
     function getData()
     {
+        foreach ($this->_a['cols'] as $col=>$val) {
+            $field = new $val['type']();
+            if ($field->type == 'manytomany') {
+                $this->_data[$col] = array();
+                $method = 'get_'.strtolower($col).'_list';
+                foreach ($this->$method() as $item) {
+                    $this->_data[$col][] = $item->id;
+                }
+            }
+        }
         return $this->_data;
     }
 

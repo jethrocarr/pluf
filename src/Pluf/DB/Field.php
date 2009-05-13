@@ -97,7 +97,7 @@ class Pluf_DB_Field
             }
         }
         foreach (array_keys($def) as $key) {
-            if (!in_array($key, array('widget', 'label', 'required', 
+            if (!in_array($key, array('widget', 'label', 'required', 'multiple',
                                       'initial', 'choices', 'widget_attrs'))) {
                 unset($def[$key]);
             }

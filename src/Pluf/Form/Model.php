@@ -47,8 +47,11 @@ class Pluf_Form_Model extends Pluf_Form
         }
         foreach ($cols as $name=>$def) {
             $db_field = new $def['type']('', $name);
-            $defaults = array('blank' => true, 'verbose' => $name, 'help_text' => '', 'editable' => true);
-            $def = array_merge($defaults, $def);
+            $def = array_merge(array('blank' => true, 
+                                     'verbose' => $name, 
+                                     'help_text' => '', 
+                                     'editable' => true), 
+                               $def);
             if ($def['editable']) {
                 // The 'model_instance' and 'name' are used by the
                 // ManyToMany field.
