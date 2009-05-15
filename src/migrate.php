@@ -38,7 +38,7 @@ $search_path = null;
 
 $cg = new Console_Getopt();
 $shortoptions = 'aixuc:v:d';
-$longoptions = array('app=', 'version=', 'conf=', 'search-path=');
+$longoptions = array('app=', 'version=', 'conf=', 'search-path=', 'include-path=');
 
 $args = $cg->readPHPArgv(); 
 
@@ -58,15 +58,16 @@ function usage()
         .' Upgrade MyApp:    migrate.php --conf=path/to/config.php --app=MyApp'."\n"
         .''."\n"
         .'Options:'."\n"
-        .' c, --conf:     Path to the configuration file.'."\n"
-        .' a:             Upgrade all the installed applications.'."\n"
-        .' v, --version:  Upgrade/Downgrade to the given version.'."\n"
-        .' --app:         Application to upgrade/downgrade.'."\n"
-        .' u:             Dry run, do nothing.'."\n"
-        .' --search-path: Set the DB search path before the run.'."\n"
-        .' d:             Display debug information.'."\n"
-        .' i:             Install the application(s).'."\n"
-        .' x:             Uninstall the application(s).'."\n"
+        .' c, --conf:      Path to the configuration file.'."\n"
+        .' a:              Upgrade all the installed applications.'."\n"
+        .' v, --version:   Upgrade/Downgrade to the given version.'."\n"
+        .' --app:          Application to upgrade/downgrade.'."\n"
+        .' u:              Dry run, do nothing.'."\n"
+        .' --search-path:  Set the DB search path before the run.'."\n"
+        .' --include-path: Paths to add to the PHP include path.'."\n"        
+        .' d:              Display debug information.'."\n"
+        .' i:              Install the application(s).'."\n"
+        .' x:              Uninstall the application(s).'."\n"
         .''."\n"
         .'Note: The command line parser of PEAR is not very robust'."\n"
         .'      if you have an unexpected error about an offset not'."\n"
@@ -124,6 +125,9 @@ if (sizeof($opts) > 0) {
             break;
         case '--search-path':
             $search_path = trim($o[1]);
+            break;
+        case '--include-path':
+            set_include_path(get_include_path().PATH_SEPARATOR.trim($o[1]));
             break;
         case 'u':
             $what['dry_run'] = true;
