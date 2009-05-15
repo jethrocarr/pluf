@@ -135,6 +135,17 @@ function Pluf_HTTP_URL_reverse($view, $params=array())
 function Pluf_HTTP_URL_find($views, $vdef, $regbase)
 {
     foreach ($views as $dview) {
+        if (isset($dview['sub'])) {
+            $regbase2 = $regbase;
+            if (empty($regbase2[0])) {
+                $regbase2[0] = $dview['base'];
+            }
+            $regbase2[1][] = $dview['regex'];
+            $res = Pluf_HTTP_URL_find($dview['sub'], $vdef, $regbase2);
+            if ($res) {
+                return $res;
+            }
+        }
         if (
             (isset($dview['name']) && $dview['name'] == $vdef[2])
             or
@@ -145,14 +156,6 @@ function Pluf_HTTP_URL_find($views, $vdef, $regbase)
                 $regbase[0] = $dview['base'];
             }
             return $regbase;
-        }
-        if (isset($dview['sub'])) {
-            $regbase2 = $regbase;
-            $regbase2[1][] = $dview['regex'];
-            $res = Pluf_HTTP_URL_find($dview['sub'], $vdef, $regbase2);
-            if ($res) {
-                return $res;
-            }
         }
     }
     return false;

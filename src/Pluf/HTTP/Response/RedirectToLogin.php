@@ -41,7 +41,7 @@ class Pluf_HTTP_Response_RedirectToLogin extends Pluf_HTTP_Response
     function __construct($request, $loginurl=null)
     {
         if ($loginurl !== null) {
-            $murl = new Pluf_HTTP_URL(Pluf::f('url_format'));
+            $murl = new Pluf_HTTP_URL();
             $url = $murl->generate($loginurl, array('_redirect_after' => $request->uri), false);
             $encoded = $murl->generate($loginurl, array('_redirect_after' => $request->uri));
         } else {
