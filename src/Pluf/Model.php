@@ -406,6 +406,36 @@ class Pluf_Model
     }
 
     /**
+     * Get one item.
+     *
+     * The parameters are the same as the ones of the getList method,
+     * but, the return value is either:
+     *
+     * - The object
+     * - null if no match
+     * - Exception if the match results in more than one item.
+     *
+     * Usage:
+     *
+     * <pre>
+     * $m = Pluf::factory('My_Model')->getOne(array('filter' => 'id=1'));
+     * </pre>
+     *
+     * @see self::getList
+     */
+    public function getOne($p=array()) 
+    {
+        $items = $this->getList($p);
+        if ($items->count() == 1) {
+            return $items[0];
+        }
+        if ($items->count() == 0) {
+            return null;
+        }
+        throw new Exception(__('Error: More than one matching item found.'));
+    }
+
+    /**
      * Get a list of items.
      *
      * The filter should be used only for simple filtering. If you want
