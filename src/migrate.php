@@ -166,6 +166,8 @@ if (PHP_SAPI != 'cli' and Pluf::f('migrate_allow_web', false)) {
     exit();
 }
 
+debug('PHP include path: '.get_include_path());
+
 if ($what['un-install']) {
     $apps = array();
     if ($what['all']) {
