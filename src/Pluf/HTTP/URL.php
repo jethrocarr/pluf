@@ -145,6 +145,7 @@ function Pluf_HTTP_URL_find($views, $vdef, $regbase)
             if ($res) {
                 return $res;
             }
+            continue;
         }
         if (
             (isset($dview['name']) && $dview['name'] == $vdef[2])
