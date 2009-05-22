@@ -44,6 +44,31 @@ function Pluf_Shortcuts_GetObjectOr404($object, $id)
 }
 
 /**
+ * Get an object by SQL or raise a 404 error.
+ *
+ * Usage:
+ * <pre>
+ * $obj = Pluf_Shortcuts_GetOneOr404('MyApp_Model',
+ *                                   'path=%s AND status=%s',
+ *                                    array('welcome', 1));
+ * </pre>
+ *
+ * @param string Model
+ * @param string Base SQL request
+ * @param string Parameters for the base SQL
+ * @return Object The found object
+ */
+function Pluf_Shortcuts_GetOneOr404($object, $bsql, $psql)
+{
+    $sql = new Pluf_SQL($bsql, $psql);
+    $item = Pluf::factory($object)->getOne(array('filter' => $sql->gen()));
+    if ($item != null) {
+        return $item;
+    }
+    throw new Pluf_HTTP_Error404();
+}
+
+/**
  * Render a template file and an array as a reponse.
  *
  * If a none null request object is given, the context used will
