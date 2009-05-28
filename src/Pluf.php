@@ -96,10 +96,10 @@ class Pluf
         // statement and possibly in the configuration file.
         if ($usecache) {
             $s = var_export(array($GLOBALS['_PX_models'], $GLOBALS['_PX_signal']), true);
-            file_put_contents($cache,
-                              '<?php return '.$s.';'."\n", 
-                              LOCK_EX);
-            chmod($cache, 0755);
+            if (@file_put_contents($cache, '<?php return '.$s.';'."\n", 
+                                   LOCK_EX)) {
+                chmod($cache, 0755);
+            }
         }
     }
 
