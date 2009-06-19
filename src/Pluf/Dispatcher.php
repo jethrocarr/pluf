@@ -75,6 +75,9 @@ class Pluf_Dispatcher
                 $response = new Pluf_HTTP_Response_ServerError($e);
             }
             $response->render($req->method != 'HEAD' and !defined('IN_UNIT_TESTS'));
+            if (defined('IN_UNIT_TESTS')) {
+                throw $e;
+            }
         }
         /**
          * [signal]
