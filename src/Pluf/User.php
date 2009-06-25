@@ -181,6 +181,29 @@ class Pluf_User extends Pluf_Model
      */
     function preDelete()
     {
+        /**
+         * [signal]
+         *
+         * Pluf_User::preDelete
+         *
+         * [sender]
+         *
+         * Pluf_User
+         *
+         * [description]
+         *
+         * This signal allows an application to perform special
+         * operations at the deletion of a user.
+         *
+         * [parameters]
+         *
+         * array('user' => $user)
+         *
+         */
+        $params = array('user' => $this);
+        Pluf_Signal::send('Pluf_User::preDelete',
+                          'Pluf_User', $params);
+
         if (Pluf::f('pluf_use_rowpermission', false)) {
             $_rpt = Pluf::factory('Pluf_RowPermission')->getSqlTable();
             $sql = new Pluf_SQL('owner_class=%s AND owner_id=%s',
@@ -192,8 +215,9 @@ class Pluf_User extends Pluf_Model
     /**
      * Set the password of a user.
      *
-     * You need to manually save the user to store the password in the 
-     * database. The algorithm supported is md5 at the moment.
+     * You need to manually save the user to store the password in the
+     * database. The supported algorithms are md5, crc32 and sha1,
+     * sha1 being the default.
      *
      * @param string New password
      * @return bool Success
