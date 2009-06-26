@@ -28,6 +28,76 @@
 class Pluf_Text
 {
     /**
+     * Wrap a string containing HTML code.
+     *
+     * The HTML is not broken, words are broken only if very long. 
+     *
+     * Improved from a version available on php.net
+     *
+     * @see http://www.php.net/manual/en/function.wordwrap.php#89782
+     *
+     * @param string The string to wrap
+     * @param int The maximal length of a string (45)
+     * @param string Wrap string ("\n")
+     * @return string Wrapped string
+     */
+    public static function wrapHtml($string, $length=45, $wrapString="\n")
+    {
+        $wrapped = '';
+        $word = '';
+        $html = false;
+        $line_len = 0;
+        $n = mb_strlen($string);
+        for ($i=0; $i<$n; $i++) {
+            $char = mb_substr($string, $i, 1);
+            /** HTML Begins */
+            if ($char === '<') {
+                if(!empty($word)) {
+                    $wrapped .= $word;
+                    $word = '';
+                }
+                $html = true;
+                $wrapped .= $char;
+            } elseif ($char === '>') {
+                /** HTML ends */
+                $html = false;
+                $wrapped .= $char;
+            } elseif ($html) {
+                /** If this is inside HTML -> append to the wrapped string */
+                $wrapped .= $char;
+            } elseif ($char === "\n") {
+                /** Whitespace characted / new line */
+                $wrapped .= $word.$char;
+                $word = '';
+                $line_len = 0;
+            } elseif ($char === ' ' || $char === "\t") {
+                $word .= $char;
+                if(strlen($word) + $line_len <= $length) {
+                    $line_len += strlen($word);
+                    $wrapped .= $word;
+                    $word = '';
+                }
+            
+            } else {
+                /** Check chars */
+                $word .= $char;
+                if (mb_strlen($word) >= $length) {
+                    $wrapped .= $word.$wrapString;
+                    $word = '';
+                    $line_len = 0;
+                } elseif (mb_strlen($word) + $line_len > $length) {
+                    $wrapped .= $wrapString;
+                    $line_len = 0;
+                } 
+            }
+        }
+        if ($word !== '') {
+            $wrapped .= $word;
+        }
+        return $wrapped;
+    }
+
+    /**
      * Given a string, cleaned from the not interesting characters,
      * returns an array with the words as index and the number of
      * times it was in the text as the value.
