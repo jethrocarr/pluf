@@ -57,7 +57,9 @@ class Pluf_Views
             $success_url = $request->REQUEST['_redirect_after'];
         }
         $error = '';
-        if ($request->method == 'POST') {
+        if ($request->method == 'POST' 
+            and isset($request->POST['login'])
+            and isset($request->POST['password'])) {
             $users = new Pluf_User();
             if (false === ($user = $users->checkCreditentials($request->POST['login'], $request->POST['password']))) {
                 $error = __('The login or the password is not valid. The login and the password are case sensitive.');
