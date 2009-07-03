@@ -140,7 +140,6 @@ class Pluf_Text_UTF8
                           'Windows-1251' => 0,
                           'CP-866' => 0,
                           'ISO-8859-5' => 0,
-                          'MacCyrillic' => 0
                           );
         $length = strlen($str);
         for ($i=0; $i<$length; $i++) {
@@ -160,10 +159,6 @@ class Pluf_Text_UTF8
             //WIN-1251
             if ($char > 223 && $char < 256) $charsets['Windows-1251']+=3;
             if ($char > 191 && $char < 224) $charsets['Windows-1251']+=1;
-
-            //MAC
-            if ($char > 221 && $char < 255) $charsets['MacCyrillic']+=3;
-            if ($char > 127 && $char < 160) $charsets['MacCyrillic']+=1;
 
             //ISO-8859-5
             if ($char > 207 && $char < 240) $charsets['ISO-8859-5']+=3;
