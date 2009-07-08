@@ -164,6 +164,13 @@ class Pluf_Paginator
     public $sort_reverse_order = array();
     
     /**
+     *
+     * Do not add the little sort links but directly make the title of
+     * the column a link to sort.
+     */
+    public $sort_link_title = false;
+    
+    /**
      * Edit action.
      *
      */
@@ -567,7 +574,11 @@ class Pluf_Paginator
                     $name = $col;
                     $field = $key;
                 }
-                $out .= '<th><span class="px-header-title">'.Pluf_esc(ucfirst($name)).'</span>'.$this->headerSortLinks($field).'</th>';
+                if (!$this->sort_link_title) {
+                    $out .= '<th><span class="px-header-title">'.Pluf_esc(ucfirst($name)).'</span>'.$this->headerSortLinks($field).'</th>';
+                } else {
+                    $out .= '<th><span class="px-header-title">'.$this->headerSortLinks($field, Pluf_esc(ucfirst($name))).'</span></th>';
+                }
             }
             $out .= '</tr>'."\n";
             return $out;
@@ -578,14 +589,17 @@ class Pluf_Paginator
      * Generate the little text on the header to allow sorting if
      * available.
      *
+     * If the title is set, the link is directly made on the title.
+     *
      * @param string Name of the field
+     * @param string Title ('')
      * @return string HTML fragment with the links to 
      *                sort ASC/DESC on this field.
      */
-    function headerSortLinks($field)
+    function headerSortLinks($field, $title='')
     {
         if (!in_array($field, $this->sort_fields)) {
-            return '';
+            return $title;
         }
         $params = array();
         if (!empty($this->search_fields)) {
@@ -594,11 +608,18 @@ class Pluf_Paginator
         $params['_px_sk'] = $field;
         $out = '<span class="px-sort">'.__('Sort').' %s/%s</span>';
         $params['_px_so'] = 'a';
-        $url = $this->getUrl($params);
-        $asc = '<a href="'.$url.'" >'.__('asc').'</a>';
+        $aurl = $this->getUrl($params);
+        $asc = '<a href="'.$aurl.'" >'.__('asc').'</a>';
         $params['_px_so'] = 'd';
-        $url = $this->getUrl($params);
-        $desc = '<a href="'.$url.'" >'.__('desc').'</a>';
+        $durl = $this->getUrl($params);
+        $desc = '<a href="'.$durl.'" >'.__('desc').'</a>';
+        if (strlen($title)) {
+            if ($this->sort_order[0] == $field 
+                and $this->sort_order[1] == 'ASC') {
+                return '<a href="'.$durl.'" >'.$title.'</a>';
+            }
+            return '<a href="'.$aurl.'" >'.$title.'</a>';
+        }
         return sprintf($out, $asc, $desc);
     }
 
