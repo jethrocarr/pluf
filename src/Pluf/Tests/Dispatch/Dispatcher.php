@@ -45,6 +45,26 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
         return true;
     }
 
+    function hello1()
+    {
+        return 1;
+    }
+
+    function hello2()
+    {
+        return 2;
+    }
+
+    function hello3()
+    {
+        return 3;
+    }
+
+    function hello4()
+    {
+        return 4;
+    }
+
     function testSimple()
     {
         $GLOBALS['_PX_views'] = array(
@@ -78,12 +98,41 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
                                             'model' => 'Pluf_Tests_Dispatch_Dispatcher',
                                             'method' => 'hello'
                                             )
-                                      )
-                       ));
+                                      ),
+                       ),
+                 array(
+                       'regex' => '#^/hello1/#',
+                       'base' => '',
+                       'sub' => array(
+                                      array(
+                                            'regex' => '#^world/$#',
+                                            'base' => '',
+                                            'model' => 'Pluf_Tests_Dispatch_Dispatcher',
+                                            'method' => 'hello1'
+                                            )
+                                      ),
+                       ),
+                 array(
+                       'regex' => '#^/hello2/#',
+                       'base' => '',
+                       'sub' => array(
+                                      array(
+                                            'regex' => '#^world/$#',
+                                            'base' => '',
+                                            'model' => 'Pluf_Tests_Dispatch_Dispatcher',
+                                            'method' => 'hello2'
+                                            )
+                                      ),
+                       ),
+                                      );
         $req1 = (object) array('query' => '/hello/world/'); // match
         $req2 = (object) array('query' => '/hello/world'); // match second pass
         $req3 = (object) array('query' => '/hello/you/'); // no match
+        $h1 = (object) array('query' => '/hello1/world/'); // match
+        $h2 = (object) array('query' => '/hello2/world/'); // match
         $this->assertIdentical(true, Pluf_Dispatcher::match($req1));
+        $this->assertIdentical(1, Pluf_Dispatcher::match($h1));
+        $this->assertIdentical(2, Pluf_Dispatcher::match($h2));
         $this->assertIsA(Pluf_Dispatcher::match($req2), 
                          'Pluf_HTTP_Response_Redirect');
         $this->assertIsA(Pluf_Dispatcher::match($req3), 
@@ -91,6 +140,10 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
         Pluf::loadFunction('Pluf_HTTP_URL_reverse');
         $this->assertEqual('/hello/world/',
                            Pluf_HTTP_URL_reverse('Pluf_Tests_Dispatch_Dispatcher::hello'));
+        $this->assertEqual('/hello1/world/',
+                           Pluf_HTTP_URL_reverse('Pluf_Tests_Dispatch_Dispatcher::hello1'));
+        $this->assertEqual('/hello2/world/',
+                           Pluf_HTTP_URL_reverse('Pluf_Tests_Dispatch_Dispatcher::hello2'));
     }
 
 
