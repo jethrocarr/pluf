@@ -86,19 +86,21 @@ class Pluf_Utils
     {
     	switch (strtolower(substr($size, -1))) {
         case 'k': 
-            $size = substr($size, 0, -1) * 1024;
+            $size = substr($size, 0, -1) * 1000;
     		break;
         case 'm': 
-            $size = substr($size, 0, -1) * 1024*1024;
+            $size = substr($size, 0, -1) * 1000*1000;
     		break;
         case 'g': 
-            $size = substr($size, 0, -1) * 1024*1024*1024;
+            $size = substr($size, 0, -1) * 1000*1000*1000;
     		break;
     	}
-        if ($size > (1024*1024)) {
-            $mysize = sprintf('%01.2f', $size/(1024*1024)).' '. __('MB');
-        } elseif ($size >= 1024) {
-            $mysize = sprintf('%01.2f', $size/1024).' '.__('kB');
+        if ($size > (1000*1000*1000)) {
+            $mysize = sprintf('%01.2f', $size/(1000*1000*1000)).' '. __('GB');
+        } elseif ($size > (1000*1000)) {
+            $mysize = sprintf('%01.2f', $size/(1000*1000)).' '. __('MB');
+        } elseif ($size >= 1000) {
+            $mysize = sprintf('%01.2f', $size/1000).' '.__('kB');
         } else {
             $mysize = sprintf('%d', $size).' '.__('bytes');
         }
