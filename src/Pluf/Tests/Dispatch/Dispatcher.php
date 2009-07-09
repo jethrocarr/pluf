@@ -89,6 +89,12 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
     {
         $GLOBALS['_PX_views'] = array(
                  array(
+                       'regex' => '#^/hello/$#',
+                       'base' => '',
+                       'model' => 'Pluf_Tests_Dispatch_Dispatcher',
+                       'method' => 'hello3'
+                       ),
+                 array(
                        'regex' => '#^/hello/#',
                        'base' => '',
                        'sub' => array(
@@ -97,7 +103,14 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
                                             'base' => '',
                                             'model' => 'Pluf_Tests_Dispatch_Dispatcher',
                                             'method' => 'hello'
-                                            )
+                                            ),
+                                      array(
+                                            'regex' => '#^hello/$#',
+                                            'base' => '',
+                                            'model' => 'Pluf_Tests_Dispatch_Dispatcher',
+                                            'method' => 'hello4'
+                                            ),
+
                                       ),
                        ),
                  array(
@@ -130,9 +143,13 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
         $req3 = (object) array('query' => '/hello/you/'); // no match
         $h1 = (object) array('query' => '/hello1/world/'); // match
         $h2 = (object) array('query' => '/hello2/world/'); // match
+        $h3 = (object) array('query' => '/hello/'); // match
+        $h4 = (object) array('query' => '/hello/hello/'); // match
         $this->assertIdentical(true, Pluf_Dispatcher::match($req1));
         $this->assertIdentical(1, Pluf_Dispatcher::match($h1));
         $this->assertIdentical(2, Pluf_Dispatcher::match($h2));
+        $this->assertIdentical(3, Pluf_Dispatcher::match($h3));
+        $this->assertIdentical(4, Pluf_Dispatcher::match($h4));
         $this->assertIsA(Pluf_Dispatcher::match($req2), 
                          'Pluf_HTTP_Response_Redirect');
         $this->assertIsA(Pluf_Dispatcher::match($req3), 
@@ -144,6 +161,10 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
                            Pluf_HTTP_URL_reverse('Pluf_Tests_Dispatch_Dispatcher::hello1'));
         $this->assertEqual('/hello2/world/',
                            Pluf_HTTP_URL_reverse('Pluf_Tests_Dispatch_Dispatcher::hello2'));
+        $this->assertEqual('/hello/',
+                           Pluf_HTTP_URL_reverse('Pluf_Tests_Dispatch_Dispatcher::hello3'));
+        $this->assertEqual('/hello/hello/',
+                           Pluf_HTTP_URL_reverse('Pluf_Tests_Dispatch_Dispatcher::hello4'));
     }
 
 
