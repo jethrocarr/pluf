@@ -536,5 +536,5 @@ function GeoIP_countryOfRequest($request, $geoipdb)
     $gi = GeoIP_open($geoipdb, GEOIP_STANDARD);
     $code = GeoIP_country_code_by_addr($gi, $request->remote_addr);
     GeoIP_close($gi);
-    return ($code !== false) ? $code : 'ZZ';
+    return ($code != false) ? $code : 'ZZ';
 }
