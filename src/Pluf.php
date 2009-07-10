@@ -175,7 +175,10 @@ class Pluf
         $file = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
         include $file;
         if (!class_exists($class, false)) {
-            throw new Exception('Impossible to load the class: '.$class);
+            $error = 'Impossible to load the class: '.$class."\n".
+                'Tried to include: '.$file."\n".
+                'Include path: '.get_include_path();
+            throw new Exception($error);
         }
     }
 
@@ -330,6 +333,10 @@ function __autoload($class_name)
     try {
         Pluf::loadClass($class_name);
     } catch (Exception $e) {
+        if (Pluf::f('debug')) {
+            print $e->getMessage();
+            die();
+        }
         eval("class $class_name { 
           function __construct() { 
             throw new Exception('Class $class_name not found');
