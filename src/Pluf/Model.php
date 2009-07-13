@@ -420,11 +420,18 @@ class Pluf_Model
      * <pre>
      * $m = Pluf::factory('My_Model')->getOne(array('filter' => 'id=1'));
      * </pre>
+     * <pre>
+     * $m = Pluf::factory('My_Model')->getOne('id=1');
+     * </pre>
      *
+     * @param array|string Filter string or array given to getList
      * @see self::getList
      */
     public function getOne($p=array()) 
     {
+        if (!is_array($p)) {
+            $p = array('filter' => $p);
+        }
         $items = $this->getList($p);
         if ($items->count() == 1) {
             return $items[0];
