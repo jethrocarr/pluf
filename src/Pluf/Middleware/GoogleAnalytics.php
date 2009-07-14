@@ -62,9 +62,9 @@ class Pluf_Middleware_GoogleAnalytics
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));
 </script>
-<script type="text/javascript">
+<script type="text/javascript"> try {
 var pageTracker = _gat._getTracker("'.Pluf::f('google_analytics_id').'");
-pageTracker._trackPageview();
+pageTracker._trackPageview(); } catch(err) {}
 </script>';
         $response->content = str_replace('</body>', $js.'</body>', $response->content);
         return $response;
