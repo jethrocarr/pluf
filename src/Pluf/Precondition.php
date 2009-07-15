@@ -101,4 +101,22 @@ class Pluf_Precondition
         return new Pluf_HTTP_Response_Forbidden($request);
     }
 
+    /**
+     * Requires SSL to access the view.
+     *
+     * It will redirect the user to the same URL but over SSL if the
+     * user is not using SSL, if POST request, the data are lost, so
+     * handle it with care.
+     *
+     * @param Pluf_HTTP_Request
+     * @return mixed
+     */
+    static public function sslRequired($request)
+    {
+        if (empty($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == 'off') {
+            return new Pluf_HTTP_Response_Redirect('https://'.$request->http_host.$request->uri);
+        }
+        return true;
+    }
+
 }
