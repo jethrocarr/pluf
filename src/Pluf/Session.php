@@ -32,9 +32,14 @@ class Pluf_Session extends Pluf_Model
     public $set_test_cookie = false;
     public $test_cookie = null;
 
-    function init()
+    function _init()
     {
         $this->cookie_name = Pluf::f('session_cookie_id', 'sessionid');
+        parent::_init();
+    }
+
+    function init()
+    {
         $this->_a['table'] = 'sessions';
         $this->_a['model'] = 'Pluf_Session';
         $this->_a['cols'] = array(
