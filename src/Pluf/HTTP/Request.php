@@ -41,6 +41,7 @@ class Pluf_HTTP_Request
     public $http_host = '';
     public $SERVER = array();
     public $uid = '';
+    public $time = '';
 
     function __construct($query)
     {
@@ -58,5 +59,6 @@ class Pluf_HTTP_Request
         $this->http_host = (isset($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : '';
         $this->SERVER =& $_SERVER;
         $this->uid = $GLOBALS['_PX_uniqid']; 
+        $this->time = (isset($_SERVER['REQUEST_TIME'])) ? $_SERVER['REQUEST_TIME'] : time();
     }
 }
