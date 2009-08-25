@@ -34,6 +34,7 @@ class Pluf_Form_Field_Integer extends Pluf_Form_Field
         if ($this->multiple) {
             return $this->multiClean($value);
         } else {
+            if ($value == '') return $value;
             if (!preg_match('/^[\+\-]?[0-9]+$/', $value)) {
                 throw new Pluf_Form_Invalid(__('The value must be an integer.'));
             }
