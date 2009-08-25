@@ -35,6 +35,18 @@ Pluf::loadFunction('Pluf_Shortcuts_RenderToResponse');
 class Pluf_Views
 {
     /**
+     * Simple redirection view.
+     *
+     * @param Request Request object
+     * @param array Match
+     * @param string Redirection URL (not a view)
+     */
+    function redirectTo($request, $match, $url)
+    {
+        return new Pluf_HTTP_Response_Redirect($url);
+    }
+
+    /**
      * Log the user in.
      *
      * The login form is provided by the login_form.html template.
