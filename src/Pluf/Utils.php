@@ -102,7 +102,7 @@ class Pluf_Utils
         } elseif ($size >= 1000) {
             $mysize = sprintf('%01.2f', $size/1000).' '.__('kB');
         } else {
-            $mysize = sprintf('%d', $size).' '.__('bytes');
+            $mysize = sprintf(_n('%d byte', '%d bytes', $size), $size);
         }
         return $mysize;
     }
