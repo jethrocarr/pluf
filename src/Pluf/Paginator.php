@@ -614,7 +614,8 @@ class Pluf_Paginator
         $durl = $this->getUrl($params);
         $desc = '<a href="'.$durl.'" >'.__('desc').'</a>';
         if (strlen($title)) {
-            if ($this->sort_order[0] == $field 
+            if (count($this->sort_order) == 2
+                and $this->sort_order[0] == $field 
                 and $this->sort_order[1] == 'ASC') {
                 return '<a href="'.$durl.'" >'.$title.'</a>';
             }
