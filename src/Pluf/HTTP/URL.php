@@ -105,7 +105,7 @@ function Pluf_HTTP_URL_reverse($view, $params=array())
     $model = '';
     $method = '';
     if (false !== strpos($view, '::')) {
-        list($model, $method) = split('::', $view);
+        list($model, $method) = explode('::', $view);
     }
     $vdef = array($model, $method, $view);
     $regbase = array('', array());

@@ -125,7 +125,7 @@ class Pluf_Utils
     static function isValidEmail($email)
     {
         $email = trim($email);
-        $n = split(' ', $email);
+        $n = explode(' ', $email);
         if (count($n) > 1) {
             return false;
         }

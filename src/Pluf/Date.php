@@ -148,8 +148,8 @@ function Pluf_Date_Easy($date, $ref=null, $blocks=2, $notime='now', $show=true)
     }
     $ref = str_replace(array(' ', ':'), '-', $ref);
     $date = str_replace(array(' ', ':'), '-', $date);
-    $refs = split('-', $ref);
-    $dates = split('-', $date);
+    $refs = explode('-', $ref);
+    $dates = explode('-', $date);
     // Modulo on the month is dynamically calculated after
     $modulos = array(365, 12, 31, 24, 60, 60);
     // day in month 
