@@ -106,9 +106,24 @@ class Pluf_Text_HTML_Filter
     public $always_make_tags = 0;
 
     /**
-     * entity control options
+     * Allows decimal entities.
+     *
+     * An entity has to decimal format <code>&#32</code>.
+     * For example, the entity <code>&#64;</code> is the <code>@</code> character.
+     *
+     * @var int
      */
     public $allow_numbered_entities = 1;
+
+    /**
+     * Allows hexadecimal entities.
+     *
+     * An entity has to decimal format <code>&#x20</code>.
+     * For example, the entity <code>&#x40;</code> is the <code>@</code> character.
+     *
+     * @var int
+     */
+    public $allow_hexadecimal_entities = 1;
 
     public $allowed_entities = array(
                                      'amp',
@@ -116,7 +131,6 @@ class Pluf_Text_HTML_Filter
                                      'lt',
                                      'quot',
                                      );
-
 
     function go($data)
     {
@@ -311,27 +325,56 @@ class Pluf_Text_HTML_Filter
 
     function check_entity($preamble, $term)
     {
-        if ($term != ';') {
-            return '&amp;'.$preamble;
-        }
-        if ($this->is_valid_entity($preamble)) {
-            return '&'.$preamble;
+        if (';' === $term) {
+            if ($this->is_valid_entity($preamble)) {
+                return '&'.$preamble;
+            }
         }
         return '&amp;'.$preamble;
     }
 
+    /**
+     * Determines if the string provided is a valid entity.
+     *
+     * @param string $entity String to test against.
+     * @return boolean
+     */
     function is_valid_entity($entity)
     {
-        if (preg_match('!^#([0-9]+)$!i', $entity, $m)) {
-            if ($m[1] > 127) {
-                return 1;
+        if (preg_match('#^\#([0-9]{2,}|x[0-9a-f]{2,})$#i', $entity, $m)) {
+            if (0 === strpos($m[1], 'x')) {
+                // hexadecimal entity
+                if ($this->allow_hexadecimal_entities && $this->not_control_caracter($m[1])) {
+                    return true;
+                }
+                return false;
+            } else {
+                // decimal entity
+                if ($this->allow_numbered_entities && $this->not_control_caracter($m[1])) {
+                    return true;
+                }
+                return false;
             }
-            return $this->allow_numbered_entities;
         }
-        if (in_array($entity, $this->allowed_entities)){
-            return 1;
+        // HTML 4.0 character entity
+        return in_array($entity, $this->allowed_entities);
+    }
+
+    /**
+     * Determines if the data provided is not a control character.
+     *
+     * @param string|int $data Data to test against like "64" or "x40".
+     * @return boolean
+     */
+    function not_control_caracter($data)
+    {
+        if (0 === strpos($data, 'x')) {
+            $data = substr($data, 1);
+            $data = hexdec($data);
+        } else {
+            $data = intval($data);
         }
-        return 0;
+        return (31 < $data && (127 > $data || 159 < $data));
     }
 
     // within attributes, we want to convert all hex/dec/url escape
@@ -360,7 +403,7 @@ class Pluf_Text_HTML_Filter
     {
         if ($d < 0) { $d = 32; } // space
         // don't mess with huigh chars
-        if ($d > 127) {
+        if ($this->not_control_caracter($d)) {
             if ($orig_type == '%') { return '%'.dechex($d); }
             if ($orig_type == '&') { return "&#$d;"; }
         }
