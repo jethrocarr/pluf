@@ -52,44 +52,62 @@ class Pluf_Text
             $char = mb_substr($string, $i, 1);
             /** HTML Begins */
             if ($char === '<') {
-                if(!empty($word)) {
+                if (!empty($word)) {
+                    $line_len += mb_strlen($word);
                     $wrapped .= $word;
                     $word = '';
                 }
                 $html = true;
                 $wrapped .= $char;
-            } elseif ($char === '>') {
+                continue;
+            } 
+            if ($char === '>') {
                 /** HTML ends */
                 $html = false;
                 $wrapped .= $char;
-            } elseif ($html) {
+                continue;
+            } 
+            if ($html) {
                 /** If this is inside HTML -> append to the wrapped string */
                 $wrapped .= $char;
-            } elseif ($char === "\n") {
+                continue;
+            } 
+            if ($char === $wrapString) {
                 /** Whitespace characted / new line */
                 $wrapped .= $word.$char;
                 $word = '';
                 $line_len = 0;
-            } elseif ($char === ' ' || $char === "\t") {
+                continue;
+            } 
+            if (in_array($char, array(' ', "\t"))) {
+                // Word delimiter, check if split before it needed
                 $word .= $char;
-                if(strlen($word) + $line_len <= $length) {
-                    $line_len += strlen($word);
+                if (mb_strlen($word) + $line_len <= $length) {
+                    $line_len += mb_strlen($word);
                     $wrapped .= $word;
                     $word = '';
-                }
-            
-            } else {
-                /** Check chars */
-                $word .= $char;
-                if (mb_strlen($word) >= $length) {
-                    $wrapped .= $word.$wrapString;
+                } else {
+                    // If we add the word, it will be above the limit
+                    $line_len = mb_strlen($word);
+                    $wrapped .= $wrapString.$word;
                     $word = '';
-                    $line_len = 0;
-                } elseif (mb_strlen($word) + $line_len > $length) {
-                    $wrapped .= $wrapString;
-                    $line_len = 0;
-                } 
+                }
+                continue;
             }
+            /** Check chars */
+            
+            $word .= $char;
+            if (mb_strlen($word) + $line_len > $length) {
+                $wrapped .= $wrapString;
+                $line_len = 0;
+                continue;
+            } 
+            if (mb_strlen($word) >= $length) {
+                $wrapped .= $word.$wrapString;
+                $word = '';
+                $line_len = 0;
+                continue;
+            } 
         }
         if ($word !== '') {
             $wrapped .= $word;
