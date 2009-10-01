@@ -392,7 +392,7 @@ function PlufErrorHandler($code, $string, $file, $line)
 
 // Set the error handler only if not performing the unittests.
 if (!defined('IN_UNIT_TESTS')) {
-    set_error_handler('PlufErrorHandler', E_ALL | E_STRICT);
+    set_error_handler('PlufErrorHandler', error_reporting());
 }
 
 
