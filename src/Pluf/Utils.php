@@ -259,4 +259,34 @@ class Pluf_Utils
         $code = proc_close($process);
         return $output;
     }
+
+    /**
+     * URL safe base 64 encoding.
+     *
+     * Compatible with python base64's urlsafe methods.
+     *
+     * @link http://www.php.net/manual/en/function.base64-encode.php#63543
+     */
+    public static function urlsafe_b64encode($string) 
+    {
+        return str_replace(array('+','/','='),
+                           array('-','_',''),
+                           base64_encode($string));
+    }
+
+    /**
+     * URL safe base 64 decoding.
+     */
+    public static function urlsafe_b64decode($string) 
+    {
+        $data = str_replace(array('-','_'),
+                            array('+','/'),
+                            $string);
+        $mod4 = strlen($data) % 4;
+        if ($mod4) {
+            $data .= substr('====', $mod4);
+        }
+        return base64_decode($data);
+    }
+
 }
