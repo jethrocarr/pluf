@@ -36,7 +36,7 @@ Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
  * $model = new Pluf_Permission();
  * $pag = new Pluf_Paginator($model);
  * // Set the action to the page listing the permissions
- * $pag->action = '/permission/'; 
+ * $pag->action = 'view_name'; 
  * // Get the paginator parameters from the request
  * $pag->setFromRequest($request);
  * print $pag->render();
@@ -84,6 +84,15 @@ class Pluf_Paginator
      * you can create new columns in the table.
      */
     protected $list_display = array();
+
+    /**
+     * List filter.
+     *
+     * Allow the generation of filtering options for the list. If you
+     * provide a list of fields having a "choices" option, you will be
+     * able to filter on the choice values.
+     */
+    public $list_filters = array();
     
     /**
      * Extra classes that will be applied to the td of each cell of
@@ -203,6 +212,9 @@ class Pluf_Paginator
      * Available only after the rendering of the paginator.
      */
     public $nb_items = 0;
+
+    protected $active_list_filter = array();
+
     /**
      * Construct the paginator for a model.
      *
@@ -265,6 +277,8 @@ class Pluf_Paginator
      * _px_p : Current page.
      * _px_sk : Sort key.
      * _px_so : Sort order.
+     * _px_fk : Filter key.
+     * _px_fv : Filter value.
      *
      * @param Pluf_HTTP_Request The request
      */
@@ -284,6 +298,20 @@ class Pluf_Paginator
                 and ($request->REQUEST['_px_so'] == 'd')) {
                 $this->sort_order[1] = 'DESC';
             }
+        }
+        if (isset($request->REQUEST['_px_fk']) 
+            and in_array($request->REQUEST['_px_fk'], $this->list_filters)
+            and isset($request->REQUEST['_px_fv'])) {
+            // We add a forced where query
+            $sql = new Pluf_SQL($request->REQUEST['_px_fk'].'=%s',
+                                $request->REQUEST['_px_fv']);
+            if (!is_null($this->forced_where)) {
+                $this->forced_where->SAnd($sql);
+            } else {
+                $this->forced_where = $sql;
+            }
+            $this->active_list_filter = array($request->REQUEST['_px_fk'],
+                                              $request->REQUEST['_px_fv']);
         }
     }
         
@@ -395,6 +423,11 @@ class Pluf_Paginator
         if (!empty($this->sort_order)) {
             $params['_px_sk'] = $this->sort_order[0];
             $params['_px_so'] = ($this->sort_order[1] == 'ASC') ? 'a' : 'd';
+        }
+        // Add the filtering
+        if (!empty($this->active_list_filter)) {
+            $params['_px_fk'] = $this->active_list_filter[0];
+            $params['_px_fv'] = $this->active_list_filter[1];
         }
         $out = '<tfoot><tr><th colspan="'.count($this->list_display).'">'."\n";
         if ($this->current_page != 1) {
@@ -605,6 +638,10 @@ class Pluf_Paginator
         if (!empty($this->search_fields)) {
             $params['_px_q'] = $this->search_string;
         }
+        if (!empty($this->active_list_filter)) {
+            $params['_px_fk'] = $this->active_list_filter[0];
+            $params['_px_fv'] = $this->active_list_filter[1];
+        }
         $params['_px_sk'] = $field;
         $out = '<span class="px-sort">'.__('Sort').' %s/%s</span>';
         $params['_px_so'] = 'a';
@@ -641,7 +678,7 @@ class Pluf_Paginator
             .' value="'.htmlspecialchars($this->search_string).'" />'
             .'<input type="submit" name="submit" value="'.__('Filter').'" />'
             .'</form></th></tr>'."\n";
-
+        
     }
 
     /**
