@@ -339,8 +339,12 @@ class Pluf_Model
      */
     function __set($prop, $val)
     {
-        if (!is_null($val) and isset($this->_cache['fk'][$prop])) $this->_data[$prop] = $val->id;
-        else $this->_data[$prop] = $val;
+        if (!is_null($val) and isset($this->_cache['fk'][$prop])) {
+            $this->_data[$prop] = $val->id;
+            unset($this->_cache['get_'.$prop]);
+        } else {
+            $this->_data[$prop] = $val;
+        }
     }
 
     /**
