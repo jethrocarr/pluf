@@ -52,6 +52,25 @@ class Pluf_Translation
                          'de' => 'plural_2not1',
                                         );
 
+    public static function loadSetLocale($lang)
+    {
+        $GLOBALS['_PX_current_locale'] = $lang;
+        if (isset($GLOBALS['_PX_locale'][$lang])) {
+            return; // We consider that it was already loaded.
+        }
+        $GLOBALS['_PX_locale'][$lang] = array();
+        foreach (Pluf::f('installed_apps') as $app) {
+            if (false != ($pofile=Pluf::fileExists($app.'/locale/'.$lang.'/'.strtolower($app).'.po'))) {
+                $GLOBALS['_PX_locale'][$lang] += Pluf_Translation::readPoFile($pofile);
+            }
+        }
+    }
+
+    public static function getLocale()
+    {
+        return $GLOBALS['_PX_current_locale'];
+    }
+
     /**
      * Get the plural form for a given locale.
      */

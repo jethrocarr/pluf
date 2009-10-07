@@ -58,14 +58,7 @@ class Pluf_Middleware_Translation
             // will default to 'en'
             $lang = Pluf_Translation::getAcceptedLanguage(Pluf::f('languages', array('en')));
         }
-        $GLOBALS['_PX_current_locale'] = $lang;
-        $GLOBALS['_PX_locale'] = array();
-        $GLOBALS['_PX_locale'][$lang] = array();
-        foreach (Pluf::f('installed_apps') as $app) {
-            if (false != ($pofile=Pluf::fileExists($app.'/locale/'.$lang.'/'.strtolower($app).'.po'))) {
-                $GLOBALS['_PX_locale'][$lang] += Pluf_Translation::readPoFile($pofile);
-            }
-        }
+        Pluf_Translation::loadSetLocale($lang);
         $request->language_code = $lang;
         return false;
     }
