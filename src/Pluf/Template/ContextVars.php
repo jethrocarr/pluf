@@ -26,20 +26,11 @@
  */
 class Pluf_Template_ContextVars extends ArrayObject
 {
-    function offsetGet($prop)
-    {
-        try {
-            return parent::offsetGet($prop);
-        } catch (Exception $e) {
-            return '';
-        }
-    }
-
     function __get($prop)
     {
-        return $this->offsetGet($prop);
+        return (isset($this[$prop])) ? $this[$prop] : '';
     }
-
+    
     function __toString()
     {
         return var_export($this, true);
