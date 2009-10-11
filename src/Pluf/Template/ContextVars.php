@@ -30,7 +30,12 @@ class Pluf_Template_ContextVars extends ArrayObject
     {
         return (isset($this[$prop])) ? $this[$prop] : '';
     }
-    
+
+    function __set($prop, $value)
+    {
+        $this[$prop] = $value;
+    }
+
     function __toString()
     {
         return var_export($this, true);

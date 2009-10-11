@@ -622,7 +622,8 @@ class Pluf_Template_Compiler
                 if ($type == T_STRING && $inDot) {
                     $result .= $str;
                 } elseif ($type == T_VARIABLE) {
-                    $result .= '$t->_vars[\''.substr($str, 1).'\']';
+                    //$result .= '$t->_vars[\''.substr($str, 1).'\']';
+                    $result .= '$t->_vars->'.substr($str, 1);
                 } elseif ($type == T_WHITESPACE || in_array($type, $allowed)) {
                     $result .= $str;
                 } else {

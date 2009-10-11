@@ -32,7 +32,7 @@ class Pluf_Template
     public $compiled_template = '';
     public $template_content = '';
     public $context = null;
-
+    public $class = '';
     /**
      * Constructor.
      *
@@ -48,12 +48,12 @@ class Pluf_Template
     function __construct($template, $folders=null, $cache=null)
     {
         $this->tpl = $template;
-        if (is_null($folders)) {
+        if (null == $folders) {
             $this->folders = Pluf::f('template_folders');
         } else {
             $this->folders = $folders;
         }
-        if (is_null($cache)) {
+        if (null == $cache) {
             $this->cache = Pluf::f('tmp_folder');
         } else {
             $this->cache = $cache;
@@ -62,6 +62,18 @@ class Pluf_Template
             if (!isset($GLOBALS['_PX_tests_templates'])) {
                 $GLOBALS['_PX_tests_templates'] = array();
             } 
+        }
+        $this->compiled_template = $this->getCompiledTemplateName();
+        $b = $this->compiled_template[1];
+        $this->class = 'Pluf_Template_'.$b;
+        $this->compiled_template = $this->compiled_template[0];
+        if (!class_exists($this->class, false)) {
+            if (!file_exists($this->compiled_template) or Pluf::f('debug')) {
+                $compiler = new Pluf_Template_Compiler($this->tpl, $this->folders);
+                $this->template_content = $compiler->getCompiledTemplate();
+                $this->write($b);
+            }
+            include $this->compiled_template;
         }
     }
 
@@ -75,20 +87,15 @@ class Pluf_Template
         if (defined('IN_UNIT_TESTS')) {
             $GLOBALS['_PX_tests_templates'][] = $this;
         }
-        $this->compiled_template = $this->getCompiledTemplateName();
-        if (!file_exists($this->compiled_template) or Pluf::f('debug')) {
-            $compiler = new Pluf_Template_Compiler($this->tpl, $this->folders);
-            $this->template_content = $compiler->getCompiledTemplate();
-            $this->write();
-        }
-        if (is_null($c)) {
+        if (null == $c) {
             $c = new Pluf_Template_Context();
         }
         $this->context = $c;
         ob_start();
         $t = $c;
         try {
-            include $this->compiled_template;
+            call_user_func(array($this->class, 'render'), $t);
+            //include $this->compiled_template;
         } catch (Exception $e) {
             ob_clean();
             throw $e;
@@ -112,7 +119,8 @@ class Pluf_Template
         // The compiled template not only depends on the file but also
         // on the possible folders in which it can be found.
         $_tmp = var_export($this->folders, true);
-        return $this->cache.'/Pluf_Template-'.md5($_tmp.$this->tpl).'.phps';
+        return array($this->cache.'/Pluf_Template-'.md5($_tmp.$this->tpl).'.phps',
+                     md5($_tmp.$this->tpl));
     }
 
     /**
@@ -121,8 +129,10 @@ class Pluf_Template
      *
      * @return bool Success in writing
      */
-    function write() 
+    function write($name) 
     {
+        $this->template_content = '<?php class Pluf_Template_'.$name.' {
+public static function render($c) {$t = $c; ?>'.$this->template_content.'<?php } } ';
         // mode "a" to not truncate before getting the lock
         $fp = @fopen($this->compiled_template, 'a'); 
         if ($fp !== false) {
@@ -217,18 +227,14 @@ function Pluf_Template_timeFormat($time, $format='Y-m-d H:i:s')
  */
 function Pluf_Template_safeEcho($mixed, $echo=true)
 {
-    if (!is_object($mixed) or 'Pluf_Template_SafeString' !== get_class($mixed)) {
-        if ($echo) {
-            echo htmlspecialchars((string) $mixed, ENT_COMPAT, 'UTF-8');
-        } else {
-            return htmlspecialchars((string) $mixed, ENT_COMPAT, 'UTF-8');
-        }
+    if ($echo) {
+        echo ('Pluf_Template_SafeString' !== get_class($mixed)) ?
+            htmlspecialchars($mixed, ENT_COMPAT, 'UTF-8') :
+            $mixed->value;
     } else {
-        if ($echo) {
-            echo $mixed->value;
-        } else {
-            return $mixed->value;
-        }
+        return ('Pluf_Template_SafeString' !== get_class($mixed)) ?
+            htmlspecialchars($mixed, ENT_COMPAT, 'UTF-8') :
+            $mixed->value;
     }
 }
 
