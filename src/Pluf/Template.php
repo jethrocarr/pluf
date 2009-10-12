@@ -228,11 +228,11 @@ function Pluf_Template_timeFormat($time, $format='Y-m-d H:i:s')
 function Pluf_Template_safeEcho($mixed, $echo=true)
 {
     if ($echo) {
-        echo ('Pluf_Template_SafeString' !== get_class($mixed)) ?
+        echo (!is_object($mixed) or 'Pluf_Template_SafeString' != get_class($mixed)) ?
             htmlspecialchars($mixed, ENT_COMPAT, 'UTF-8') :
             $mixed->value;
     } else {
-        return ('Pluf_Template_SafeString' !== get_class($mixed)) ?
+        return (!is_object($mixed) or 'Pluf_Template_SafeString' != get_class($mixed)) ?
             htmlspecialchars($mixed, ENT_COMPAT, 'UTF-8') :
             $mixed->value;
     }
