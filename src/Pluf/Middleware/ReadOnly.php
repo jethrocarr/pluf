@@ -100,7 +100,7 @@ class Pluf_Middleware_ReadOnly
             return $response;
         }
         $message = Pluf::f('read_only_mode_message');
-        $response->content = str_replace('<body>', '<body><div style="width: 50%; color: #c00; border: 2px solid #c00; padding: 5px; margin: 1em; background-color: #fffde3">'.$message.'</div>', $response->content);
+        $response->content = str_replace('<body>', '<body><div style="width: 50%; color: #c00; border: 2px solid #c00; padding: 5px; margin: 1em auto 2em; background-color: #fffde3">'.$message.'</div>', $response->content);
         return $response;
     }
 
