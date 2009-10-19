@@ -290,10 +290,16 @@ class Pluf_Model
      */
     function _getConnection()
     {
+        static $con = null;
         if ($this->_con !== null) {
             return $this->_con;
         }
+        if ($con !== null) {
+            $this->_con = $con;
+            return $this->_con;
+        }
         $this->_con = &Pluf::db($this);
+        $con = $this->_con;
         return $this->_con;
     }
 
@@ -323,12 +329,8 @@ class Pluf_Model
      */
     function __get($prop)
     {
-        if (array_key_exists($prop, $this->_data)) return $this->_data[$prop];
-        else try {
-            return $this->__call($prop, array());
-        } catch (Exception $e) {
-            throw new Exception(sprintf('Cannot get property "%s".', $prop));
-        }
+        return (array_key_exists($prop, $this->_data)) ?
+            $this->_data[$prop] : $this->__call($prop, array());
     }
 
     /**
@@ -339,7 +341,7 @@ class Pluf_Model
      */
     function __set($prop, $val)
     {
-        if (!is_null($val) and isset($this->_cache['fk'][$prop])) {
+        if (null !== $val and isset($this->_cache['fk'][$prop])) {
             $this->_data[$prop] = $val->id;
             unset($this->_cache['get_'.$prop]);
         } else {
@@ -737,41 +739,53 @@ class Pluf_Model
 
     /**
      * Create the model into the database.
+     *
+     * If raw insert is requested, the preSave/postSave methods are
+     * not called and the current id of the object is directly
+     * used. This is particularily used when doing backup/restore of
+     * data.
      * 
+     * @param bool Raw insert (false)
      * @return bool Success
      */
-    function create($force_id=false)
+    function create($raw=false)
     {
-        $this->preSave(true);
+        if (!$raw) {
+            $this->preSave(true);
+        }
         $req = 'INSERT INTO '.$this->getSqlTable()."\n";
         $icols = array();
         $ivals = array();
         $assoc = array();
         foreach ($this->_a['cols'] as $col=>$val) {
             $field = new $val['type']();
-            if ($col == 'id' and !$force_id) {
+            if ($col == 'id' and !$raw) {
                 continue;
             } elseif ($field->type == 'manytomany') {
                 // If is a defined array, we need to associate.
-                if (is_array($this->$col)) {
-                    $assoc[$val['model']] = $this->$col;
+                if (is_array($this->_data[$col])) {
+                    $assoc[$val['model']] = $this->_data[$col];
                 }
                 continue;
             }
             $icols[] = $this->_con->qn($col);
-            $ivals[] = $this->_toDb($this->$col, $col);
+            $ivals[] = $this->_toDb($this->_data[$col], $col);
         }
         $req .= '('.implode(', ', $icols).') VALUES ';
         $req .= '('.implode(','."\n", $ivals).')';
         $this->_con->execute($req);
-        if (false === ($id=$this->_con->getLastID())) {
-            throw new Exception($this->_con->getError());
+        if (!$raw) {
+            if (false === ($id=$this->_con->getLastID())) {
+                throw new Exception($this->_con->getError());
+            }
+            $this->_data['id'] = $id;
         }
-        $this->_data['id'] = $id;
         foreach ($assoc as $model=>$ids) {
             $this->batchAssoc($model, $ids);
         }
-        $this->postSave(true);
+        if (!$raw) {
+            $this->postSave(true);
+        }
         return true;
     }
 
@@ -956,7 +970,7 @@ class Pluf_Model
     function _fromDb($val, $col)
     {
         $m = $this->_con->type_cast[$this->_a['cols'][$col]['type']][0];
-        return $m($val);
+        return ($m == 'Pluf_DB_IdentityFromDb') ? $val : $m($val);
     }
 
     /**

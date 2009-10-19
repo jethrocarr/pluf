@@ -63,7 +63,9 @@ class Pluf_DB_Field
     {
         $this->value = $value;
         $this->column = $column;
-        $this->extra = array_merge($this->extra, $extra);
+        if ($extra) {
+            $this->extra = array_merge($this->extra, $extra);
+        }
     }
 
     /**

@@ -40,15 +40,15 @@ class Pluf_Test_Fixture
         if (false === ($ffile=Pluf::fileExists($file))) {
             throw new Exception(sprintf(__('Fixture file not found: %s.'), $file));
         }
-        $json = file_get_contents($ffile);
-        return self::load($json);
+        return self::load(file_get_contents($ffile));
     }
 
 
-    public static function load($json)
+    public static function load($json, $deserialize=true)
     {
         $created = array();
-        $data = json_decode($json, true);
+        $data = ($deserialize) ? json_decode($json, true) : $json;
+        unset($json);
         foreach ($data as $model) {
             if ((int)$model['pk'] > 0) {
                 $item = new $model['model']($model['pk']);
@@ -58,22 +58,34 @@ class Pluf_Test_Fixture
             }
             $m = new $model['model']();
             $m->setFromFormData($model['fields']);
-            $m->create(true); // we force the id
+            $m->create(true); // we load in raw mode
             $created[] = array($model['model'], $model['pk']);
         }
         return $created;
     }
 
-    public static function dump($model)
+    /**
+     * Given a model or model name, dump the content.
+     *
+     * If the object is given, only this single object is dumped else
+     * the complete table.
+     *
+     * @param mixed Model object or model name
+     * @param bool Serialize as JSON (true)
+     * @return mixed Array or JSON string
+     */
+    public static function dump($model, $serialize=true)
     {
         if (is_object($model)) {
-            return json_encode(array(self::prepare($model)));
+            return ($serialize) ?
+                json_encode(array(self::prepare($model))) :
+                array(self::prepare($model));
         }
         $out = array();
-        foreach (Pluf::factory($model)->getList() as $item) {
+        foreach (Pluf::factory($model)->getList(array('order' =>'id ASC')) as $item) {
             $out[] = self::prepare($item);
         }
-        return json_encode($out);
+        return ($serialize) ? json_encode($out) : $out;
     }
 
     /**

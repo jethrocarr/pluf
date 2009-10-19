@@ -147,7 +147,7 @@ function Pluf_DB_IdentityFromDb($val)
  */
 function Pluf_DB_IdentityToDb($val, $db)
 {
-    if (is_null($val)) {
+    if (null === $val) {
         return 'NULL';
     }
     return $db->esc($val);
@@ -163,7 +163,7 @@ function Pluf_DB_SerializedFromDb($val)
 
 function Pluf_DB_SerializedToDb($val, $db)
 {
-    if (is_null($val)) {
+    if (null === $val) {
         return 'NULL';
     }
     return $db->esc(serialize($val));
@@ -176,7 +176,7 @@ function Pluf_DB_CompressedFromDb($val)
 
 function Pluf_DB_CompressedToDb($val, $db)
 {
-    return (is_null($val)) ? 'NULL' : $db->esc(gzdeflate($val, 9));
+    return (null === $val) ? 'NULL' : $db->esc(gzdeflate($val, 9));
 }
 
 function Pluf_DB_BooleanFromDb($val) {
@@ -187,7 +187,7 @@ function Pluf_DB_BooleanFromDb($val) {
 }
 
 function Pluf_DB_BooleanToDb($val, $db) {
-    if (is_null($val)) {
+    if (null === $val) {
         return 'NULL';
     }
     if ($val) {
@@ -197,15 +197,11 @@ function Pluf_DB_BooleanToDb($val, $db) {
 }
 
 function Pluf_DB_IntegerFromDb($val) {
-    if (is_null($val)) return null;
-    return (int) $val;
+    return (null === $val) ? null : (int) $val;
 }
 
 function Pluf_DB_IntegerToDb($val, $db) {
-    if (is_null($val)) {
-        return 'NULL';
-    }
-    return (string)(int)$val;
+    return (null === $val) ? 'NULL' : (string)(int)$val;
 }
 
 function Pluf_DB_PasswordToDb($val, $db) {
