@@ -37,8 +37,9 @@ $debug = false; // Yes a dirty global variable.
 $search_path = null;
 
 $cg = new Console_Getopt();
-$shortoptions = 'aixuc:v:d';
-$longoptions = array('app=', 'version=', 'conf=', 'search-path=', 'include-path=');
+$shortoptions = 'aixubrc:v:d';
+$longoptions = array('app=', 'version=', 'conf=', 'search-path=', 
+                     'include-path=');
 
 $args = $cg->readPHPArgv(); 
 
@@ -56,6 +57,8 @@ function usage()
         .' Upgrade all:      migrate.php --conf=path/to/config.php -a'."\n"
         .' All to version 3: migrate.php --conf=path/to/config.php -a -v3'."\n"
         .' Upgrade MyApp:    migrate.php --conf=path/to/config.php --app=MyApp'."\n"
+        .' Backup MyApp:     migrate.php --conf=path/to/config.php --app=MyApp -b /path/to/backup/folder [backupname]'."\n"
+        .' Restore MyApp:    migrate.php --conf=path/to/config.php --app=MyApp -r /path/to/backup/folder backupname'."\n"
         .''."\n"
         .'Options:'."\n"
         .' c, --conf:      Path to the configuration file.'."\n"
@@ -68,6 +71,8 @@ function usage()
         .' d:              Display debug information.'."\n"
         .' i:              Install the application(s).'."\n"
         .' x:              Uninstall the application(s).'."\n"
+        .' b:              Backup the application(s).'."\n"
+        .' r:              Restore the application(s).'."\n"
         .''."\n"
         .'Note: The command line parser of PEAR is not very robust'."\n"
         .'      if you have an unexpected error about an offset not'."\n"
@@ -100,14 +105,23 @@ $what = array(
               'dry_run' => false,
               'un-install' => false,
               'install' => false,
+              'backup' => false,
+              'restore' => false,
               );
 
 $opts = $ret[0];
+$args = $ret[1];
 if (sizeof($opts) > 0) {
     foreach ($opts as $o) {
         switch ($o[0]) {
         case 'a':
             $what['all'] = true;
+            break;
+        case 'b':
+            $what['backup'] = true;
+            break;
+        case 'r':
+            $what['restore'] = true;
             break;
         case 'v':
         case '--version':
@@ -211,6 +225,13 @@ if ($what['install']) {
 } elseif ($what['un-install']) {
     debug('Uninstall '.$app_disp);
     $m->unInstall();
+} elseif ($what['backup']) {
+    debug('Backup '.$app_disp);
+    if (!isset($args[1])) $args[1] = null;
+    $m->backup($args[0], $args[1]);
+} elseif ($what['restore']) {
+    debug('Restore '.$app_disp);
+    $m->restore($args[0], $args[1]);
 } else {
     debug('Migrate '.$app.' to version '.$what['version']);
     $m->migrate($what['version']);

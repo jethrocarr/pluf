@@ -29,6 +29,7 @@
  *
  * Simple example usage:
  *
+ * <pre>
  * $m = new Pluf_Migration('MyApp');
  * $m->migrate();
  *
@@ -43,6 +44,7 @@
  *
  * $m = new Pluf_Migration();
  * $m->migrate(3); // migrate (upgrade or downgrade) to version 3
+ * </pre>
  *
  */
 class Pluf_Migration
@@ -97,7 +99,48 @@ class Pluf_Migration
         }
     }
 
-
+    /**
+     * Backup the application.
+     *
+     * @param string Path to the backup folder
+     * @param string Backup name (null)
+     */
+    public function backup($path, $name=null)
+    {
+        foreach ($this->apps as $app) {
+            $func = $app.'_Migrations_Backup_run';
+            Pluf::loadFunction($func);
+            if ($this->display) {
+                echo($func."\n");
+            }
+            if (!$this->dry_run) {
+                $ret = $func($path, $name); 
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Restore the application.
+     *
+     * @param string Path to the backup folder
+     * @param string Backup name 
+     */
+    public function restore($path, $name)
+    {
+        foreach ($this->apps as $app) {
+            $func = $app.'_Migrations_Backup_restore';
+            Pluf::loadFunction($func);
+            if ($this->display) {
+                echo($func."\n");
+            }
+            if (!$this->dry_run) {
+                $ret = $func($path, $name); 
+            }
+        }
+        return true;
+    }
+    
     /**
      * Run the migration.
      *
