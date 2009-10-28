@@ -231,7 +231,7 @@ function Pluf_HTTP_Response_ServerErrorDebug_Pretty($e)
                   <td>'.$o($k).'</td>
                   <td>'.$o($name).'</td>
                   <td class="code">
-                    <div>'.Pluf_esc(print_r($v, true)).'</div>
+                    <pre>'.Pluf_esc(print_r($v, true)).'</pre>
                   </td>
                   </tr>'; 
             }
