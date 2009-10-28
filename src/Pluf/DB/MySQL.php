@@ -163,6 +163,36 @@ class Pluf_DB_MySQL
         return '`'.$col.'`';
     }
 
+    /**
+     * Start a transaction.
+     */
+    function begin()
+    {
+        if (Pluf::f('db_mysql_transaction', false)) {
+            $this->execute('BEGIN');
+        }
+    }
+
+    /**
+     * Commit a transaction.
+     */
+    function commit()
+    {
+        if (Pluf::f('db_mysql_transaction', false)) {
+            $this->execute('COMMIT');
+        }
+    }
+
+    /**
+     * Rollback a transaction.
+     */
+    function rollback()
+    {
+        if (Pluf::f('db_mysql_transaction', false)) {
+            $this->execute('ROLLBACK');
+        }
+    }
+
     function __toString()
     {
         return '<Pluf_DB_MySQL('.$this->con_id.')>';
