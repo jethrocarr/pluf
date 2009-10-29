@@ -116,6 +116,8 @@ class Pluf_Mail
         $this->message->_build_params['html_charset'] = $encoding;
         $this->message->_build_params['text_charset'] = $encoding;
         $this->message->_build_params['head_charset'] = $encoding;        
+        $this->message->_build_params['ignore-iconv'] = true;        
+
         
         $this->to_address = $dest;
         $this->headers = array('From' => $src,
