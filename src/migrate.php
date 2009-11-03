@@ -233,7 +233,7 @@ if ($what['install']) {
     debug('Restore '.$app_disp);
     $m->restore($args[0], $args[1]);
 } else {
-    debug('Migrate '.$app.' to version '.$what['version']);
+    debug('Migrate '.$app.' to version '.$v_disp);
     $m->migrate($what['version']);
 }
 
