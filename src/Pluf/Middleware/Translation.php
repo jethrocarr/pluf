@@ -48,8 +48,8 @@ class Pluf_Middleware_Translation
                 $lang = false;
             }
         }
-        if ($lang === false and !empty($request->COOKIES[Pluf::f('lang_cookie', 'pluf_language')])) {
-            $lang = $request->COOKIES[Pluf::f('lang_cookie', 'pluf_language')];
+        if ($lang === false and !empty($request->COOKIE[Pluf::f('lang_cookie', 'pluf_language')])) {
+            $lang = $request->COOKIE[Pluf::f('lang_cookie', 'pluf_language')];
             if ($lang and !in_array($lang, Pluf::f('languages', array('en')))) {
                 $lang = false;
             }
