@@ -41,6 +41,7 @@ class Pluf_User extends Pluf_Model
 
     function init()
     {
+        $langs = Pluf::f('languages', array('en'));
         $this->_a['verbose'] = __('user');
         $this->_a['table'] = 'users';
         $this->_a['model'] = 'Pluf_User';
@@ -125,7 +126,7 @@ class Pluf_User extends Pluf_Model
                             array(
                                   'type' => 'Pluf_DB_Field_Varchar',
                                   'blank' => true,
-                                  'default' => 'en',
+                                  'default' => $langs[0];
                                   'size' => 5,
                                   'verbose' => __('language'),
                                   'help_text' => __('Prefered language of the user for the interface. Use the 2 or 5 letter code like "fr", "en", "fr_QC" or "en_US".')
