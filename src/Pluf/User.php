@@ -126,7 +126,7 @@ class Pluf_User extends Pluf_Model
                             array(
                                   'type' => 'Pluf_DB_Field_Varchar',
                                   'blank' => true,
-                                  'default' => $langs[0];
+                                  'default' => $langs[0],
                                   'size' => 5,
                                   'verbose' => __('language'),
                                   'help_text' => __('Prefered language of the user for the interface. Use the 2 or 5 letter code like "fr", "en", "fr_QC" or "en_US".')
