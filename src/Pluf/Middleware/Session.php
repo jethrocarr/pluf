@@ -99,7 +99,7 @@ class Pluf_Middleware_Session
         } else {
             $request->session = $session;
         }
-        if ($set_lang and $set_lang != $request->session->getData('pluf_language')) {
+        if ($set_lang and false == $request->session->getData('pluf_language', false)) {
             $request->session->setData('pluf_language', $set_lang);
         }
         if (isset($request->COOKIE[$request->session->test_cookie_name])) {
