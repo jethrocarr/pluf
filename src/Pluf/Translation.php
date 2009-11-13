@@ -120,7 +120,8 @@ class Pluf_Translation
                 return $lang;
             }
         }
-        return 'en'; 
+        $langs = Pluf::f('languages', array('en'));
+        return $langs[0]; 
     }
 
     /**
