@@ -196,6 +196,7 @@ class Pluf_Translation
             case '#.' : // extracted-comments
             case '#:' : // reference...
             case '#|' : // msgid previous-untranslated-string
+            case '#~' : // deprecated translations
                 // start a new entry
                 if (sizeof($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp)) {
                     if (!$fuzzy)
