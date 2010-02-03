@@ -33,7 +33,7 @@ class Pluf_Tests_TemplateCompiler_BlockTrans extends UnitTestCase {
         $block = '<li>{blocktrans}This email <em>{$email}</em> is already registered. If you forgot your password, you can recover it easily.{/blocktrans}</li>';
         $compiler = new Pluf_Template_Compiler('dummy', array(), false);
         $compiler->templateContent = $block;
-        $this->assertEqual('<li><?php ob_start(); ?>This email <em>%%email%%</em> is already registered. If you forgot your password, you can recover it easily.<?php $_b_t_s=ob_get_contents(); ob_end_clean(); echo(Pluf_Translation::sprintf(__($_b_t_s), array(\'email\' => Pluf_Template_safeEcho($t->_vars[\'email\'], false)))); ?></li>',
+        $this->assertEqual('<li><?php ob_start(); ?>This email <em>%%email%%</em> is already registered. If you forgot your password, you can recover it easily.<?php $_b_t_s=ob_get_contents(); ob_end_clean(); echo(Pluf_Translation::sprintf(__($_b_t_s), array(\'email\' => Pluf_Template_safeEcho($t->_vars->email, false)))); ?></li>',
                            $compiler->getCompiledTemplate());
     }
 }
