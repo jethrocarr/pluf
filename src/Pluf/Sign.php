@@ -165,29 +165,6 @@ class Pluf_Sign
      */
     public static function base64_hmac($value, $key)
     {
-        return Pluf_Utils::urlsafe_b64encode(self::hmac_sha1($key, $value));
-    }
-
-
-
-    /**
-     * HMAC-SHA1 function.
-     *
-     * @see http://us.php.net/manual/en/function.sha1.php#39492
-     *
-     * @param string Key
-     * @param string Data
-     * @return string Calculated binary HMAC-SHA1
-     */
-    public static function hmac_sha1($key, $data) 
-    {
-        if (strlen($key) > 64) {
-            $key = pack('H*', sha1($key));
-        }
-        $key = str_pad($key, 64, chr(0x00));
-        $ipad = str_repeat(chr(0x36), 64);
-        $opad = str_repeat(chr(0x5c), 64);
-        return pack('H*',sha1(($key^$opad).pack('H*',sha1(($key^$ipad).$data))));
-        return bin2hex($hmac);
+        return Pluf_Utils::urlsafe_b64encode(hash_hmac('sha1', $value, $key, true));
     }
 }
