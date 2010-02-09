@@ -55,6 +55,10 @@ class Pluf_Translation
     public static function loadSetLocale($lang)
     {
         $GLOBALS['_PX_current_locale'] = $lang;
+        setlocale(LC_TIME, array($lang,
+                                 $lang.'_'.strtoupper($lang),
+                                 $lang.'.UTF-8',
+                                 $lang.'_'.strtoupper($lang).'.UTF-8'));
         if (isset($GLOBALS['_PX_locale'][$lang])) {
             return; // We consider that it was already loaded.
         }
