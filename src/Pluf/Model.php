@@ -579,7 +579,7 @@ class Pluf_Model
             }
             // FIXME: The associated properties need to be converted too.
             foreach ($query['props'] as $prop => $key) {
-                if (isset($row[$prop])) $this->_data[$key] = $row[$prop];
+                $this->_data[$key] = (isset($row[$prop])) ? $row[$prop] : null;
             }
             $this->restore();
             $res[] = clone($this);
