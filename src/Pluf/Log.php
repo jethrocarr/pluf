@@ -52,13 +52,24 @@ class Pluf_Log
      * the writers are then called to write the data later.
      */
     public static $stack = array();
+
+    /**
+     * A simple storage to track stats.
+     *
+     * A good example is to store stats and at the end of the request,
+     * push the info back in the log. You can for example store the
+     * total time doing SQL or other things like that.
+     */
+    public static $store = array();
     
     /**
      * Different log levels.
      */
     const ALL = 1;
-    const DEBUG = 5;
-    const INFO = 6;
+    const DEBUG = 3;
+    const INFO = 4;
+    const PERF = 5;
+    const EVENT = 6;
     const WARN = 7;
     const ERROR = 8;
     const FATAL = 9;
@@ -68,8 +79,10 @@ class Pluf_Log
      * Used to reverse the log level to the string.
      */
     public static $reverse = array(1 => 'ALL',
-                                   5 => 'DEBUG',
-                                   6 => 'INFO',
+                                   3 => 'DEBUG',
+                                   4 => 'INFO',
+                                   5 => 'PERF',
+                                   6 => 'EVENT',
                                    7 => 'WARN',
                                    8 => 'ERROR',
                                    9 => 'FATAL');
@@ -77,9 +90,9 @@ class Pluf_Log
     /**
      * Current log level.
      *
-     * By default, set to 6, which is the INFO level.
+     * By default, logging is not enabled.
      */
-    public static $level = 6;
+    public static $level = 10;
 
     /**
      * Current message in the assert log.
@@ -89,7 +102,7 @@ class Pluf_Log
     /**
      * Current level of the message in the assert log.
      */
-    public static $assert_level = 6;
+    public static $assert_level = 10;
 
     /**
      * Log the information in the stack.
@@ -102,7 +115,7 @@ class Pluf_Log
     private static function _log($level, $message)
     {
 
-        if (self::$level >= $level and self::$level != 10) {
+        if (self::$level <= $level and self::$level != 10) {
             self::$stack[] = array(microtime(true), $level, $message);
             if (!Pluf::f('log_delayed', false)) {
                 self::flush();
@@ -152,6 +165,16 @@ class Pluf_Log
         self::_log(self::INFO, $message);
     }
 
+    public static function perf($message)
+    {
+        self::_log(self::PERF, $message);
+    }
+
+    public static function event($message)
+    {
+        self::_log(self::EVENT, $message);
+    }
+
     public static function warn($message)
     {
         self::_log(self::WARN, $message);
@@ -190,6 +213,16 @@ class Pluf_Log
     public static function ainfo($message)
     {
         self::_alog(self::INFO, $message);
+    }
+
+    public static function aperf($message)
+    {
+        self::_alog(self::PERF, $message);
+    }
+
+    public static function aevent($message)
+    {
+        self::_alog(self::EVENT, $message);
     }
 
     public static function awarn($message)
@@ -244,6 +277,71 @@ class Pluf_Log
         assert_options(ASSERT_QUIET_EVAL, 1);
         assert_options(ASSERT_CALLBACK, 'Pluf_Log_assert');
     }
+
+    /**
+     * Increment a key in the store.
+     *
+     * It automatically creates the key as needed.
+     *
+     * @param $key Key to increment
+     * @param $amount Amount to increase (1)
+     */
+    public static function inc($key, $amount=1)
+    {
+        if (!isset(Pluf_Log::$store[$key])) {
+            Pluf_Log::$store[$key] = 0;
+        }
+        Pluf_Log::$store[$key] += $amount;
+    }
+
+   /**
+    * Set a key in the store.
+    *
+    * @param $key Key to set
+    * @param $value Value to set
+    */
+    public static function set($key, $value)
+    {
+        Pluf_Log::$store[$key] = $value;
+    }
+
+   /**
+    * Get a key from the store.
+    *
+    * @param $key Key to set
+    * @param $value Default value (null)
+    */
+    public static function get($key, $value=null)
+    {
+        return (isset(Pluf_Log::$store[$key])) 
+            ? Pluf_Log::$store[$key] : $value;
+    }
+
+   /**
+    * Start the time to track.
+    *
+    * @param $key Tracker
+    */
+    public static function stime($key)
+    {
+        Pluf_Log::$store['time_tracker_'.$key] = microtime(true);
+    }
+
+   /**
+    * End the time to track.
+    *
+    * @param $key Tracker
+    * @param $total Tracker to store the total (null)
+    * @return float Time for this track
+    */
+    public static function etime($key, $total=null)
+    {
+        $t = microtime(true) - Pluf_Log::$store['time_tracker_'.$key];
+        if ($total) {
+            Pluf_Log::inc('time_tracker_'.$total, $t);
+        }
+        return $t;
+    }
 }
 
 /**
@@ -255,7 +353,7 @@ class Pluf_Log
  */
 function Pluf_Log_assert($file, $line, $code)
 {
-    if (Pluf_Log::$level >= Pluf_Log::$assert_level and 
+    if (Pluf_Log::$level <= Pluf_Log::$assert_level and 
         Pluf_Log::$level != 10) {
         Pluf_Log::$stack[] = array(
                                    microtime(true),

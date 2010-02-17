@@ -51,7 +51,7 @@ class Pluf_Log_File
         foreach ($stack as $elt) {
             $out[] = date(DATE_ISO8601, (int) $elt[0]).' '.
                 Pluf_Log::$reverse[$elt[1]].': '.
-                (string) $elt[2];
+                json_encode($elt[2]);
         }
         $fp = fopen($file, 'a');
         flock($fp, LOCK_EX); // Blocking call.
