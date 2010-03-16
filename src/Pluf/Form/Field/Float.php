@@ -33,11 +33,10 @@ class Pluf_Form_Field_Float extends Pluf_Form_Field
         if (in_array($value, $this->empty_values)) {
             $value = '';
         }
-        $_value = $value;
-        $value = (float) $value;
-        if ((string) $value !== (string) $_value) {
+        if (!is_numeric($value)) {
             throw new Pluf_Form_Invalid(__('Enter a number.'));
         }
+        $value = (float) $value;
         if ($this->max_value !== null and $this->max_value < $value) {
             throw new Pluf_Form_Invalid(sprintf(__('Ensure this value is less than or equal to %s.'), $this->max_value));
         }
