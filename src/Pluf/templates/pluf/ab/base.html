@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{*  
+Simple base for the A/B dashboard.
+
+It contains the standard header and footer.
+*}<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>{trans 'A/B Testing Dashboard'}</title>
+<style type="text/css">
+{literal}
+body {
+   background: #fff;
+   font-family: Lucida Grande, Verdana, sans-serif;
+   padding: 1em 2em;
+   margin-left: 100px;
+   width: 600px;
+}
+
+h1, h2 {
+   font-weight: normal;
+}
+
+hr {
+  border: 1px solid #d3d7cf;
+  border-collapse: collapse;
+  height: 1px;
+  margin-top: 2em;
+}
+
+table {
+  margin: 0;
+  padding: 0; 
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+tr {
+  margin: 0;
+  padding: 0;
+}
+
+tr.winner {
+  background-color: #729fcf;
+}
+
+td {
+  border-top: 1px solid #d3d7cf;
+  border-bottom: 1px solid #d3d7cf;
+  padding: 10px;
+  vertical-align: top;
+}
+
+td.details {
+  background: #eeeeef;
+  margin: 0;
+  padding: 5px 10px;
+}
+
+pre {
+  margin: 0;
+  padding: 0;
+}
+
+.note, .details {
+   font-size: 0.8em;
+}
+
+p.note {
+  margin-top: 2em;
+}
+
+{/literal}
+</style>
+</head>
+<body>
+{block body}{/block}
+</body>
+</html>
