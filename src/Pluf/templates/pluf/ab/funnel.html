@@ -1,11 +1,14 @@
 {extends "pluf/ab/base.html"}
 
 {block body}
+<p class="right">&raquo; <a href="{url 'pluf_ab_funnels'}">All funnels</a></p>
+
 <h1>Funnel {$funnel}</h1>
 {assign $i=1}
 {foreach $stats as $step}{if $step}
 {if $i>1}
 <p class="right">{$step['total']} ({$step['conv']})</p>
+<div class="arrow right"></div>
 {/if}
 <h2>Step {$i}: {$step['name']}</h2>
 
@@ -16,7 +19,7 @@
 
 <span class="percent"><span style="width:100%">&nbsp;</span></span>
 {/if}<br />{assign $t = $step['total']}
-{blocktrans $t}{$t} unique visitor.{plural}{$t} uniques visitors.{/blocktrans}
+{blocktrans $t}{$t} unique visitor.{plural}{$t} unique visitors.{/blocktrans}
 </p>
 
 {assign $i += 1}
@@ -27,6 +30,7 @@
 {assign $i = $i-1}
 <p><strong>{$stats[$i]['total']}</strong> out of {$stats['1']['total']} visitors reached step {$i} of this funnel.
 This is a completion rate of <strong>{$stats[$i]['conv1']}</strong>.</p>
+
 
 
 <p class="note">
