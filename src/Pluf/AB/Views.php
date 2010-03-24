@@ -87,6 +87,38 @@ class Pluf_AB_Views
     }
 
     /**
+     * Display the list of funnels.
+     *
+     */
+    public $funnels_precond = array(array('Pluf_Precondition::hasPerm',
+                                           'Pluf_AB.view-funnels'));
+    public function funnels($request, $match)
+    {
+        $url = Pluf_HTTP_URL_urlForView('pluf_ab_funnels');
+        $funnels = Pluf_AB_Funnel::getFunnels();
+        return Pluf_Shortcuts_RenderToResponse('pluf/ab/funnels.html', 
+                                               array('funnels' => $funnels,
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Display a given funnel stats.
+     *
+     */
+    public $funnel_precond = array(array('Pluf_Precondition::hasPerm',
+                                         'Pluf_AB.view-funnels'));
+    public function funnel($request, $match)
+    {
+        $stats = Pluf_AB_Funnel::getStats($match[1]);
+        return Pluf_Shortcuts_RenderToResponse('pluf/ab/funnel.html', 
+                                               array('stats' => $stats,
+                                                     'funnel' => $match[1],
+                                                     ),
+                                               $request);
+    }
+
+    /**
      * A simple view to redirect a user and convert it.
      *
      * To convert the user for the test 'my_test' and redirect it to

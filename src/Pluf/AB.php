@@ -164,6 +164,70 @@ class Pluf_AB
     }
 
     /**
+     * Register a property set for the user.
+     *
+     * This allows you to segment your users with these properties.
+     *
+     * @param $request Pluf_HTTP_Request
+     * @param $props array Properties
+     */
+    public static function register($request, $props) 
+    {
+        $pabuid = (isset($request->pabuid)) ? 
+            $request->pabuid : 
+            self::getUid($request);
+        if ($pabuid == 'bot') {
+            return;
+        }
+        $request->pabuid = $pabuid;
+        $request->pabprops = array_merge($request->pabprops, $props);
+    }
+
+    /**
+     * Track a funnel.
+     *
+     * The array of properties can be used to track different A/B
+     * testing cases.
+     *
+     * The list of properties must be the same at all the steps of the
+     * funnel, you cannot pass array('gender' => 'M') at step 1 and
+     * array('age' => 32) at step 2. You need to pass both of them at
+     * all steps.
+     *
+     * @param $funnel string Name of the funnel
+     * @param $step int Step in the funnel, from 1 to n
+     * @param $stepname string Readable name for the step
+     * @param $request Pluf_HTTP_Request Request object
+     * @param $props array Array of properties associated with the funnel (array())
+     */
+    public static function trackFunnel($funnel, $step, $stepname, $request, $props=array())
+    {
+        $pabuid = (isset($request->pabuid)) ? 
+            $request->pabuid : 
+            self::getUid($request);
+        if ($pabuid == 'bot') {
+            return;
+        }
+        $request->pabuid = $pabuid;
+        $cache = Pluf_Cache::factory();
+        $key = 'pluf_ab_funnel_'.crc32($funnel.'#'.$step.'#'.$pabuid);
+        if ($cache->get($key, false)) {
+            return; // The key is valid 60s not to track 2 steps within 60s
+        }
+        $cache->set($key, '1', 60);
+        $what = array(
+                      'f' => $funnel,
+                      's' => $step,
+                      'sn' => $stepname,
+                      't' => (int) gmdate('Ymd', $request->time),
+                      'u' => $pabuid,
+                      'p' => array_merge($request->pabprops, $props),
+                      );
+        $db = self::getDb();
+        $db->funnellogs->insert($what);
+    }
+
+    /**
      * Process the response of a view.
      *
      * If the request has no cookie and the request has a pabuid, set
@@ -178,6 +242,10 @@ class Pluf_AB
         if (!isset($request->COOKIE['pabuid']) and isset($request->pabuid)
              and $request->pabuid != 'bot') {
             $response->cookies['pabuid'] = $request->pabuid;
+        }
+        if (isset($request->pabprops) and count($request->pabprops) 
+            and $request->pabuid != 'bot') {
+            $response->cookies['pabprops'] = Pluf_Sign::dumps($request->pabprops, null, true);
         }
         return $response;
     }
@@ -195,6 +263,12 @@ class Pluf_AB
         if (isset($request->COOKIE['pabuid']) and
             self::check_uid($request->COOKIE['pabuid'])) {
             $request->pabuid = $request->COOKIE['pabuid'];
+        }
+        if (isset($request->COOKIE['pabprops'])) {
+            try {
+                $request->pabprops = Pluf_Sign::loads($request->COOKIE['pabprops']);
+            } catch (Exception $e) {
+            }
         }
         return false;
     }
