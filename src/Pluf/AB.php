@@ -264,6 +264,7 @@ class Pluf_AB
             self::check_uid($request->COOKIE['pabuid'])) {
             $request->pabuid = $request->COOKIE['pabuid'];
         }
+        $request->pabprops = array();
         if (isset($request->COOKIE['pabprops'])) {
             try {
                 $request->pabprops = Pluf_Sign::loads($request->COOKIE['pabprops']);
