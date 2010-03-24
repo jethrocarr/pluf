@@ -7,21 +7,21 @@
 {assign $i=1}
 {foreach $stats as $step}{if $step}
 {if $i>1}
-<p class="right">{$step['total']} ({$step['conv']})</p>
-<div class="arrow right"></div>
+<p class="right">{$step['total']} ({$step['conv']})<span class="arrow right"></span></p>
+
 {/if}
 <h2>Step {$i}: {$step['name']}</h2>
 
 <p>
 {if $i>1}
-<span class="percent"><span style="width:{$step['conv1']}">&nbsp;</span></span>
+<span class="percent"><span style="width:{$step['conv1']}"></span></span>
+{if $step['conv1'] != '100.00%'}<br />
+<span class="margin"><span style="width:{$step['conv1']}"></span>{$step['conv1']}</span>{/if}
 {else}
-
 <span class="percent"><span style="width:100%">&nbsp;</span></span>
 {/if}<br />{assign $t = $step['total']}
 {blocktrans $t}{$t} unique visitor.{plural}{$t} unique visitors.{/blocktrans}
 </p>
-
 {assign $i += 1}
 {/if}{/foreach}
 
@@ -30,8 +30,6 @@
 {assign $i = $i-1}
 <p><strong>{$stats[$i]['total']}</strong> out of {$stats['1']['total']} visitors reached step {$i} of this funnel.
 This is a completion rate of <strong>{$stats[$i]['conv1']}</strong>.</p>
-
-
 
 <p class="note">
 Note that if a user skip a given step, this can make the results a bit
