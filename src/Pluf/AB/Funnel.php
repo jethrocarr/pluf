@@ -105,14 +105,15 @@ class Pluf_AB_Funnel
             }
         }
         // Now, compile the stats for steps 2 to n
+        $t1 = $steps[1]['total'];
         for ($i=2;$i<=20;$i++) {
             if ($steps[$i] and $steps[$i-1]) {
-                //$steps[$i]['conv'] = sprintf('%d', (float)$steps[$i-1]['total']/$steps[$i]['total']*100.0);
-                $steps[$i]['conv'] = sprintf('%01.2f%%', (float)$steps[$i-1]['total']/$steps[$i]['total']*100.0);
-                $steps[$i]['conv1'] = sprintf('%01.2f%%', (float)$steps[$i-1]['total']/$steps[1]['total']*100.0);
+                $tp = $steps[$i-1]['total'];
+                $tn = $steps[$i]['total'];
+                $steps[$i]['conv'] = sprintf('%01.2f%%', 100.0 - (float)($tp-$tn)/$tp*100.0);
+                $steps[$i]['conv1'] = sprintf('%01.2f%%', 100.0 - (float)($t1-$tn)/$t1*100.0);
             }
         }
-        
         return $steps;
     }
 }
