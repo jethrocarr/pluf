@@ -71,7 +71,7 @@ class Pluf_AB_Funnel
         }
         switch ($period) {
         case 'yesterday':
-            $q = array('t' => array('$eq' => (int) gmdate('Ymd', time()-86400)));
+            $q = array('t' => (int) gmdate('Ymd', time()-86400));
             break;
         case 'today':
             $q = array('t' => (int) gmdate('Ymd'));
@@ -105,6 +105,9 @@ class Pluf_AB_Funnel
             }
         }
         // Now, compile the stats for steps 2 to n
+        if (!isset($steps[1]['total'])) {
+            return array();
+        }
         $t1 = $steps[1]['total'];
         for ($i=2;$i<=20;$i++) {
             if ($steps[$i] and $steps[$i-1]) {

@@ -3,7 +3,18 @@
 {block body}
 <p class="right">&raquo; <a href="{url 'pluf_ab_funnels'}">All funnels</a></p>
 
-<h1>Funnel {$funnel}</h1>
+<h1>Funnel {$funnel} - {$nperiod}</h1>
+
+<p class="right">
+
+<a{if $period == 'today'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'today')}">Today</a> |
+<a{if $period == 'yesterday'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'yesterday')}">Yesterday</a> |
+<a{if $period == '7days'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> '7days')}">Last 7 days</a> |
+<a{if $period == 'all'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'all')}">All time</a>
+
+</p>
+
+
 {assign $i=1}
 {foreach $stats as $step}{if $step}
 {if $i>1}
@@ -24,7 +35,7 @@
 </p>
 {assign $i += 1}
 {/if}{/foreach}
-
+{if count($stats)}
 <hr />
 
 {assign $i = $i-1}
@@ -35,7 +46,9 @@ This is a completion rate of <strong>{$stats[$i]['conv1']}</strong>.</p>
 Note that if a user skip a given step, this can make the results a bit
 off.
 </p>
-
+{else}
+<p>We do not have statistics for this period.</p>
+{/if}
 
 {/block}
 
