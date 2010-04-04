@@ -53,9 +53,6 @@ class Pluf_Log_File
                 Pluf_Log::$reverse[$elt[1]].': '.
                 json_encode($elt[2]);
         }
-        $fp = fopen($file, 'a');
-        flock($fp, LOCK_EX); // Blocking call.
-        fputs($fp, implode(PHP_EOL, $out).PHP_EOL);
-        fclose($fp) ; // release the lock
+        file_put_contents($file, implode(PHP_EOL, $out).PHP_EOL, FILE_APPEND);
     }
 }
