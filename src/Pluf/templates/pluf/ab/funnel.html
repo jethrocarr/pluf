@@ -5,9 +5,9 @@
 
 <h1>Funnel {$funnel} - {$nperiod}</h1>
 
-<table summary=" ">
+<table summary=" " class="funnel">
 <tr>
-<td width="600">
+<td width="550">
 
 <p class="right">
 <a{if $period == 'today'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'today', 'prop'=> $prop)}">Today</a> |
@@ -39,10 +39,14 @@
 </form>
 {/if}
 {elseif isset($step['props'])}{assign $stepprops = $step['sprops']}
+<div class="stepstats">
+
 {foreach $stepprops as $k=>$t}
-<p><strong>{$k}</strong><br/>
-{$t[0]} out of {$t[1]} visitors{if $t[2]}({$t[2]}){/if}</p>
-{/foreach}
+<p><strong>{$k}</strong><br>{assign $nn = $t[1]}
+{$t[0]} out of {blocktrans $nn}{$nn} visitor{plural}{$nn} visitors{/blocktrans}{if $t[2]} ({$t[2]}){/if}
+{/foreach}</p>
+<span class="arrowl"></span>
+</div>
 {/if}
 </td>
 </tr>
@@ -67,6 +71,13 @@
 <p><strong>{$stats[$i]['total']}</strong> out of {$stats['1']['total']} visitors reached step {$i} of this funnel.
 This is a completion rate of <strong>{$stats[$i]['conv1']}</strong>.</p>
 
+<div class="propsstats">{assign $stepprops = $stats[$i]['sprops1']}
+<h2>Visitor Property {$prop} </h2>
+{foreach $stepprops as $k=>$t}
+<p><strong>{$k}</strong>: {assign $nn = $t[1]}
+{$t[0]} out of {blocktrans $nn}{$nn} visitor{plural}{$nn} visitors{/blocktrans}{if $t[2]} ({$t[2]}){/if}
+{/foreach}</p>
+</div>
 <p class="note">
 Note that if a user skip a given step, this can make the results a bit
 off.
@@ -74,9 +85,6 @@ off.
 {else}
 <p>We do not have statistics for this period.</p>
 {/if}
-{*<pre>
-{$stats|dump}
-</pre>*}
 {/block}
 
 {block details} {*
