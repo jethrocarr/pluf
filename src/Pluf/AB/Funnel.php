@@ -160,8 +160,16 @@ class Pluf_AB_Funnel
             if ($steps[$i] and $steps[$i-1]) {
                 $tp = $steps[$i-1]['total'];
                 $tn = $steps[$i]['total'];
-                $steps[$i]['conv'] = sprintf('%01.2f%%', 100.0 - (float)($tp-$tn)/$tp*100.0);
-                $steps[$i]['conv1'] = sprintf('%01.2f%%', 100.0 - (float)($t1-$tn)/$t1*100.0);
+                if ($tp) {
+                    $steps[$i]['conv'] = sprintf('%01.2f%%', 100.0 - (float)($tp-$tn)/$tp*100.0);
+                } else {
+                    $steps[$i]['conv'] = 'N/A';
+                }
+                if ($t1) {
+                    $steps[$i]['conv1'] = sprintf('%01.2f%%', 100.0 - (float)($t1-$tn)/$t1*100.0);
+                } else {
+                    $steps[$i]['conv1'] = 'N/A';
+                }
                 if ($prop) {
                     $steps[$i]['sprops'] = array();
                     $steps[$i]['sprops1'] = array();
