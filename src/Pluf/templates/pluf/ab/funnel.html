@@ -30,8 +30,7 @@
 {if count($props)}
 <h2>Filter by visitor property</h2>
 <form method="get" action="{url 'pluf_ab_funnel', array($funnel)}">
-<select name="prop">{foreach $props as $k=>$v}
-<option value="">All</option>
+<select name="prop"><option value="">All</option>{foreach $props as $k=>$v}
 <option value="{$k}"{if $prop==$k} selected="selected"{/if}>{$k}</option>{/foreach}
 </select>
 <input type="hidden" name="p" value="{$period}" />
