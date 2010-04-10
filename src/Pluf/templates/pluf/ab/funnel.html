@@ -70,18 +70,18 @@
 {assign $i = $i-1}
 <p><strong>{$stats[$i]['total']}</strong> out of {$stats['1']['total']} visitors reached step {$i} of this funnel.
 This is a completion rate of <strong>{$stats[$i]['conv1']}</strong>.</p>
-
+{if count($props) and isset($stats[$i]['sprops1'])}
 <div class="propsstats">{assign $stepprops = $stats[$i]['sprops1']}
 <h2>Visitor Property {$prop} </h2>
 {foreach $stepprops as $k=>$t}
 <p><strong>{$k}</strong>: {assign $nn = $t[1]}
 {$t[0]} out of {blocktrans $nn}{$nn} visitor{plural}{$nn} visitors{/blocktrans}{if $t[2]} ({$t[2]}){/if}
 {/foreach}</p>
-</div>
+</div>{/if}
 <p class="note">
 Note that if a user skip a given step, this can make the results a bit
-off. For the overall property funnel statistics, the first step where a given 
-appears is used as the base value.
+off.{if count($props)} For the overall property funnel statistics, the first step where a given 
+appears is used as the base value.{/if}
 </p>
 {else}
 <p>We do not have statistics for this period.</p>

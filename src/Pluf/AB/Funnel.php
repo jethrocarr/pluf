@@ -148,10 +148,13 @@ class Pluf_AB_Funnel
         }
         $t1 = $steps[1]['total'];
         $tprops = array();
-        foreach ($steps[1]['props'] as $v => $t) {
-            $tprops[$v] = $t; // some properties are set only in the
-                              // middle of the funnel, we get the
-                              // value in the step.
+        if (isset($steps[1]['props'])) {
+            foreach ($steps[1]['props'] as $v => $t) {
+                $tprops[$v] = $t; 
+                // some properties are set only in the
+                // middle of the funnel, we get the
+                // value in the step.
+            }
         }
         for ($i=2;$i<=20;$i++) {
             if ($steps[$i] and $steps[$i-1]) {
