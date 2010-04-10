@@ -80,24 +80,11 @@ This is a completion rate of <strong>{$stats[$i]['conv1']}</strong>.</p>
 </div>
 <p class="note">
 Note that if a user skip a given step, this can make the results a bit
-off.
+off. For the overall property funnel statistics, the first step where a given 
+appears is used as the base value.
 </p>
 {else}
 <p>We do not have statistics for this period.</p>
 {/if}
 {/block}
 
-{block details} {*
-{if count($props)}
-<h2 style="margin-top: 4.5em;">Filter by visitor property</h2>
-<form method="get" action="{url 'pluf_ab_funnel', array($funnel)}">
-<select name="prop">{foreach $props as $k=>$v}
-<option value="">All</option>
-<option value="{$k}"{if $prop==$k} selected="selected"{/if}>{$k}</option>{/foreach}
-</select>
-<input type="hidden" name="p" value="{$period}" />
-<input type="submit" name="s" value="Filter" />
-</form>
-{/if}
-*}
-{/block}
