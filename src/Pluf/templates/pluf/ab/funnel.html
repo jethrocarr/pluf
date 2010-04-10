@@ -38,9 +38,10 @@
 <input type="submit" name="s" value="Filter" />
 </form>
 {/if}
-{elseif isset($step['props'])}{assign $stepprops = $step['props']}
+{elseif isset($step['props'])}{assign $stepprops = $step['sprops']}
 {foreach $stepprops as $k=>$t}
-<p>{$k}: {$t}</p>
+<p><strong>{$k}</strong><br/>
+{$t[0]} out of {$t[1]} visitors{if $t[2]}({$t[2]}){/if}</p>
 {/foreach}
 {/if}
 </td>

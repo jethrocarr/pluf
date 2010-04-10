@@ -131,6 +131,9 @@ class Pluf_AB_Funnel
                 if ($prop and !isset($steps[$step]['props'])) {
                     $steps[$step]['props'] = array();
                 }
+                if ($prop and !isset($log['p'][$prop])) {
+                    continue;
+                }
                 $steps[$step]['total'] = (isset($steps[$step]['total'])) ?
                     $steps[$step]['total'] + 1 : 1;
                 if ($prop) {
@@ -150,6 +153,18 @@ class Pluf_AB_Funnel
                 $tn = $steps[$i]['total'];
                 $steps[$i]['conv'] = sprintf('%01.2f%%', 100.0 - (float)($tp-$tn)/$tp*100.0);
                 $steps[$i]['conv1'] = sprintf('%01.2f%%', 100.0 - (float)($t1-$tn)/$t1*100.0);
+                if ($prop) {
+                    $steps[$i]['sprops'] = array();
+                    foreach ($steps[$i]['props'] as $v => $t) {
+                        $pv = isset($steps[$i-1]['props'][$v]) ? $steps[$i-1]['props'][$v] : 0;
+                        $steps[$i]['sprops'][$v] = array($t, $pv);
+                        if ($pv) {
+                            $steps[$i]['sprops'][$v][] = round(100*(float)$t/(float)$pv,2).'%';
+                        } else {
+                            $steps[$i]['sprops'][$v][] = 0;
+                        }
+                    }
+                }
             }
         }
         return $steps;
