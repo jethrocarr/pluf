@@ -121,13 +121,20 @@ class Pluf_AB_Views
             $period = $request->REQUEST['p'];
             $nperiod = $periods[$request->REQUEST['p']];
         }
-        //'yesterday', ('today'), '7days', 'all'        
-        $stats = Pluf_AB_Funnel::getStats($match[1], $period);
+        $props = Pluf_AB_Funnel::getFunnelProps($match[1], $period);
+        $prop = null;
+        if (isset($request->REQUEST['prop']) and 
+            in_array($request->REQUEST['prop'], array_keys($props))) {
+            $prop = $request->REQUEST['prop'];
+        }
+        $stats = Pluf_AB_Funnel::getStats($match[1], $period, $prop);
         return Pluf_Shortcuts_RenderToResponse('pluf/ab/funnel.html', 
                                                array('stats' => $stats,
                                                      'funnel' => $match[1],
                                                      'nperiod' => $nperiod,
                                                      'period' => $period,
+                                                     'props' => $props,
+                                                     'prop' => $prop,
                                                      ),
                                                $request);
     }

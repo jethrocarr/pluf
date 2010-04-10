@@ -12,13 +12,28 @@ It contains the standard header and footer.
 body {
    background: #fff;
    font-family: Lucida Grande, Verdana, sans-serif;
-   padding: 1em 2em;
-   magrin-left: 100px;
-   width: 600px;
 }
 
 h1, h2 {
    font-weight: normal;
+}
+
+#main {
+   width: 600px;
+   float: left;
+   position: relative;
+   margin: 1em 2em;
+}
+
+body.funnel #main {
+   width: 900px;
+}
+
+#details {
+   width: 300px;
+   float: left;  
+   position: relative;
+   margin: 1em 2em;
 }
 
 hr {
@@ -118,12 +133,20 @@ p.note {
   margin-top: 5px;
 }
 
+.clear{clear:both;display:block;overflow:hidden;visibility:hidden;width:0;height:0}
 
+td {
+  vertical-align: bottom;
+}
 
 {/literal}
 </style>
 </head>
-<body>
-{block body}{/block}
+<body{block bodyclass}{/block}>
+<div>
+<div id="main">{block body}{/block}</div>
+<div id="details">{block details}{/block}</div>
+<div class="clear"></div>
+</div>
 </body>
 </html>

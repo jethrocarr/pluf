@@ -1,30 +1,54 @@
 {extends "pluf/ab/base.html"}
-
+{block bodyclass} class="funnel"{/block}
 {block body}
 <p class="right">&raquo; <a href="{url 'pluf_ab_funnels'}">All funnels</a></p>
 
 <h1>Funnel {$funnel} - {$nperiod}</h1>
 
+<table summary=" ">
+<tr>
+<td width="600">
+
 <p class="right">
-
-<a{if $period == 'today'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'today')}">Today</a> |
-<a{if $period == 'yesterday'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'yesterday')}">Yesterday</a> |
-<a{if $period == '7days'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> '7days')}">Last 7 days</a> |
-<a{if $period == 'all'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'all')}">All time</a>
-
+<a{if $period == 'today'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'today', 'prop'=> $prop)}">Today</a> |
+<a{if $period == 'yesterday'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'yesterday', 'prop'=> $prop)}">Yesterday</a> |
+<a{if $period == '7days'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> '7days', 'prop'=> $prop)}">Last 7 days</a> |
+<a{if $period == 'all'} class="strong"{/if} href="{url 'pluf_ab_funnel', array($funnel), array('p'=> 'all', 'prop'=> $prop)}">All time</a>
 </p>
 
 
 {assign $i=1}
 {foreach $stats as $step}{if $step}
+
 {if $i>1}
 <p class="right">{$step['total']} ({$step['conv']})<span class="arrow right"></span></p>
-
 {/if}
-<h2>Step {$i}: {$step['name']}</h2>
 
+<h2>Step {$i}: {$step['name']}</h2>
+</td>
+<td>{if $i==1}
+{if count($props)}
+<h2>Filter by visitor property</h2>
+<form method="get" action="{url 'pluf_ab_funnel', array($funnel)}">
+<select name="prop">{foreach $props as $k=>$v}
+<option value="">All</option>
+<option value="{$k}"{if $prop==$k} selected="selected"{/if}>{$k}</option>{/foreach}
+</select>
+<input type="hidden" name="p" value="{$period}" />
+<input type="submit" name="s" value="Filter" />
+</form>
+{/if}
+{elseif isset($step['props'])}{assign $stepprops = $step['props']}
+{foreach $stepprops as $k=>$t}
+<p>{$k}: {$t}</p>
+{/foreach}
+{/if}
+</td>
+</tr>
+<tr>
+<td>
 <p>
-{if $i>1}
+{if $i>1 and isset($step['conv1'])}
 <span class="percent"><span style="width:{$step['conv1']}"></span></span>
 {if $step['conv1'] != '100.00%'}<br />
 <span class="margin"><span style="width:{$step['conv1']}"></span>{$step['conv1']}</span>{/if}
@@ -34,8 +58,8 @@
 {blocktrans $t}{$t} unique visitor.{plural}{$t} unique visitors.{/blocktrans}
 </p>
 {assign $i += 1}
-{/if}{/foreach}
-{if count($stats)}
+{/if}{/foreach}</td></tr></table>
+{if count($stats) and isset($stats[$i-1]['conv1'])}
 <hr />
 
 {assign $i = $i-1}
@@ -49,6 +73,22 @@ off.
 {else}
 <p>We do not have statistics for this period.</p>
 {/if}
-
+{*<pre>
+{$stats|dump}
+</pre>*}
 {/block}
 
+{block details} {*
+{if count($props)}
+<h2 style="margin-top: 4.5em;">Filter by visitor property</h2>
+<form method="get" action="{url 'pluf_ab_funnel', array($funnel)}">
+<select name="prop">{foreach $props as $k=>$v}
+<option value="">All</option>
+<option value="{$k}"{if $prop==$k} selected="selected"{/if}>{$k}</option>{/foreach}
+</select>
+<input type="hidden" name="p" value="{$period}" />
+<input type="submit" name="s" value="Filter" />
+</form>
+{/if}
+*}
+{/block}

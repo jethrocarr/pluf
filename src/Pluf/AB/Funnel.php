@@ -56,6 +56,41 @@ class Pluf_AB_Funnel
     }
 
     /**
+     * Get all the properties for a given period.
+     */
+    public static function getFunnelProps($funnel, $period='today')
+    {
+        $db = Pluf_AB::getDb();
+        switch ($period) {
+        case 'yesterday':
+            $q = array('t' => (int) gmdate('Ymd', time()-86400));
+            break;
+        case 'today':
+            $q = array('t' => (int) gmdate('Ymd'));
+            break;
+        case '7days':
+            $q = array('t' => array('$gte' => (int) gmdate('Ymd', time()-604800)));
+            break;
+        case 'all':
+        default:
+            $q = array();
+            break;
+        }
+        $q['f'] = $funnel;
+        $props = array();
+        foreach ($db->funnellogs->find($q) as $log) {
+            foreach ($log['p'] as $prop => $v) {
+                if (isset($props[$prop]) and !in_array($v, $props[$prop])) {
+                    $props[$prop][] = $v;
+                } else {
+                    $props[$prop] = array($v);
+                }
+            }
+        }
+        return $props;
+    }
+
+    /**
      * Get stats for a given funnel.
      *
      * @param $funnel string Funnel
