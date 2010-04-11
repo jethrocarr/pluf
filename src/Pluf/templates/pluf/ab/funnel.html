@@ -18,13 +18,14 @@
 
 
 {assign $i=1}
-{foreach $stats as $step}{if $step}
+{foreach $stats as $n => $step}
+{if $step}
 
-{if $i>1}
+{if $i>1 and isset($step['conv'])}
 <p class="right">{$step['total']} ({$step['conv']})<span class="arrow right"></span></p>
 {/if}
 
-<h2>Step {$i}: {$step['name']}</h2>
+<h2>Step {$step['id']}: {$step['name']}</h2>
 </td>
 <td>{if $i==1}
 {if count($props)}
@@ -37,7 +38,7 @@
 <input type="submit" name="s" value="Filter" />
 </form>
 {/if}
-{elseif isset($step['props'])}{assign $stepprops = $step['sprops']}
+{elseif isset($step['props']) and isset($step['sprops'])}{assign $stepprops = $step['sprops']}
 <div class="stepstats">
 
 {foreach $stepprops as $k=>$t}
@@ -61,16 +62,17 @@
 {/if}<br />{assign $t = $step['total']}
 {blocktrans $t}{$t} unique visitor.{plural}{$t} unique visitors.{/blocktrans}
 </p>
-{assign $i += 1}
-{/if}{/foreach}</td></tr></table>
-{if count($stats) and isset($stats[$i-1]['conv1'])}
+
+{/if}{assign $i += 1}{/foreach}</td></tr></table>
+{if count($stats) and isset($step['conv1'])}
 <hr />
 
-{assign $i = $i-1}
-<p><strong>{$stats[$i]['total']}</strong> out of {$stats['1']['total']} visitors reached step {$i} of this funnel.
-This is a completion rate of <strong>{$stats[$i]['conv1']}</strong>.</p>
-{if count($props) and isset($stats[$i]['sprops1'])}
-<div class="propsstats">{assign $stepprops = $stats[$i]['sprops1']}
+<p><strong>{$step['total']}</strong> out of {*$stats['1']['total']*} visitors reached step {$step['id']} of this funnel.
+This is a completion rate of <strong>{$step['conv1']}</strong>.</p>
+
+{if count($props) and isset($step['sprops1'])}
+
+<div class="propsstats">{assign $stepprops = $step['sprops1']}
 <h2>Visitor Property {$prop} </h2>
 {foreach $stepprops as $k=>$t}
 <p><strong>{$k}</strong>: {assign $nn = $t[1]}

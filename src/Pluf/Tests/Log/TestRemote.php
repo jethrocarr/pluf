@@ -44,6 +44,9 @@ class Pluf_Tests_Log_TestRemote extends UnitTestCase
 
     function testSimple()
     {
+        if (Pluf::f('test_log_testremote', false) == false) {
+            return;
+        }
         $GLOBALS['_PX_config']['log_delayed'] = true;
         Pluf_Log::log('hello');
         $this->assertEqual(count(Pluf_Log::$stack), 1);
@@ -54,6 +57,9 @@ class Pluf_Tests_Log_TestRemote extends UnitTestCase
 
     function testAssertLog()
     {
+        if (Pluf::f('test_log_testremote', false) == false) {
+            return;
+        }
         Pluf_Log::activeAssert();
         $GLOBALS['_PX_config']['log_delayed'] = true;
         assert('Pluf_Log::alog("hello")');

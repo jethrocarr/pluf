@@ -33,6 +33,7 @@ class Pluf_Tests_Log_TestLog extends UnitTestCase
     function setUp()
     {
         $GLOBALS['_PX_config']['log_delayed'] = false;
+        Pluf_Log::$level = Pluf_Log::ALL;
         Pluf_Log::$stack = array();
         $this->logfile = Pluf::f('pluf_log_file', 
                                  Pluf::f('tmp_folder', '/tmp').'/pluf.log');

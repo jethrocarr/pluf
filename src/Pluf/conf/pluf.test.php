@@ -70,7 +70,8 @@ $cfg['db_table_prefix'] = 'pluf_unit_tests_';
 // The reason of the db_version for MySQL is only for that.
 $cfg['db_version'] = '5.0';
 $cfg['db_engine'] = 'SQLite';
-
+$cfg['pluf_ab_mongo_db'] = 'pluf_ab_test';
 $cfg['simple_test_path'] = '/home/loa/Vendors/simpletest';
+$cfg['cache_engine'] = 'Pluf_Cache_Memcached';
 return $cfg;
 

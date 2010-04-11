@@ -128,14 +128,15 @@ class Pluf_AB_Funnel
         // will be very easy to adapt.
         foreach ($db->funnellogs->find($q) as $log) {
             if (!isset($uids[$log['u'].'##'.$log['s']])) {
+                if ($prop and !isset($log['p'][$prop])) {
+                    continue;
+                }
                 $uids[$log['u'].'##'.$log['s']] = true;
                 $step = $log['s'];
                 $steps[$step]['name'] = $log['sn'];
+                $steps[$step]['id'] = $log['s'];
                 if ($prop and !isset($steps[$step]['props'])) {
                     $steps[$step]['props'] = array();
-                }
-                if ($prop and !isset($log['p'][$prop])) {
-                    continue;
                 }
                 $steps[$step]['total'] = (isset($steps[$step]['total'])) ?
                     $steps[$step]['total'] + 1 : 1;
@@ -146,22 +147,35 @@ class Pluf_AB_Funnel
             }
         }
         // Now, compile the stats for steps 2 to n
-        if (!isset($steps[1]['total'])) {
-            return array();
-        }
-        $t1 = $steps[1]['total'];
-        $tprops = array();
-        if (isset($steps[1]['props'])) {
-            foreach ($steps[1]['props'] as $v => $t) {
-                $tprops[$v] = $t; 
-                // some properties are set only in the
-                // middle of the funnel, we get the
-                // value in the step.
+        // First, we find the "max" for the reference number of
+        // visitors along this funnel. This is $t1 and $tprops[prop]
+        $t1 = 0;
+        foreach ($steps as $step) {
+            if (isset($step['total']) and $step['total'] > $t1) {
+                $t1 = $step['total'];
+            }
+            if ($prop and isset($step['props'])) {
+                foreach ($step['props'] as $v => $t) {
+                    if (!isset($tprops[$v])) {
+                        $tprops[$v] = $t;
+                        continue;
+                    }
+                    if ($tprops[$v] < $t) {
+                        $tprops[$v] = $t; 
+                    }
+                }
             }
         }
-        for ($i=2;$i<=20;$i++) {
-            if ($steps[$i] and $steps[$i-1]) {
-                $tp = $steps[$i-1]['total'];
+        if ($t1 == 0) {
+            return array();
+        }
+        $prev_step = null;
+        for ($i=1;$i<=20;$i++) {
+            if ($prev_step == null) {
+                
+            }
+            if ($steps[$i]) {
+                $tp = $prev_step['total'];
                 $tn = $steps[$i]['total'];
                 if ($tp) {
                     $steps[$i]['conv'] = sprintf('%01.2f%%', 100.0 - (float)($tp-$tn)/$tp*100.0);
@@ -180,7 +194,7 @@ class Pluf_AB_Funnel
                         if (!isset($tprops[$v])) {
                             $tprops[$v] = $t;
                         }
-                        $pv = isset($steps[$i-1]['props'][$v]) ? $steps[$i-1]['props'][$v] : 0;
+                        $pv = isset($prev_step['props'][$v]) ? $prev_step['props'][$v] : 0;
                         $steps[$i]['sprops'][$v] = array($t, $pv);
                         $steps[$i]['sprops1'][$v] = array($t, $tprops[$v]);
                         if ($pv) {
@@ -191,7 +205,13 @@ class Pluf_AB_Funnel
                         $steps[$i]['sprops1'][$v][] = round(100*(float)$t/(float)$tprops[$v],2).'%';
                     }
                 }
+                $prev_step = $steps[$i];
             }
+        }
+        for ($i=20;$i>=1;$i--) {
+            if (!$steps[$i]) {
+                unset($steps[$i]); // We remove the inexisting steps
+            } 
         }
         return $steps;
     }
