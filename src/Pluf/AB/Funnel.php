@@ -205,6 +205,7 @@ class Pluf_AB_Funnel
                         $steps[$i]['sprops1'][$v][] = round(100*(float)$t/(float)$tprops[$v],2).'%';
                     }
                 }
+                $steps[$i]['bigtotal'] = $t1;
                 $prev_step = $steps[$i];
             }
         }

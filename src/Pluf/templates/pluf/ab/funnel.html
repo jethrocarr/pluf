@@ -67,7 +67,7 @@
 {if count($stats) and isset($step['conv1'])}
 <hr />
 
-<p><strong>{$step['total']}</strong> out of {*$stats['1']['total']*} visitors reached step {$step['id']} of this funnel.
+<p><strong>{$step['total']}</strong> out of {$step['bigtotal']} visitors reached step {$step['id']} of this funnel.
 This is a completion rate of <strong>{$step['conv1']}</strong>.</p>
 
 {if count($props) and isset($step['sprops1'])}
