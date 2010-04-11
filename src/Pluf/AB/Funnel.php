@@ -120,6 +120,9 @@ class Pluf_AB_Funnel
             break;
         }
         $q['f'] = $funnel;
+        if ($prop) {
+            $q['p.'.$prop] = array('$exists' => true);
+        }
         $uids = array();
         // With very big logs, we will need to find by schunks, this
         // will be very easy to adapt.
