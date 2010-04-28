@@ -43,19 +43,9 @@ class Pluf_HTTP_URL
      */
     public static function generate($action, $params=array(), $encode=true)
     {
-        if ($encode) {
-            $amp = '&amp;';
-        } else {
-            $amp = '&';
-        }
         $url = $action;
-        if (count($params) > 0) {
-            $url .= '?';
-            $params_list = array();
-            foreach ($params as $key=>$value) {
-                $params_list[] = urlencode($key).'='.urlencode($value);
-            }
-            $url .= implode($amp, $params_list);
+        if (count($params)) {
+            $url .= '?' . http_build_query($params, '', ($encode) ? '&amp;' : '&');
         }
         return $url;
     }
