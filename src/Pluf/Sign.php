@@ -145,12 +145,16 @@ class Pluf_Sign
         if ($key === null) {
             $key = Pluf::f('secret_key');
         }
+        $compressed = ($signed_value[0] == '.') ? '.' : '';
+        if ($compressed) {
+            $signed_value = substr($signed_value, 1);
+        }
         if (false === strpos($signed_value, '.')) {
             throw new Exception('Missing signature (no . found in value).');
         }
         list($value, $sig) = explode('.', $signed_value, 2);
-        if (self::base64_hmac($value, $key) == $sig) {
-            return $value;
+        if (self::base64_hmac($compressed.$value, $key) == $sig) {
+            return $compressed.$value;
         } else {
             throw new Exception(sprintf('Signature failed: "%s".', $sig));
         }

@@ -171,7 +171,7 @@ class Pluf_AB
      * @param $request Pluf_HTTP_Request
      * @param $props array Properties
      */
-    public static function register($request, $props) 
+    public static function register(&$request, $props) 
     {
         $pabuid = (isset($request->pabuid)) ? 
             $request->pabuid : 
