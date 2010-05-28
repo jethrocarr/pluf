@@ -47,6 +47,18 @@ class Pluf_Views
     }
 
     /**
+     * Simple content view.
+     *
+     * @param Request Request object
+     * @param array Match
+     * @param string Content of the page
+     */
+    function simpleContent($request, $match, $content)
+    {
+        return new Pluf_HTTP_Response($content);
+    }
+
+    /**
      * Log the user in.
      *
      * The login form is provided by the login_form.html template.
