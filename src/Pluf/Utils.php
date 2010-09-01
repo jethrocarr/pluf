@@ -289,4 +289,20 @@ class Pluf_Utils
         return base64_decode($data);
     }
 
+    /**
+     * Flatten an array.
+     *
+     * @param  array $array The array to flatten.
+     * @return array
+     */
+    public static function flattenArray($array)
+    {
+        $result = array();
+        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($array)) as $value) {
+            $result[] = $value;
+         }
+
+         return $result;
+     }
+
 }

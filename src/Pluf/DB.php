@@ -116,6 +116,8 @@ function Pluf_DB_defaultTypecast()
                      array('Pluf_DB_IdentityFromDb', 'Pluf_DB_PasswordToDb'),
                  'Pluf_DB_Field_Sequence' => 
                      array('Pluf_DB_IntegerFromDb', 'Pluf_DB_IntegerToDb'),
+                 'Pluf_DB_Field_Slug' => 
+                     array('Pluf_DB_IdentityFromDb', 'Pluf_DB_SlugToDb'),
                  'Pluf_DB_Field_Text' => 
                      array('Pluf_DB_IdentityFromDb', 'Pluf_DB_IdentityToDb'),
                  'Pluf_DB_Field_Varchar' => 
@@ -214,3 +216,6 @@ function Pluf_DB_PasswordToDb($val, $db) {
     return $db->esc('sha1:'.$salt.':'.sha1($salt.$val));
 }
 
+function Pluf_DB_SlugToDB($val, $db) {
+    return $db->esc(Pluf_DB_Field_Slug::slugify($val));
+}

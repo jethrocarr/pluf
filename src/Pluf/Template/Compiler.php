@@ -48,7 +48,7 @@ class Pluf_Template_Compiler
     protected $_vartype = array(T_CHARACTER, T_CONSTANT_ENCAPSED_STRING, 
                                 T_DNUMBER, T_ENCAPSED_AND_WHITESPACE, 
                                 T_LNUMBER, T_OBJECT_OPERATOR, T_STRING, 
-                                T_WHITESPACE, T_ARRAY, T_CLASS, T_PRIVATE);
+                                T_WHITESPACE, T_ARRAY, T_CLASS, T_PRIVATE, T_LIST);
 
     /** 
      * Assignation operators. 
@@ -435,7 +435,7 @@ class Pluf_Template_Compiler
             $res = 'elseif('.$this->_parseFinal($args, $this->_allowedInExpr).'):';
             break;
         case 'foreach':
-            $res = 'foreach ('.$this->_parseFinal($args, array_merge(array(T_AS, T_DOUBLE_ARROW, T_STRING, T_OBJECT_OPERATOR, $this->_allowedAssign, '[', ']')), array(';','!')).'): ';
+            $res = 'foreach ('.$this->_parseFinal($args, array_merge(array(T_AS, T_DOUBLE_ARROW, T_STRING, T_OBJECT_OPERATOR, T_LIST, $this->_allowedAssign, '[', ']')), array(';','!')).'): ';
             array_push($this->_blockStack, 'foreach');
             break;
         case 'while':
