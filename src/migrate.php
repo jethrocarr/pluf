@@ -54,11 +54,11 @@ function debug($what)
 function usage()
 {
     echo 'Usage examples:'."\n"
-        .' Upgrade all:      migrate.php --conf=path/to/config.php -a'."\n"
-        .' All to version 3: migrate.php --conf=path/to/config.php -a -v3'."\n"
-        .' Upgrade MyApp:    migrate.php --conf=path/to/config.php --app=MyApp'."\n"
-        .' Backup MyApp:     migrate.php --conf=path/to/config.php --app=MyApp -b /path/to/backup/folder [backupname]'."\n"
-        .' Restore MyApp:    migrate.php --conf=path/to/config.php --app=MyApp -r /path/to/backup/folder backupname'."\n"
+        .' Upgrade all:     migrate.php --conf=path/to/config.php -a'."\n"
+        .' Upgrade MyApp:   migrate.php --conf=path/to/config.php --app=MyApp'."\n"
+        .' Backup MyApp:    migrate.php --conf=path/to/config.php --app=MyApp -b /path/to/backup/folder [backupname]'."\n"
+        .' Restore MyApp:   migrate.php --conf=path/to/config.php --app=MyApp -r /path/to/backup/folder backupname'."\n"
+        .' MyApp to ver. 3: migrate.php --conf=path/to/config.php --app=MyApp -v3'."\n"
         .''."\n"
         .'Options:'."\n"
         .' c, --conf:      Path to the configuration file.'."\n"
