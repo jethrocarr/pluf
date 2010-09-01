@@ -216,6 +216,34 @@ class Pluf_Paginator
     protected $active_list_filter = array();
 
     /**
+     * Maximum number of pages to be displayed
+     *
+     * Instead of showing by default unlimited number of pages,
+     * limit to this value.
+     * 0 is unlimited (default).
+     *
+     * Ex: max_number_pages = 3 will produce
+     * Prev 1 ... 498 499 500 ... 1678 Next
+     */
+    public $max_number_pages = 0;
+    public $max_number_pages_separator = '...';
+
+    public $custom_max_items = false;
+
+    /**
+     * First, Previous, Next and Last page display
+     * Default First = 1, Last = last page num
+     * Prev and Next are initialized to null. In the footer() we will
+     * set Prev = __('Prev') and Next = __('Next') if not set
+     * Last has to be set during render if not set so that we know
+     * the number of pages
+     */
+    public $symbol_first = '1';
+    public $symbol_last = null;
+    public $symbol_prev = null;
+    public $symbol_next = null;
+
+    /**
      * Construct the paginator for a model.
      *
      * @param object Model to paginate (null).
@@ -433,18 +461,49 @@ class Pluf_Paginator
         if ($this->current_page != 1) {
             $params['_px_p'] = $this->current_page - 1;
             $url = $this->getUrl($params);
-            $out .= '<a href="'.$url.'">'.__('Prev').'</a> ';
+            $this->symbol_prev = ($this->symbol_prev ==null) ?__('Prev') : $this->symbol_prev;
+            $out .= '<a href="'.$url.'">'.$this->symbol_prev.'</a> ';
         }
-        for ($i=1; $i<=$this->page_number; $i++) {
+        // Always display the link to Page#1
+        $i=1;
+        $params['_px_p'] = $i;
+        $class = ($i == $this->current_page) ? ' class="px-current-page"' : '';
+        $url = $this->getUrl($params);
+        $out .= '<a'.$class.' href="'.$url.'">'.$this->symbol_first.'</a> ';
+        // Display the number of pages given $this->max_number_pages
+        if ($this->max_number_pages > 0) {
+            $nb_pa = floor($this->max_number_pages/2);
+            $imin = $this->current_page - $nb_pa;
+            $imax = $this->current_page + $nb_pa;
+            // We put the separator if $imin is at leat greater than 1+$nb_pa
+            if($imin>2) $out .= ' '.$this->max_number_pages_separator.' ';
+            if($imin<=1) $imin=2;
+            if($imax>=$this->page_number) $imax = $this->page_number - 1;
+        } else {
+            $imin = 2;
+            $imax = $this->page_number - 1;
+        }
+        for ($i=$imin; $i<=$imax; $i++) {
             $params['_px_p'] = $i;
             $class = ($i == $this->current_page) ? ' class="px-current-page"' : '';
             $url = $this->getUrl($params);
             $out .= '<a'.$class.' href="'.$url.'">'.$i.'</a> ';
         }
+        if (($this->max_number_pages > 0) && $imax < ($this->page_number - 1)) {
+            $out .= ' '.$this->max_number_pages_separator.' ';
+        }
+        // Always display the link to last Page
+        $i = $this->page_number;
+        $params['_px_p'] = $i;
+        $class = ($i == $this->current_page) ? ' class="px-current-page"' : '';
+        $url = $this->getUrl($params);
+        if ($this->symbol_last == null) $this->symbol_last=$i;
+        $out .= '<a'.$class.' href="'.$url.'">'.$this->symbol_last.'</a> ';
         if ($this->current_page != $this->page_number) {
             $params['_px_p'] = $this->current_page + 1;
             $url = $this->getUrl($params);
-            $out .= '<a href="'.$url.'">'.__('Next').'</a> ';
+            $this->symbol_next = ($this->symbol_next == null) ? __('Next') : $this->symbol_next;
+            $out .= '<a href="'.$url.'">'.$this->symbol_next.'</a> ';
         }
         $out .= '</th></tr></tfoot>'."\n";
         return $out;
