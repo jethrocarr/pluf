@@ -28,6 +28,9 @@
  * of double.
  *
  * Downloaded 2007-11-26.
+ *
+ * @deprecated This file is deprecated, you should directly use the
+ *             PECL extension.
  */
 define('GEOIP_COUNTRY_BEGIN', 16776960);
 define('GEOIP_STATE_BEGIN_REV0', 16700000);
@@ -37,6 +40,7 @@ define('GEOIP_MEMORY_CACHE', 1);
 define('GEOIP_SHARED_MEMORY', 2);
 define('STRUCTURE_INFO_MAX_SIZE', 20);
 define('DATABASE_INFO_MAX_SIZE', 100);
+
 define('GEOIP_COUNTRY_EDITION', 106);
 define('GEOIP_PROXY_EDITION', 8);
 define('GEOIP_ASNUM_EDITION', 9);
