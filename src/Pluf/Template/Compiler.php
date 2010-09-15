@@ -89,6 +89,7 @@ class Pluf_Template_Compiler
                                  'lower' => 'strtolower',
                                  'count' => 'count',
                                  'md5' => 'md5',
+                                 'sha1' => 'sha1',
                                  'escxml' => 'htmlspecialchars', 
                                  'escape' => 'Pluf_Template_htmlspecialchars',
                                  'strip_tags' => 'strip_tags', 
@@ -98,9 +99,10 @@ class Pluf_Template_Compiler
                                  'debug' => 'print_r', 
                                  'dump' => 'Pluf_Template_varExport', 
                                  'fulldebug' => 'var_export',
-                                 'count' => 'count',
                                  'nl2br' => 'Pluf_Template_nl2br',
                                  'trim' => 'trim',
+                                 'ltrim' => 'ltrim',
+                                 'rtrim' => 'rtrim',
                                  'unsafe' => 'Pluf_Template_unsafe',
                                  'safe' => 'Pluf_Template_unsafe',
                                  'date' => 'Pluf_Template_dateFormat',
@@ -108,6 +110,8 @@ class Pluf_Template_Compiler
                                  'dateago' => 'Pluf_Template_dateAgo',
                                  'timeago' => 'Pluf_Template_timeAgo',
                                  'email' => 'Pluf_Template_safeEmail',
+                                 'first' => 'Pluf_Template_first',
+                                 'last' => 'Pluf_Template_last',
                                  );
 
     /**
@@ -673,4 +677,3 @@ class Pluf_Template_Compiler
         }
     }
 }
-
