@@ -120,6 +120,9 @@ foreach ($dirs as $dir) {
 }
 $test = &new GroupTest(sprintf('All tests for application %s.', $app));
 foreach ($files as $t) {
+    if (!function_exists('apc_store') && 'Pluf_Tests_Cache_Apc' === $t[1]) {
+        continue;
+    }
     $test->addTestCase(new $t[1]());
 }
 $reporter = new TextReporter(); 
