@@ -81,11 +81,15 @@ class Pluf_Views
             $success_url = $request->REQUEST['_redirect_after'];
         }
         $error = '';
-        if ($request->method == 'POST' 
-            and isset($request->POST['login'])
-            and isset($request->POST['password'])) {
-            $users = new Pluf_User();
-            if (false === ($user = $users->checkCreditentials($request->POST['login'], $request->POST['password']))) {
+        if ($request->method == 'POST') { 
+            foreach (Pluf::f('auth_backends', array('Pluf_Auth_ModelBackend'))
+                     as $backend) {
+                $user = $backend::authenticate($request->POST);
+                if ($user !== false) {
+                    break;
+                }
+            }
+            if (false === $user) {
                 $error = __('The login or the password is not valid. The login and the password are case sensitive.');
             } else {
                 if (!$request->session->getTestCookie()) {
