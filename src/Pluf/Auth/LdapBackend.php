@@ -66,7 +66,7 @@ class Pluf_Auth_LdapBackend
         $ldap_password_key = Pluf::f('auth_ldap_password_key', null);
         $ldap_surname_key = Pluf::f('auth_ldap_surname_key', 'sn');
         $ldap_givenname_key = Pluf::f('auth_ldap_givenname_key', 'cn');
-        $ldap_email_key = Pluf::f('auth_ldap_email_key', 'email');
+        $ldap_email_key = Pluf::f('auth_ldap_email_key', 'mail');
 
 
 		$ldap = ldap_connect(Pluf::f('auth_ldap_host', 'localhost'));
@@ -79,7 +79,9 @@ class Pluf_Auth_LdapBackend
         }
         // Go for a search
         $search = ldap_search($ldap, $ldap_dn, 
-                              $ldap_user_id.'='.$login);
+                              '('.$ldap_user_key.'='.$login.')', 
+                              array($ldap_user_key, $ldap_surname_key, 
+                                    $ldap_givenname_key, $ldap_email_key));
         $n = ldap_get_entries($ldap, $search);
         if ($n['count'] != 1) {
             ldap_close($ldap);
@@ -89,9 +91,11 @@ class Pluf_Auth_LdapBackend
         // We get all the data first, the bind or hash control is done
         // later. If we control with bind now, we need to search again
         // to have an $entry resource to get the values.
-        list($family_name,) = ldap_get_values($ldap, $entry, $ldap_surname_key);
-        list($first_name,) = ldap_get_values($ldap, $entry, $ldap_givenname_key);
-        list($email,) = ldap_get_values($ldap, $entry, $ldap_email_key);
+        list($family_name,) = @ldap_get_values($ldap, $entry, $ldap_surname_key);
+        list($first_name,) = @ldap_get_values($ldap, $entry, $ldap_givenname_key);
+        list($email,) = @ldap_get_values($ldap, $entry, $ldap_email_key);
+        $user_dn = ldap_get_dn($ldap, $entry);
+
         
         if ($ldap_password_key) {
             // Password authentication.
@@ -105,7 +109,7 @@ class Pluf_Auth_LdapBackend
             }
         } else {
             // Bind authentication
-            if (!ldap_bind($lda, $login, $password)) {
+            if (!@ldap_bind($ldap, $user_dn, $password)) {
                 ldap_close($ldap);
                 return false;
             }
