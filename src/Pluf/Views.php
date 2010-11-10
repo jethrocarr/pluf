@@ -84,7 +84,8 @@ class Pluf_Views
         if ($request->method == 'POST') { 
             foreach (Pluf::f('auth_backends', array('Pluf_Auth_ModelBackend'))
                      as $backend) {
-                $user = $backend::authenticate($request->POST);
+                $user = call_user_func(array($backend, 'authenticate'),
+                                       $request->POST);
                 if ($user !== false) {
                     break;
                 }
