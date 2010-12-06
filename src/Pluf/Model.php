@@ -1000,7 +1000,9 @@ class Pluf_Model
         if (isset($GLOBALS['_PX_models_related'][$type][$current_model])) {
             $relations = $GLOBALS['_PX_models_related'][$type][$current_model];
             foreach ($relations as $related) {
-                $model = new $related();
+                if ($related != $current_model) {
+                    $model = new $related();
+                } else $model = clone $this;
                 $fkeys = $model->getRelationKeysToModel($current_model, $type);
                 foreach ($fkeys as $fkey => $val) {
                     $mname = (isset($val['relate_name'])) ? $val['relate_name'] : $related;
