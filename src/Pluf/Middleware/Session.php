@@ -46,7 +46,8 @@ class Pluf_Middleware_Session
     function process_request(&$request)
     {
         $session = new Pluf_Session();
-        $user = new Pluf_User();
+        $user_model = Pluf::f('pluf_custom_user','Pluf_User');
+        $user = new $user_model();
         if (!isset($request->COOKIE[$session->cookie_name])) {
             // No session is defined. We set an empty user and empty
             // session.
@@ -70,7 +71,7 @@ class Pluf_Middleware_Session
         $set_lang = false;
         if (isset($data[$user->session_key])) {
             // We can get the corresponding user
-            $found_user = new Pluf_User($data[$user->session_key]);
+            $found_user = new $user_model($data[$user->session_key]);
             if ($found_user->id == $data[$user->session_key]) {
                 // User found!
                 $request->user = $found_user;

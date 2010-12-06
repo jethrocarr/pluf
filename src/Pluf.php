@@ -91,7 +91,7 @@ class Pluf
         }
         foreach ($apps as $app) {
             $m = require $app.'/relations.php';
-            $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
+            $GLOBALS['_PX_models'] = array_merge_recursive($m, $GLOBALS['_PX_models']);
         }
         // $GLOBALS['_PX_signal'] is automatically set by the require
         // statement and possibly in the configuration file.

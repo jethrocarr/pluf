@@ -93,7 +93,8 @@ class Pluf_User extends Pluf_Model
                             array(
                                   'type' => 'Pluf_DB_Field_Manytomany', 
                                   'blank' => true,
-                                  'model' => 'Pluf_Group',
+                                  'model' => Pluf::f('pluf_custom_group','Pluf_Group'),
+                                  'relate_name' => 'users',
                                   ),
                             'permissions' =>
                             array(
@@ -163,6 +164,15 @@ class Pluf_User extends Pluf_Model
                                   ),
                             );
         $this->_a['views'] = array();
+        if (Pluf::f('pluf_custom_user',false)) $this->extended_init();
+    }
+
+    /**
+     * Hook for extended class
+     */
+    function extended_init()
+    {
+        return;
     }
 
     /**
@@ -311,7 +321,8 @@ class Pluf_User extends Pluf_Model
         }
         if (count($ids) > 0) {
             $gperm = new Pluf_Permission();
-            $perms = array_merge($perms, (array) $gperm->getList(array('filter' => 'pluf_group_id IN ('.join(', ', $ids).')',
+            $f_name = strtolower(Pluf::f('pluf_custom_group', 'Pluf_Group')).'_id';
+            $perms = array_merge($perms, (array) $gperm->getList(array('filter' => $f_name.' IN ('.join(', ', $ids).')',
                                                                        'view' => 'join_group')));
         }
         foreach ($perms as $perm) {
@@ -325,7 +336,7 @@ class Pluf_User extends Pluf_Model
                                 array($this->id, 'Pluf_User'));
             if (count($ids) > 0) {
                 $sql2 = new Pluf_SQL('owner_id IN ('.join(', ', $ids).') AND owner_class=%s',
-                                     array('Pluf_Group'));
+                                     array(Pluf::f('pluf_custom_group','Pluf_Group')));
                 $sql->SOr($sql2);
             }
             $perms = $growp->getList(array('filter' => $sql->gen(),
