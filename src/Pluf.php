@@ -81,23 +81,47 @@ class Pluf
      */
     static function loadRelations($usecache=true)
     {
-        $GLOBALS['_PX_models'] = array(); 
+        $GLOBALS['_PX_models'] = array();
         $GLOBALS['_PX_models_init_cache'] = array();
         $apps = Pluf::f('installed_apps', array());
         $cache = Pluf::f('tmp_folder').'/Pluf_relations_cache_'.md5(serialize($apps)).'.phps';
         if ($usecache and file_exists($cache)) {
-            list($GLOBALS['_PX_models'], $GLOBALS['_PX_signal']) = include $cache;
+            list($GLOBALS['_PX_models'],
+                 $GLOBALS['_PX_models_related'],
+                 $GLOBALS['_PX_signal']) = include $cache;
             return;
         }
+        $m = $GLOBALS['_PX_models'];
         foreach ($apps as $app) {
-            $m = require $app.'/relations.php';
-            $GLOBALS['_PX_models'] = array_merge_recursive($m, $GLOBALS['_PX_models']);
+            $m = array_merge_recursive($m, require $app.'/relations.php');
         }
+        $GLOBALS['_PX_models'] = $m;
+
+        $_r = array(
+                    'relate_to' => array(),
+                    'relate_to_many' => array(),
+                    );
+        foreach ($GLOBALS['_PX_models'] as $model => $relations) {
+            foreach ($relations as $type => $related) {
+                foreach ($related as $related_model) {
+                    if (!isset($_r[$type][$related_model])) {
+                        $_r[$type][$related_model] = array();
+                    }
+                    $_r[$type][$related_model][] = $model;
+                }
+            }
+        }
+        $_r['foreignkey'] = $_r['relate_to'];
+        $_r['manytomany'] = $_r['relate_to_many'];
+        $GLOBALS['_PX_models_related'] = $_r;
+
         // $GLOBALS['_PX_signal'] is automatically set by the require
         // statement and possibly in the configuration file.
         if ($usecache) {
-            $s = var_export(array($GLOBALS['_PX_models'], $GLOBALS['_PX_signal']), true);
-            if (@file_put_contents($cache, '<?php return '.$s.';'."\n", 
+            $s = var_export(array($GLOBALS['_PX_models'],
+                                  $GLOBALS['_PX_models_related'],
+                                  $GLOBALS['_PX_signal']), true);
+            if (@file_put_contents($cache, '<?php return '.$s.';'."\n",
                                    LOCK_EX)) {
                 chmod($cache, 0755);
             }

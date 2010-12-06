@@ -53,7 +53,7 @@
  *
  * <code>
  * {foreach $some_list as $obj}
- *     <tr class="{% cycle 'row1' rowvalue2 'row3' %}">
+ *     <tr class="{cycle 'row1', rowvalue2, 'row3'}">
  *         ...
  *     </tr>
  * {/foreach}
