@@ -302,3 +302,37 @@ function Pluf_Template_safeEmail($email)
     $email = '%'.substr($email, 0, strlen($email) - 1);
     return Pluf_Template::markSafe($email);
 }
+
+/**
+ * Returns the first item in the given array.
+ *
+ * @param array $array
+ * @return mixed An empty string if $array is not an array.
+ */
+function Pluf_Template_first($array)
+{
+    $array = (array) $array;
+    $result = array_shift($array);
+    if (null === $result) {
+        return '';
+    }
+
+    return $result;
+}
+
+/**
+ * Returns the last item in the given array.
+ *
+ * @param array $array
+ * @return mixed An empty string if $array is not an array.
+ */
+function Pluf_Template_last($array)
+{
+    $array = (array) $array;
+    $result = array_pop($array);
+    if (null === $result) {
+        return '';
+    }
+
+    return $result;
+}
