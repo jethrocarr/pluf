@@ -59,6 +59,15 @@ class Pluf_Group extends Pluf_Model
                                   'model' => 'Pluf_Permission',
                                   ),
                             );
+        if (Pluf::f('pluf_custom_group',false)) $this->extended_init();
+    }
+
+    /**
+     * Hook for extended class
+     */
+    function extended_init()
+    {
+        return;
     }
 
     function __toString()

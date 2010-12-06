@@ -22,44 +22,37 @@
 # ***** END LICENSE BLOCK ***** */
 
 /**
- * Add lang and timezone in the user model.
+ * Backend to authenticate against the Pluf_User model.
  */
-
-function Pluf_Migrations_5UserDetails_up($params=null)
+class Pluf_Auth_ModelBackend
 {
-    $db = Pluf::db();
-    $db->begin(); // Start a transaction
-    try {
-        // Add 2 new fields.
+    /**
+     * Given a user id, retrieve it.
+     *
+     * In the case of the Pluf_User backend, the $user_id is the login.
+     */
+    public static function getUser($user_id)
+    {
         $user_model = Pluf::f('pluf_custom_user','Pluf_User');
-        $guser = new $user_model();
-        $table = $guser->getSqlTable();
-        $sql = 'ALTER TABLE '.$table."\n"
-            .'ADD COLUMN language VARCHAR(5) DEFAULT \'en\','."\n"
-            .'ADD COLUMN timezone VARCHAR(50) DEFAULT \'Europe/Berlin\''."\n";
-        $db->execute($sql);
-    } catch (Exception $e) {
-        $db->rollback();
-        throw $e;
+        $sql = new Pluf_SQL('login=%s', array($user_id));
+        return Pluf::factory($user_model)->getOne($sql->gen());
     }
-    $db->commit(); 
+
+    /**
+     * Given an array with the authentication data, auth the user and return it.
+     */
+    public static function authenticate($auth_data)
+    {
+        $password = $auth_data['password'];
+        $login = $auth_data['login'];
+        $user = self::getUser($login);
+        if (!$user) {
+            return false;
+        }
+        if (!$user->active) {
+            return false;
+        }
+        return ($user->checkPassword($password)) ? $user : false;
+    }
 }
 
-function Pluf_Migrations_5UserDetails_down($params=null)
-{
-    $db = Pluf::db();
-    $db->begin(); // Start a transaction
-    try {
-        $user_model = Pluf::f('pluf_custom_user','Pluf_User');
-        $guser = new $user_model();
-        $table = $guser->getSqlTable();
-        $sql = 'ALTER TABLE '.$table."\n"
-            .'DROP COLUMN language,'."\n"
-            .'DROP COLUMN timezone'."\n";
-        $db->execute($sql);
-    } catch (Exception $e) {
-        $db->rollback();
-        throw $e;
-    }
-    $db->commit(); 
-}

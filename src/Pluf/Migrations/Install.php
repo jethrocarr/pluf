@@ -31,8 +31,8 @@ function Pluf_Migrations_Install_setup($params=null)
 {
     $models = array('Pluf_DB_SchemaInfo',
                     'Pluf_Session',
-                    'Pluf_User',
-                    'Pluf_Group',
+                    Pluf::f('pluf_custom_user','Pluf_User'),
+                    Pluf::f('pluf_custom_group','Pluf_Group'),
                     'Pluf_Message',
                     'Pluf_Permission',
                     'Pluf_RowPermission',
@@ -58,8 +58,8 @@ function Pluf_Migrations_Install_teardown($params=null)
                     'Pluf_RowPermission',
                     'Pluf_Permission',
                     'Pluf_Message',
-                    'Pluf_Group',
-                    'Pluf_User',
+                    Pluf::f('pluf_custom_group','Pluf_Group'),
+                    Pluf::f('pluf_custom_user','Pluf_User'),
                     'Pluf_Session',
                     'Pluf_DB_SchemaInfo',
                     );

@@ -52,6 +52,7 @@ class Pluf_Cache_File extends Pluf_Cache
         if (!file_exists($dir)) mkdir($dir, 0777, true);
         $expire = time()+$timeout;
         $success = file_put_contents($fname, $expire."\n".serialize($value), LOCK_EX);
+        chmod($fname, 0777);
         return (false === $success) ? false : true;
     }
 

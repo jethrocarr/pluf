@@ -40,7 +40,7 @@ class Pluf_Message extends Pluf_Model
                             'user' =>
                             array(
                                   'type' => 'Pluf_DB_Field_Foreignkey',
-                                  'model' => 'Pluf_User',
+                                  'model' => Pluf::f('pluf_custom_user','Pluf_User'),
                                   'blank' => false,
                                   'verbose' => __('user'),
                                   ),
