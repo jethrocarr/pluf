@@ -130,7 +130,8 @@ class Pluf_Views
      */
     function logout($request, $match, $success_url='/')
     {
-        $request->user = new Pluf_User();
+        $user_model = Pluf::f('pluf_custom_user','Pluf_User');
+        $request->user = new $user_model();
         $request->session->clear();
         $request->session->setData('logout_time', gmdate('Y-m-d H:i:s'));
         if (0 !== strpos($success_url, 'http')) {

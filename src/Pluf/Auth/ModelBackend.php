@@ -33,8 +33,9 @@ class Pluf_Auth_ModelBackend
      */
     public static function getUser($user_id)
     {
+        $user_model = Pluf::f('pluf_custom_user','Pluf_User');
         $sql = new Pluf_SQL('login=%s', array($user_id));
-        return Pluf::factory('Pluf_User')->getOne($sql->gen());
+        return Pluf::factory($user_model)->getOne($sql->gen());
     }
 
     /**

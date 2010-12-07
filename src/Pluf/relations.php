@@ -27,10 +27,34 @@
  * to retrieve related models from each model.
  */
 
-$m = array();
-$m['Pluf_User'] = array('relate_to_many' => array('Pluf_Group', 'Pluf_Permission'));
-$m['Pluf_Group'] = array('relate_to_many' => array('Pluf_Permission'));
-$m['Pluf_Message']  = array('relate_to' => array('Pluf_User'), );
-$m['Pluf_RowPermission']  = array('relate_to' => array('Pluf_Permission'), );
-$m['Pluf_Search_Occ']  = array('relate_to' => array('Pluf_Search_Word'), );
-return $m;
+$user_model = Pluf::f('pluf_custom_user','Pluf_User');
+$group_model = Pluf::f('pluf_custom_group', 'Pluf_Group');
+
+return array(
+             $user_model => array(
+                                  'relate_to_many' => array(
+                                                            $group_model, 
+                                                            'Pluf_Permission',
+                                                            ),
+                                  ),
+             $group_model => array(
+                                   'relate_to_many' => array(
+                                                             'Pluf_Permission',
+                                                             ),
+                                   ),
+             'Pluf_Message' => array(
+                                     'relate_to' => array(
+                                                          $user_model,
+                                                          ),
+                                     ),
+             'Pluf_RowPermission' => array(
+                                           'relate_to' => array(
+                                                                'Pluf_Permission',
+                                                                ),
+                                           ),
+             'Pluf_Search_Occ' => array(
+                                        'relate_to' => array(
+                                                             'Pluf_Search_Word',
+                                                             ),
+                                        ),
+             );

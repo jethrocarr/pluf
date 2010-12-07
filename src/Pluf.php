@@ -93,23 +93,21 @@ class Pluf
         }
         $m = $GLOBALS['_PX_models'];
         foreach ($apps as $app) {
-            $m = array_merge($m, require $app.'/relations.php');
+            $m = array_merge_recursive($m, require $app.'/relations.php');
         }
         $GLOBALS['_PX_models'] = $m;
 
         $_r = array(
-            'relate_to' => array(),
-            'relate_to_many' => array(),
-        );
+                    'relate_to' => array(),
+                    'relate_to_many' => array(),
+                    );
         foreach ($GLOBALS['_PX_models'] as $model => $relations) {
             foreach ($relations as $type => $related) {
                 foreach ($related as $related_model) {
                     if (!isset($_r[$type][$related_model])) {
                         $_r[$type][$related_model] = array();
                     }
-                    if ($related_model !== $model) {
-                        $_r[$type][$related_model][] = $model;
-                    }
+                    $_r[$type][$related_model][] = $model;
                 }
             }
         }

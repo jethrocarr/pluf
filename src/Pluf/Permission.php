@@ -81,7 +81,9 @@ class Pluf_Permission extends Pluf_Model
                                   'col' => 'application',
                                   ),
                             );
-        $t_asso = $this->_con->pfx.'pluf_group_pluf_permission_assoc';
+        $hay = array(strtolower(Pluf::f('pluf_custom_group', 'Pluf_Group')), strtolower($this->_a['model']));
+        sort($hay);
+        $t_asso = $this->_con->pfx.$hay[0].'_'.$hay[1].'_assoc';
         $t_perm = $this->_con->pfx.'permissions';
         $this->_a['views'] = array(
                               'join_group' => 
