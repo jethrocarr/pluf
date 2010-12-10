@@ -475,10 +475,10 @@ class Pluf_Paginator
             $nb_pa = floor($this->max_number_pages/2);
             $imin = $this->current_page - $nb_pa;
             $imax = $this->current_page + $nb_pa;
-            // We put the separator if $imin is at leat greater than 1+$nb_pa
-            if($imin>2) $out .= ' '.$this->max_number_pages_separator.' ';
-            if($imin<=1) $imin=2;
-            if($imax>=$this->page_number) $imax = $this->page_number - 1;
+            // We put the separator if $imin is at leat greater than 2
+            if ($imin > 2) $out .= ' '.$this->max_number_pages_separator.' ';
+            if ($imin <= 1) $imin=2;
+            if ($imax >= $this->page_number) $imax = $this->page_number - 1;
         } else {
             $imin = 2;
             $imax = $this->page_number - 1;
