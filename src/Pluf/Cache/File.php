@@ -29,11 +29,27 @@
  */
 class Pluf_Cache_File extends Pluf_Cache
 {
+    /**
+     * Is debug mode?
+     *
+     * @var boolean
+     */ 
+    private $_debug;
+
+    /**
+     * Mapping key => md5.
+     *
+     * @var array
+     */
+    private $_keymap = array();
+
     public function __construct()
     {
-        if (false == Pluf::f('cache_file_folder', false)) {
+        if (!Pluf::f('cache_file_folder', false)) {
             throw new Pluf_Exception_SettingError('"cache_file_folder" setting not defined.');
         }
+
+        $this->_debug = Pluf::f('debug', false);
     }
 
     /**
@@ -48,11 +64,16 @@ class Pluf_Cache_File extends Pluf_Cache
     {
         $fname = $this->_keyToFile($key);
         $dir = dirname($fname);
-        if ($timeout == null) $timeout = Pluf::f('cache_timeout', 300);
-        if (!file_exists($dir)) mkdir($dir, 0777, true);
-        $expire = time()+$timeout;
+        if (null === $timeout) {
+            $timeout = Pluf::f('cache_timeout', 300);
+        }
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+        $expire  = $_SERVER['REQUEST_TIME'] + $timeout;
         $success = file_put_contents($fname, $expire."\n".serialize($value), LOCK_EX);
         chmod($fname, 0777);
+
         return (false === $success) ? false : true;
     }
 
@@ -66,12 +87,25 @@ class Pluf_Cache_File extends Pluf_Cache
     public function get($key, $default=null)
     {
         $fname = $this->_keyToFile($key);
-        if (!file_exists($fname)) return $default;
-        list($timeout, $content) = explode("\n", file_get_contents($fname), 2);
-        if ($timeout < time()) {
+        if (!file_exists($fname)) {
+            return $default;
+        }
+
+        if ($this->_debug) {
+            ob_start();
+            include $fname;
+            $data = ob_get_contents();
+            ob_end_clean();
+        } else {
+            $data = file_get_contents($fname);
+        }
+        list($timeout, $content) = explode("\n", $data, 2);
+
+        if ($timeout < $_SERVER['REQUEST_TIME']) {
             @unlink($fname);
             return $default;
         }
+
         return unserialize($content);
     }
 
@@ -83,8 +117,16 @@ class Pluf_Cache_File extends Pluf_Cache
      */
     public function _keyToFile($key)
     {
-        $md5 = md5($key);
-        return Pluf::f('cache_file_folder').'/'.substr($md5, 0, 2)
-            .'/'.substr($md5, 2, 2).'/'.substr($md5, 4);
+        if (isset($this->_keymap[$key])) {
+            $md5 = $this->_keymap[$key];
+        } else {
+            $md5 = md5($key);
+            $this->_keymap[$key] = $md5;
+        }
+
+        return Pluf::f('cache_file_folder') . '/' .
+               substr($md5, 0, 2) . '/' .
+               substr($md5, 2, 2) . '/' .
+               substr($md5, 4);
     }
 }
