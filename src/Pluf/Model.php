@@ -102,95 +102,87 @@ class Pluf_Model
     {
         $this->_getConnection();
         if (isset($GLOBALS['_PX_models_init_cache'][$this->_model])) {
-            $this->_cache = $GLOBALS['_PX_models_init_cache'][$this->_model]['cache'];
-            $this->_m = $GLOBALS['_PX_models_init_cache'][$this->_model]['m'];
-            $this->_a = $GLOBALS['_PX_models_init_cache'][$this->_model]['a'];
-            $this->_fk = $GLOBALS['_PX_models_init_cache'][$this->_model]['fk'];
-            $this->_data = $GLOBALS['_PX_models_init_cache'][$this->_model]['data'];
+            $init_cache = $GLOBALS['_PX_models_init_cache'][$this->_model];
+            $this->_cache = $init_cache['cache'];
+            $this->_m = $init_cache['m'];
+            $this->_a = $init_cache['a'];
+            $this->_fk = $init_cache['fk'];
+            $this->_data = $init_cache['data'];
             return;
         }
         $this->init();
-        foreach ($this->_a['cols'] as $col=>$val) {
+        foreach ($this->_a['cols'] as $col => $val) {
             $field = new $val['type']('', $col);
-            if ($field->type == 'foreignkey') {
-                $this->_m['get']['get_'.strtolower($col)] = array($val['model'], $col);
-                $this->_cache['fk'][$col] = 'foreignkey';
+            $col_lower = strtolower($col);
+
+            $type = 'foreignkey';
+            if ($type === $field->type) {
+                $this->_m['get']['get_'.$col_lower] = array($val['model'], $col);
+                $this->_cache['fk'][$col] = $type;
+                $this->_fk[$col] = $type;
             }
-            if ($field->type == 'manytomany') {
-                $this->_m['list']['get_'.strtolower($col).'_list'] = $val['model'];
-                $this->_m['many'][$val['model']] = 'manytomany';
+
+            $type = 'manytomany';
+            if ($type === $field->type) {
+                $this->_m['list']['get_'.$col_lower.'_list'] = $val['model'];
+                $this->_m['many'][$val['model']] = $type;
             }
+
             foreach ($field->methods as $method) {
-                $this->_m['extra'][$method[0]] = array(strtolower($col), $method[1]);
+                $this->_m['extra'][$method[0]] = array($col_lower, $method[1]);
             }
+
             if (array_key_exists('default', $val)) {
                 $this->_data[$col] = $val['default'];
             } else {
                 $this->_data[$col] = '';
             }
         }
-        foreach ($GLOBALS['_PX_models'] as $model=>$val) {
-            if (isset($val['relate_to'])) {
-                foreach ($val['relate_to'] as $related) {
-                    if ($this->_a['model'] == $related) {
-                        // The current model is related to $model
-                        // through one or more foreign key. We load
-                        // the $model to check on which fields the
-                        // foreign keys are set, as it is possible in
-                        // one model to have several foreign keys to
-                        // the same other model.
-                        if ($model != $this->_a['model']) {
-                            $_m = new $model();
-                            $_fkeys = $_m->getForeignKeysToModel($this->_a['model']);
-                        } else {
-                            $_fkeys = $this->getForeignKeysToModel($this->_a['model']);
-                        }
-                        foreach ($_fkeys as $_fkey=>$_fkeyval) {
-                            //For each foreign key, we add the
-                            //get_xx_list method that can have a
-                            //custom name through the relate_name
-                            //value.
-                            if (isset($_fkeyval['relate_name'])) {
-                                $mname = $_fkeyval['relate_name'];
-                            } else {
-                                $mname = strtolower($model);
-                            }
-                            $this->_m['list']['get_'.$mname.'_list'] = array($model, $_fkey);
-                        }
-                        break;
-                    }
+
+        $this->_setupAutomaticListMethods('foreignkey');
+        $this->_setupAutomaticListMethods('manytomany');
+
+        $GLOBALS['_PX_models_init_cache'][$this->_model] = array(
+            'cache' => $this->_cache,
+            'm' => $this->_m,
+            'a' => $this->_a,
+            'fk' => $this->_fk,
+            'data' => $this->_data,
+        );
+    }
+
+    /**
+     * Retrieve key relationships of a given model.
+     *
+     * @param string $model
+     * @param string $type Relation type: 'foreignkey' or 'manytomany'.
+     * @return array Key relationships.
+     */
+    public function getRelationKeysToModel($model, $type)
+    {
+        $keys = array();
+        foreach ($this->_a['cols'] as $col => $val) {
+            if (isset($val['model']) && $model === $val['model']) {
+                $field = new $val['type']();
+                if ($type === $field->type) {
+                    $keys[$col] = $val;
                 }
             }
-            if (isset($val['relate_to_many']) && 
-                in_array($this->_a['model'], $val['relate_to_many'])) {
-                $this->_m['list']['get_'.strtolower($model).'_list'] = $model;
-                $this->_m['many'][$model] = 'manytomany';
-            }
         }
-        $GLOBALS['_PX_models_init_cache'][$this->_model] = array();
-        $GLOBALS['_PX_models_init_cache'][$this->_model]['cache'] = $this->_cache;
-        $GLOBALS['_PX_models_init_cache'][$this->_model]['m'] = $this->_m;
-        $GLOBALS['_PX_models_init_cache'][$this->_model]['a'] = $this->_a;
-        $GLOBALS['_PX_models_init_cache'][$this->_model]['fk'] = $this->_fk;
-        $GLOBALS['_PX_models_init_cache'][$this->_model]['data'] = $this->_data;
+
+        return $keys;
     }
 
     /**
      * Get the foreign keys relating to a given model.
      *
+     * @deprecated Use {@link self::getRelationKeysToModel()} instead.
      * @param string Model
      * @return array Foreign keys
      */
     function getForeignKeysToModel($model)
     {
-        $keys = array();
-        foreach ($this->_a['cols'] as $col=>$val) {
-            $field = new $val['type']();
-            if ($field->type == 'foreignkey' and $val['model'] == $model) {
-                $keys[$col] = $val;
-            }
-        }
-        return $keys;
+        return $this->getRelationKeysToModel($model, 'foreignkey');
     }
 
     /**
@@ -993,6 +985,39 @@ class Pluf_Model
         }
         return $this->_data[$col];
     }
+
+    /**
+     * Build the automatic methods for the relations of given type.
+     *
+     * Adds the get_xx_list method when the methods of the model
+     * contains custom names.
+     *
+     * @param string $type Relation type: 'foreignkey' or 'manytomany'.
+     */
+    protected function _setupAutomaticListMethods($type)
+    {
+        $current_model = $this->_a['model'];
+        if (isset($GLOBALS['_PX_models_related'][$type][$current_model])) {
+            $relations = $GLOBALS['_PX_models_related'][$type][$current_model];
+            foreach ($relations as $related) {
+                if ($related != $current_model) {
+                    $model = new $related();
+                } else $model = clone $this;
+                $fkeys = $model->getRelationKeysToModel($current_model, $type);
+                foreach ($fkeys as $fkey => $val) {
+                    $mname = (isset($val['relate_name'])) ? $val['relate_name'] : $related;
+                    $mname = 'get_'.strtolower($mname).'_list';
+                    if ('foreignkey' === $type) {
+                        $this->_m['list'][$mname] = array($related, $fkey);
+                    } else {
+                        $this->_m['list'][$mname] = $related;
+                        $this->_m['many'][$related] = $type;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 
