@@ -831,7 +831,8 @@ class Pluf_L10n
         $l = array();
         $nl = self::getNativeLanguages();
         foreach (Pluf::f('languages', array('en')) as $lang) {
-            $l[mb_convert_case($nl[$lang], MB_CASE_TITLE, 'UTF-8')] = $lang;
+            $lang2 = substr($lang, 0, 2);
+            $l[mb_convert_case($nl[$lang2], MB_CASE_TITLE, 'UTF-8')] = $lang;
         }
         return $l;
     }
