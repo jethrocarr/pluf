@@ -122,7 +122,7 @@ class Pluf_Mail
         $this->to_address = $dest;
         $this->headers = array('From' => $src,
                                'To' => $dest,
-                               'Date' => date(DATE_RFC822),
+                               'Date' => date(DATE_RFC2822),
                                'Subject' => $subject,
                                );
     }
