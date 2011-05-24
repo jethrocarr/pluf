@@ -317,6 +317,7 @@ class Pluf_Paginator
         }
         if (isset($request->REQUEST['_px_p'])) {
             $this->current_page = (int) $request->REQUEST['_px_p'];
+            $this->current_page = max(1, $this->current_page);
         }
         if (isset($request->REQUEST['_px_sk']) 
             and in_array($request->REQUEST['_px_sk'], $this->sort_fields)) {
