@@ -29,7 +29,8 @@ if (version_compare(PHP_VERSION, '5.2.4', '<')) {
     exit(1);
 }
 set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__));
-require 'Pluf.php';
+// we have to silence strict code warnings because of PEAR (see issue 642)
+error_reporting(E_ALL & ~E_STRICT);
 require 'Console/Getopt.php';
 
 global $debug;
@@ -174,6 +175,8 @@ if ($what['all'] and $what['version'] !== null) {
     usage();
     die();
 }
+
+require 'Pluf.php';
 Pluf::start($what['conf']);
 if (PHP_SAPI != 'cli' and Pluf::f('migrate_allow_web', false)) {
     echo('Error: This script can only be run from the command line.'."\n");
