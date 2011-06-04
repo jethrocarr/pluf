@@ -398,7 +398,7 @@ class PlufErrorHandlerException extends Exception
  */
 function PlufErrorHandler($code, $string, $file, $line) 
 { 
-    if (0 == error_reporting()) return;
+    if (0 == error_reporting()) return false;
     if (E_STRICT == $code 
         && 
         (
