@@ -31,7 +31,8 @@ function Pluf_Migrations_5UserDetails_up($params=null)
     $db->begin(); // Start a transaction
     try {
         // Add 2 new fields.
-        $guser = new Pluf_User();
+        $user_model = Pluf::f('pluf_custom_user','Pluf_User');
+        $guser = new $user_model();
         $table = $guser->getSqlTable();
         $sql = 'ALTER TABLE '.$table."\n"
             .'ADD COLUMN language VARCHAR(5) DEFAULT \'en\','."\n"
@@ -49,7 +50,8 @@ function Pluf_Migrations_5UserDetails_down($params=null)
     $db = Pluf::db();
     $db->begin(); // Start a transaction
     try {
-        $guser = new Pluf_User();
+        $user_model = Pluf::f('pluf_custom_user','Pluf_User');
+        $guser = new $user_model();
         $table = $guser->getSqlTable();
         $sql = 'ALTER TABLE '.$table."\n"
             .'DROP COLUMN language,'."\n"

@@ -105,15 +105,20 @@ class Pluf_Form implements Iterator, ArrayAccess
         $this->cleaned_data = array();
         $this->errors = array();
         $form_methods = get_class_methods($this);
+        $form_vars = get_object_vars($this);
         foreach ($this->fields as $name=>$field) {
             $value = $field->widget->valueFromFormData($this->addPrefix($name),
                                                        $this->data); 
             try {
                 $value = $field->clean($value);
                 $this->cleaned_data[$name] = $value;
-                if (in_array('clean_'.$name, $form_methods)) {
-                    $m = 'clean_'.$name;
-                    $value = $this->$m();
+                $method = 'clean_'.$name;
+                if (in_array($method, $form_methods)) {
+                    $value = $this->$method();
+                    $this->cleaned_data[$name] = $value;
+                } else if (array_key_exists($method, $form_vars) &&
+                           is_callable($this->$method)) {
+                    $value = call_user_func($this->$method, $this);
                     $this->cleaned_data[$name] = $value;
                 }                        
             } catch (Pluf_Form_Invalid $e) {

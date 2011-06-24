@@ -32,7 +32,7 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
 
     function setUp()
     {
-        $this->views = $GLOBALS['_PX_views'];
+        $this->views = (isset($GLOBALS['_PX_views'])) ? $GLOBALS['_PX_views'] : array();
     }
 
     function tearDown()
@@ -42,7 +42,7 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
 
     function hello()
     {
-        return true;
+        return new Pluf_HTTP_Response('ok');
     }
 
     function hello1()
@@ -78,7 +78,8 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
         $req1 = (object) array('query' => '/hello/'); // match
         $req2 = (object) array('query' => '/hello'); // match second pass
         $req3 = (object) array('query' => '/hello/you/'); // no match
-        $this->assertIdentical(true, Pluf_Dispatcher::match($req1));
+        $this->assertIdentical(200, Pluf_Dispatcher::match($req1)->status_code);
+        $this->assertEqual('ok', Pluf_Dispatcher::match($req1)->content);
         $this->assertIsA(Pluf_Dispatcher::match($req2), 
                          'Pluf_HTTP_Response_Redirect');
         $this->assertIsA(Pluf_Dispatcher::match($req3), 
@@ -145,7 +146,8 @@ class Pluf_Tests_Dispatch_Dispatcher extends UnitTestCase
         $h2 = (object) array('query' => '/hello2/world/'); // match
         $h3 = (object) array('query' => '/hello/'); // match
         $h4 = (object) array('query' => '/hello/hello/'); // match
-        $this->assertIdentical(true, Pluf_Dispatcher::match($req1));
+        $this->assertIdentical(200, Pluf_Dispatcher::match($req1)->status_code);
+        $this->assertEqual('ok', Pluf_Dispatcher::match($req1)->content);
         $this->assertIdentical(1, Pluf_Dispatcher::match($h1));
         $this->assertIdentical(2, Pluf_Dispatcher::match($h2));
         $this->assertIdentical(3, Pluf_Dispatcher::match($h3));

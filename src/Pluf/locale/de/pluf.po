@@ -4,8 +4,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-02 13:56+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Jürgen Hörmann <hoermann.j@googlemail.com>\n"
-"Language-Team: Jürgen Hörmann <hoermann.j@googlemail.com>\n"
+"Last-Translator: Thomas Keller <me@thomaskeller.biz>\n"
+"Language-Team: Jürgen Hörmann <hoermann.j@googlemail.com>, Thomas Keller <me@thomaskeller.biz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,8 +13,6 @@ msgstr ""
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Poedit-Basepath: D:\\Joshua\\Documents\\pdt\\pluf\\src\\\n"
-"X-Poedit-SearchPath-0: Pluf\n"
 
 #: Pluf/Search/Stats.php:34
 msgid "search stats"
@@ -25,17 +23,17 @@ msgstr "Suchstatistik"
 #: Pluf/Queue.php:67
 #: Pluf/RowPermission.php:51
 msgid "model class"
-msgstr "Model Klasse"
+msgstr "Modell-Klasse"
 
 #: Pluf/Search/Stats.php:56
 #: Pluf/Search/Occ.php:62
 #: Pluf/Queue.php:73
 msgid "model id"
-msgstr "Model Id"
+msgstr "Modell-Id"
 
 #: Pluf/Search/Stats.php:62
 msgid "number of indexations"
-msgstr "Anzahl an Indexierungen"
+msgstr "Anzahl der Indexierungen"
 
 #: Pluf/Search/Stats.php:69
 #: Pluf/Queue.php:98
@@ -63,7 +61,7 @@ msgstr "Vorkommen"
 
 #: Pluf/Search/Occ.php:74
 msgid "weighted occurence"
-msgstr "Vorkommen gewichtet"
+msgstr "gewichtetes Vorkommen"
 
 #: Pluf/Message.php:45
 #: Pluf/User.php:44
@@ -74,24 +72,24 @@ msgstr "Benutzer"
 #: Pluf/HTTP/Response/Redirect.php:28
 #, php-format
 msgid "<a href=\"%s\">Please, click here to be redirected</a>."
-msgstr "<a href=\"%s\">Um weiter geleitet zu werden klicke bitte hier.</a>."
+msgstr "<a href=\"%s\">Um weiter geleitet zu werden, klicke bitte hier.</a>."
 
 #: Pluf/Text/LaTeX/Equation.php:243
 msgid "Unable to generate the dvi file."
-msgstr "Konnte die DVI Datei nicht erstellen."
+msgstr "Konnte die DVI-Datei nicht erstellen."
 
 #: Pluf/Text/LaTeX/Equation.php:260
 msgid "Unable to generate the png file."
-msgstr "Konnte die PNG Datei nicht erstellen"
+msgstr "Konnte die PNG-Datei nicht erstellen"
 
 #: Pluf/Text/LaTeX/Equation.php:270
 msgid "Unable to move the png file."
-msgstr "Konnte die PNG Datei nicht verschieben."
+msgstr "Konnte die PNG-Datei nicht verschieben."
 
 #: Pluf/Text/LaTeX/Equation.php:308
 #, php-format
 msgid "The LaTeX tag \"%s\" is not acceptable."
-msgstr "Der LaTeX Tag \"%s\" ist ungültig."
+msgstr "Der LaTeX-Tag \"%s\" ist ungültig."
 
 #: Pluf/Translation/TemplateExtractor.php:267
 #: Pluf/Template/Compiler.php:345
@@ -108,25 +106,25 @@ msgstr "Die Vorlage wurde nicht gefunden: %s"
 #: Pluf/Translation/TemplateExtractor.php:283
 #, php-format
 msgid "Invalid tag in translation extractor: %s"
-msgstr "Ungültiger Tag übersetzungs Generator: %s"
+msgstr "Ungültiger Tag im Übersetzungs-Generator: %s"
 
 #: Pluf/Translation/TemplateExtractor.php:288
 #: Pluf/Template/Compiler.php:375
 #, php-format
 msgid "Invalid function syntax: %s"
-msgstr "Ungültige Syntax der Funktion: %s"
+msgstr "Ungültige Funktionssyntax: %s"
 
 #: Pluf/Translation/TemplateExtractor.php:305
 #: Pluf/Template/Compiler.php:361
 #, php-format
 msgid "Invalid tag syntax: %s"
-msgstr "Ungültige Sytax des Tag: %s"
+msgstr "Ungültige Tag-Syntax: %s"
 
 #: Pluf/Translation/TemplateExtractor.php:390
 #: Pluf/Template/Compiler.php:629
 #, php-format
 msgid "Invalid syntax: (%s) %s."
-msgstr "Ungültige Syntax: (%s) %s"
+msgstr "Ungültige Syntax: (%s) %s."
 
 #: Pluf/Translation/TemplateExtractor.php:395
 #: Pluf/Template/Compiler.php:634
@@ -136,7 +134,7 @@ msgstr "Ungültiges Zeichen: (%s) %s."
 
 #: Pluf/User.php:61
 msgid "login"
-msgstr "Anmelden"
+msgstr "Anmeldename"
 
 #: Pluf/User.php:68
 msgid "first name"
@@ -176,7 +174,7 @@ msgstr "Sprache"
 
 #: Pluf/User.php:131
 msgid "Prefered language of the user for the interface. Use the 2 or 5 letter code like \"fr\", \"en\", \"fr_QC\" or \"en_US\"."
-msgstr "Bevorzugte Sprache für die Benutzeroberfläche. Benutze Sprach- bzw. Sprach-Ländercode in der Form \"fr\", \"en\", \"fr_QC\" oder \"en_US\"."
+msgstr "Bevorzugte Sprache des Nutzers für die Oberfläche. Benutze Sprach- bzw. Sprach-Ländercode in der Form \"fr\", \"en\", \"fr_QC\" oder \"en_US\"."
 
 #: Pluf/User.php:139
 msgid "time zone"
@@ -184,7 +182,7 @@ msgstr "Zeitzone"
 
 #: Pluf/User.php:140
 msgid "Time zone of the user to display the time in local time."
-msgstr "Zeitzone des Benutzers um die Zeiten in Ortszeit dar zu stellen."
+msgstr "Zeitzone des Benutzers, um Zeitangaben in Ortszeit darzustellen."
 
 #: Pluf/User.php:146
 msgid "date joined"
@@ -205,7 +203,7 @@ msgstr "Kein Profil vorhanden für Benutzer: %s"
 
 #: Pluf/Error.php:93
 msgid "DB error:"
-msgstr "Datenbank Fehler:"
+msgstr "Datenbank-Fehler:"
 
 #: Pluf/Form/Field/Float.php:39
 msgid "Enter a number."
@@ -223,7 +221,7 @@ msgstr "Stelle sicher, dass der Wert größer oder gleich %s ist."
 
 #: Pluf/Form/Field/Email.php:38
 msgid "Enter a valid email address."
-msgstr "Gib eine gültige E-Mail Adresse ein."
+msgstr "Gib eine gültige E-Mail-Adresse ein."
 
 #: Pluf/Form/Field/Datetime.php:61
 msgid "Enter a valid date/time."
@@ -237,17 +235,17 @@ msgstr "Gib eine gültige Adresse ein."
 #: Pluf/Form/Field/Integer.php:49
 #: Pluf/Encoder.php:138
 msgid "The value must be an integer."
-msgstr "Der Wert muss ganzzahlig sein. Negative oder Kommawerte sind nicht erlaubt."
+msgstr "Der Wert muss ganzzahlig sein."
 
 #: Pluf/Form/Field/Integer.php:59
 #, php-format
 msgid "Ensure that this value is not greater than %1$d."
-msgstr "Stelle sicher dass der Wert nicht größer als %1$d ist."
+msgstr "Stelle sicher, dass der Wert nicht größer als %1$d ist."
 
 #: Pluf/Form/Field/Integer.php:62
 #, php-format
 msgid "Ensure that this value is not lower than %1$d."
-msgstr "Stelle sicher dass der Wert nicht kleiner als %1$d ist."
+msgstr "Stelle sicher, dass der Wert nicht kleiner als %1$d ist."
 
 #: Pluf/Form/Field/Date.php:46
 msgid "Enter a valid date."
@@ -266,45 +264,45 @@ msgstr "Stelle sicher, dass der Wert mindestens %1$d Zeichen enthält (derzeit %
 #: Pluf/Form/Field/File.php:43
 #: Pluf/Form/Field/File.php:59
 msgid "No files were uploaded. Please try to send the file again."
-msgstr "Es wurden keine Dateien hoch geladen. Bitte versuche es erneut die Datei auf den server zu laden."
+msgstr "Es wurden keine Dateien hoch geladen. Bitte versuche die Datei erneut hochzuladen."
 
 #: Pluf/Form/Field/File.php:52
 msgid "The uploaded file is too large. Reduce the size of the file and send it again."
-msgstr "Die hoch geladene Datei ist zu groß. Wenn "
+msgstr "Die hoch geladene Datei ist zu groß. Verringere die Dateigröße und lade sie erneut hoch."
 
 #: Pluf/Form/Field/File.php:55
 msgid "The upload did not complete. Please try to send the file again."
-msgstr "Der Upload wurde nicht abgeschlossen. Bitte versuche es erneut."
+msgstr "Das Hochladen wurde nicht abgeschlossen. Bitte versuche die Datei erneut hochzuladen."
 
 #: Pluf/Form/Field/File.php:66
 msgid "The server has no temporary folder correctly configured to store the uploaded file."
-msgstr "Das temporäre Upload Verzeichnis ist nicht richtig konfiguriert."
+msgstr "Das temporäre Upload-Verzeichnis ist nicht richtig konfiguriert, um die hochgeladene Datei zu speichern."
 
 #: Pluf/Form/Field/File.php:69
 msgid "The uploaded file has been stopped by an extension."
-msgstr "Der Upload wurde durch eine Programmkomponente verhindert."
+msgstr "Das Hochladen wurde durch eine Programmkomponente verhindert."
 
 #: Pluf/Form/Field/File.php:72
 msgid "An error occured when upload the file. Please try to send the file again."
-msgstr "Während dem Upload ist ein Fehler aufgetreten. Bitte versuche es erneut."
+msgstr "Während dem Hochladen ist ein Fehler aufgetreten. Bitte versuche die Datei erneut hochzuladen."
 
 #: Pluf/Form/Field/File.php:75
 #, php-format
 msgid "The uploaded file is to big (%1$s). Reduce the size to less than %2$s and try again."
-msgstr "Die Datei ist mit %1$s zu groß. Reduziere die Dateigröße auf unter %2$s und starte den Upload erneut."
+msgstr "Die hochgeladene Datei ist zu groß (%1$s). Reduziere die Dateigröße auf unter %2$s und versuche es erneut."
 
 #: Pluf/Form/Field/File.php:136
 msgid "An error occured when creating the upload path. Please try to send the file again."
-msgstr "Beim erzeugen des Upload Verzeichnisses ist ein Fehler aufgetreten. Bitte starte den Upload erneut."
+msgstr "Beim erzeugen des Upload-Pfades ist ein Fehler aufgetreten. Bitte versuche die Datei erneut hochzuladen."
 
 #: Pluf/Form/Field/File.php:140
 #, php-format
 msgid "A file with the name \"%s\" has already been uploaded."
-msgstr "Eine Datei mit dem Namen \"%s\" wurde bereits auf den Server geladen."
+msgstr "Eine Datei mit dem Namen \"%s\" wurde bereits auf den Server hochgeladen."
 
 #: Pluf/Form/Field/File.php:143
 msgid "An error occured when uploading the file. Please try to send the file again."
-msgstr "Während dem Upload ist ein Fehler aufgetreten. Bitte versuche es erneut."
+msgstr "Während dem Hochladen ist ein Fehler aufgetreten. Bitte versuche die Datei erneut hochzuladen."
 
 #: Pluf/Form/Field.php:115
 msgid "This field is required."
@@ -312,11 +310,11 @@ msgstr "Dieses Feld muss ausgefüllt sein."
 
 #: Pluf/Form/Model.php:82
 msgid "Cannot save the model from an invalid form."
-msgstr "Das Modell eines ungültigen Forulars kann nicht gespeichert werden."
+msgstr "Das Modell eines ungültigen Formulars kann nicht gespeichert werden."
 
 #: Pluf/Queue.php:51
 msgid "message queue"
-msgstr "Warteschlange für Nachrichten"
+msgstr "Nachrichten-Warteschlange"
 
 #: Pluf/Queue.php:80
 msgid "action"
@@ -324,7 +322,7 @@ msgstr "Aktion"
 
 #: Pluf/Queue.php:86
 msgid "lock status"
-msgstr "Zustand der Sperre"
+msgstr "Sperrstatus"
 
 #: Pluf/Queue.php:89
 msgid "Free"
@@ -332,7 +330,7 @@ msgstr "Frei"
 
 #: Pluf/Queue.php:90
 msgid "In progress"
-msgstr "in Bearbeitung"
+msgstr "In Bearbeitung"
 
 #: Pluf/Queue.php:91
 msgid "Completed"
@@ -355,15 +353,15 @@ msgstr "Beschreibung"
 #: Pluf/Permission.php:30
 #: Pluf/RowPermission.php:79
 msgid "permission"
-msgstr "Zugriffstrecht"
+msgstr "Erlaubnis"
 
 #: Pluf/Permission.php:53
 msgid "code name"
-msgstr "Code Name"
+msgstr "Code-Name"
 
 #: Pluf/Permission.php:54
 msgid "The code name must be unique for each application. Standard permissions to manage a model in the interface are \"Model_Name-create\", \"Model_Name-update\", \"Model_Name-list\" and \"Model_Name-delete\"."
-msgstr "Der Code Name muss für jede Anwendung einmalig sein. Standard rechte für die Verwaltung der Model eines Interface sind \"Model_Name-create\", \"Model_Name-update\", \"Model_Name-list\" und \"Model_Name-delete\"."
+msgstr "Der Code-Name muss für jede Anwendung einmalig sein. Standarderlaubnisse für die Verwaltung eines Modells des Interfaces sind \"Model_Name-create\", \"Model_Name-update\", \"Model_Name-list\" und \"Model_Name-delete\"."
 
 #: Pluf/Permission.php:68
 msgid "application"
@@ -371,7 +369,7 @@ msgstr "Anwendung"
 
 #: Pluf/Permission.php:69
 msgid "The application using this permission, for example \"YourApp\", \"CMS\" or \"SView\"."
-msgstr "Die Anwendung, die dieses Zugriffsrecht verwendet. Beispielsweise  \"YourApp\", \"CMS\" or \"SView\"."
+msgstr "Die Anwendung, die dieses Zugriffsrecht verwendet, zum Beispiel  \"YourApp\", \"CMS\" oder \"SView\"."
 
 #: Pluf/Date.php:179
 msgid "year"
@@ -469,7 +467,7 @@ msgstr "Das Passwort muss mindestens <em>%s</em> Zeichen lang sein."
 #: Pluf/Encoder.php:106
 #, php-format
 msgid "The email address \"%s\" is not valid."
-msgstr "Die E-Mail Adresse \"%s\"  ist ungültig."
+msgstr "Die E-Mail-Adresse \"%s\" ist ungültig."
 
 #: Pluf/Encoder.php:146
 #, php-format
@@ -484,17 +482,17 @@ msgstr "Das Datum <em>%s</em> ist nicht gültig."
 #: Pluf/Model.php:429
 #, php-format
 msgid "The view \"%s\" is not defined."
-msgstr "Der View \"%s\" ist nicht definiert."
+msgstr "Die Ansicht \"%s\" ist nicht definiert."
 
 #: Pluf/Model.php:578
 #, php-format
 msgid "No matching foreign key found in model: %s for model %s"
-msgstr "No matching foreign key found in model: %s for model %s"
+msgstr "Keine passenden Fremdschlüssel im Modell gefunden: %s für Modell %s"
 
 #: Pluf/Template.php:142
 #, php-format
 msgid "Cannot write the compiled template: %s"
-msgstr "Kann das kompilierte Template nicht speichern: %s"
+msgstr "Kann die übersetzte Vorlage nicht speichern: %s"
 
 #: Pluf/Template.php:270
 #: Pluf/Template.php:272
@@ -506,11 +504,11 @@ msgstr "jetzt"
 
 #: Pluf/Paginator.php:396
 msgid "Prev"
-msgstr "Zurück"
+msgstr "Vorherige"
 
 #: Pluf/Paginator.php:407
 msgid "Next"
-msgstr "Weiter"
+msgstr "Nächste"
 
 #: Pluf/Paginator.php:558
 msgid "Name"
@@ -548,15 +546,15 @@ msgstr "Kann vorhandenes Modell nicht laden <%1$s(%2$s)>."
 
 #: Pluf/Views.php:63
 msgid "The login or the password is not valid. The login and the password are case sensitive."
-msgstr "Der Benutzername oder das Passwort sind falsch. Bitte achte auf korrekte Gruß-Klein Schreibung bei Benutzername und Passwort."
+msgstr "Der Anmeldename oder das Passwort sind ungültig. Bitte achte auf korrekte Groß- und Kleinschreibung bei Anmeldename und Passwort."
 
 #: Pluf/Views.php:66
 msgid "You need to enable the cookies in your browser to access this website."
-msgstr "Damit du diese Seite benutzen kannst musst du deinem Browser erlauben Cookies zu speichern."
+msgstr "Damit Du diese Seite benutzen kannst, musst Du in Deinem Browser Cookies erlauben."
 
 #: Pluf/Views.php:82
 msgid "Sign In"
-msgstr "Registrieren"
+msgstr "Anmelden"
 
 #: Pluf/Views.php:180
 #: Pluf/Views.php:256
@@ -579,7 +577,7 @@ msgstr "kB"
 
 #: Pluf/Utils.php:93
 msgid "bytes"
-msgstr "Byte"
+msgstr "Bytes"
 
 #: Pluf/Form.php:228
 #, php-format
@@ -593,12 +591,12 @@ msgstr "(Verborgenes Feld %1$s) %2$s"
 #: Pluf/Template/Compiler.php:493
 #, php-format
 msgid "End tag of a block missing: %s"
-msgstr "Der Ende Tag eines Block fehlt: %s"
+msgstr "Der End-Tag eines Block fehlt: %s"
 
 #: Pluf/Template/Compiler.php:398
 #, php-format
 msgid "Invalid modifier syntax: (%s) %s"
-msgstr "Ungültige Modifikator Syntax: (%s) %s"
+msgstr "Ungültige Modifikator-Syntax: (%s) %s"
 
 #: Pluf/Template/Compiler.php:408
 #, php-format
@@ -607,33 +605,33 @@ msgstr "Unbekannter Modifikator: (%s) %s"
 
 #: Pluf/Template/Compiler.php:462
 msgid "End tag of a block missing: literal"
-msgstr "Der Ende Tag eines Block fehlt: literal"
+msgstr "Der End-Tag eines Block fehlt: literal"
 
 #: Pluf/Template/Compiler.php:466
 msgid "Start tag of a block missing: literal"
-msgstr "Der Start Tag eines Block fehlt: literal"
+msgstr "Der Start-Tag eines Block fehlt: literal"
 
 #: Pluf/Template/Compiler.php:548
 #, php-format
 msgid "The function tag \"%s\" is not allowed."
-msgstr "Der Funktions Tag \"%s\" ist nicht erlaubt."
+msgstr "Der Funktions-Tag \"%s\" ist nicht erlaubt."
 
 #: Pluf/Template/Compiler.php:572
 #, php-format
 msgid "The function tag \"{%s ...}\" is not supported."
-msgstr "Der Funktions Tag \"{%s ...}\" wird nicht unterstützt."
+msgstr "Der Funktions-Tag \"{%s ...}\" wird nicht unterstützt."
 
 #: Pluf/RowPermission.php:44
 msgid "model ID"
-msgstr "Model Id"
+msgstr "Modell-ID"
 
 #: Pluf/RowPermission.php:57
 msgid "owner ID"
-msgstr "Besitzer Id"
+msgstr "Besitzer-ID"
 
 #: Pluf/RowPermission.php:64
 msgid "owner class"
-msgstr "Besitzer Klasse"
+msgstr "Besitzer-Klasse"
 
 #: Pluf/RowPermission.php:65
 msgid "For example Pluf_User or Pluf_Group."

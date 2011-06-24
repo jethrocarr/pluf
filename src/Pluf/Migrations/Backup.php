@@ -35,8 +35,8 @@ function Pluf_Migrations_Backup_run($folder, $name=null)
 {
     $models = array('Pluf_DB_SchemaInfo',
                     'Pluf_Session',
-                    'Pluf_User',
-                    'Pluf_Group',
+                    Pluf::f('pluf_custom_user','Pluf_User'),
+                    Pluf::f('pluf_custom_group','Pluf_Group'),
                     'Pluf_Message',
                     'Pluf_Permission',
                     'Pluf_RowPermission',
@@ -70,8 +70,8 @@ function Pluf_Migrations_Backup_restore($folder, $name)
 {
     $models = array('Pluf_DB_SchemaInfo',
                     'Pluf_Session',
-                    'Pluf_User',
-                    'Pluf_Group',
+                    Pluf::f('pluf_custom_user','Pluf_User'),
+                    Pluf::f('pluf_custom_group','Pluf_Group'),
                     'Pluf_Message',
                     'Pluf_Permission',
                     'Pluf_RowPermission',
