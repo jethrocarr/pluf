@@ -380,7 +380,7 @@ class Pluf_Translation_TemplateExtractor
                 if ($type == T_AS) {
                     $afterAs = true;
                 }
-                if ($type == T_STRING && $inDot) {
+                if ($inDot) {
                     $result .= $str;
                 } elseif ($type == T_VARIABLE) {
                     $result .= '$t->_vars[\''.substr($str, 1).'\']';
