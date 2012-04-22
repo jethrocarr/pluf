@@ -35,6 +35,9 @@ class Pluf_Form_Field_Date extends Pluf_Form_Field
     public function clean($value)
     {
         parent::clean($value);
+        if (in_array($value, $this->empty_values)) {
+            return '';
+        }
         foreach ($this->input_formats as $format) {
             if (false !== ($date = strptime($value, $format))) {
                 $day   = $date['tm_mday'];
