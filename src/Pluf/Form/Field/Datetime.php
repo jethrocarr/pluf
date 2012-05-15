@@ -39,24 +39,29 @@ class Pluf_Form_Field_Datetime extends Pluf_Form_Field
     public function clean($value)
     {
         parent::clean($value);
-        $out = null;
+        if (in_array($value, $this->empty_values)) {
+            return '';
+        }
         foreach ($this->input_formats as $format) {
             if (false !== ($date = strptime($value, $format))) {
-                $day = str_pad($date['tm_mday'], 2, '0', STR_PAD_LEFT);
-                $month = str_pad($date['tm_mon']+1, 2, '0', STR_PAD_LEFT);
-                $year = str_pad($date['tm_year']+1900, 4, '0', STR_PAD_LEFT);
-                $h = str_pad($date['tm_hour'], 2, '0', STR_PAD_LEFT);
-                $m = str_pad($date['tm_min'], 2, '0', STR_PAD_LEFT);
-                $s = $date['tm_sec'];
-                if ($s > 59) $s=59;
-                $s = str_pad($s, 2, '0', STR_PAD_LEFT);
-                $out = $year.'-'.$month.'-'.$day.' '.$h.':'.$m.':'.$s;
-                break;
+                $day   = $date['tm_mday'];
+                $month = $date['tm_mon'] + 1;
+                $year  = $date['tm_year'] + 1900;
+                // PHP's strptime has various quirks, e.g. it doesn't check
+                // gregorian dates for validity and it also allows '60' in
+                // the seconds part
+                if (checkdate($month, $day, $year) && $date['tm_sec'] < 60) {
+                    $date = str_pad($year,  4, '0', STR_PAD_LEFT).'-'.
+                            str_pad($month, 2, '0', STR_PAD_LEFT).'-'.
+                            str_pad($day,   2, '0', STR_PAD_LEFT).' '.
+                            str_pad($date['tm_hour'], 2, '0', STR_PAD_LEFT).':'.
+                            str_pad($date['tm_min'],  2, '0', STR_PAD_LEFT).':';
+                            str_pad($date['tm_sec'],  2, '0', STD_PAD_LEFT);
+                    
+                    // we internally use GMT, so we convert it to a GMT date.
+                    return gmdate('Y-m-d H:i:s', strtotime($date));
+                }
             }
-        }
-        if ($out !== null) {
-            // We internally use GMT, so we convert it to a GMT date.
-            return gmdate('Y-m-d H:i:s', strtotime($out));
         }
         throw new Pluf_Form_Invalid(__('Enter a valid date/time.'));
     }
