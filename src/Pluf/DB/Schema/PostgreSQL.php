@@ -93,7 +93,6 @@ class Pluf_DB_Schema_PostgreSQL
         $manytomany = array();
         $query = 'CREATE TABLE '.$this->con->pfx.$model->_a['table'].' (';
         $sql_col = array();
-        $constraints = array();
         foreach ($cols as $col => $val) {
             $field = new $val['type']();
             if ($field->type != 'manytomany') {
@@ -112,21 +111,12 @@ class Pluf_DB_Schema_PostgreSQL
             } else {
                 $manytomany[] = $col;
             }
-            if ($field->type == 'foreignkey') {
-                // Add the foreignkey constraints
-                $referto = new $val['model']();
-                $_c = 'CONSTRAINT '.$this->con->pfx.$model->_a['table'].'_'.$col.'_fkey FOREIGN KEY ('.$this->con->qn($col).')
-      REFERENCES '.$this->con->pfx.$referto->_a['table'].' (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION';
-                $constraints[] = $_c;
-            }
         }
         $sql_col[] = 'CONSTRAINT '.$this->con->pfx.$model->_a['table'].'_pkey PRIMARY KEY (id)';
-        $sql_col = array_merge($sql_col, $constraints);
         $query = $query."\n".implode(",\n", $sql_col)."\n".');';
         $tables[$this->con->pfx.$model->_a['table']] = $query;
-        //Now for the many to many
-        //FIXME add index on the second column
+        // Now for the many to many
+        // FIXME add index on the second column
         foreach ($manytomany as $many) {
             $omodel = new $cols[$many]['model']();
             $hay = array(strtolower($model->_a['model']), strtolower($omodel->_a['model']));
@@ -135,7 +125,7 @@ class Pluf_DB_Schema_PostgreSQL
             $sql = 'CREATE TABLE '.$this->con->pfx.$table.' (';
             $sql .= "\n".strtolower($model->_a['model']).'_id '.$this->mappings['foreignkey'].' default 0,';
             $sql .= "\n".strtolower($omodel->_a['model']).'_id '.$this->mappings['foreignkey'].' default 0,';
-            $sql .= "\n".'CONSTRAINT '.$this->con->pfx.$table.'_pkey PRIMARY KEY ('.strtolower($model->_a['model']).'_id, '.strtolower($omodel->_a['model']).'_id)';
+            $sql .= "\n".'CONSTRAINT '.$this->getShortenedIdentifierName($this->con->pfx.$table.'_pkey').' PRIMARY KEY ('.strtolower($model->_a['model']).'_id, '.strtolower($omodel->_a['model']).'_id)';
             $sql .= "\n".');';
             $tables[$this->con->pfx.$table] = $sql;
         }
@@ -161,25 +151,88 @@ class Pluf_DB_Schema_PostgreSQL
                 $unique = '';
             }
 
-            $index[$this->con->pfx.$model->_a['table'].'_'.$idx] = 
+            $index[$this->con->pfx.$model->_a['table'].'_'.$idx] =
                 sprintf('CREATE '.$unique.'INDEX %s ON %s (%s);',
-                        $this->con->pfx.$model->_a['table'].'_'.$idx, 
-                        $this->con->pfx.$model->_a['table'], 
+                        $this->con->pfx.$model->_a['table'].'_'.$idx,
+                        $this->con->pfx.$model->_a['table'],
                         Pluf_DB_Schema::quoteColumn($val['col'], $this->con)
                         );
         }
         foreach ($model->_a['cols'] as $col => $val) {
             $field = new $val['type']();
             if (isset($val['unique']) and $val['unique'] == true) {
-                $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_unique'] = 
+                $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_unique'] =
                     sprintf('CREATE UNIQUE INDEX %s ON %s (%s);',
-                            $this->con->pfx.$model->_a['table'].'_'.$col.'_unique_idx', 
-                            $this->con->pfx.$model->_a['table'], 
+                            $this->con->pfx.$model->_a['table'].'_'.$col.'_unique_idx',
+                            $this->con->pfx.$model->_a['table'],
                             Pluf_DB_Schema::quoteColumn($col, $this->con)
                             );
             }
         }
         return $index;
+    }
+
+    /**
+     * All identifiers in Postgres must not exceed 64 characters in length.
+     *
+     * @param string
+     * @return string
+     */
+    function getShortenedIdentifierName($name)
+    {
+        if (strlen($name) <= 64) {
+            return $name;
+        }
+        return substr($name, 0, 55).'_'.substr(md5($name), 0, 8);
+    }
+
+    /**
+     * Get the SQL to create the constraints for the given model
+     *
+     * @param Object Model
+     * @return array Array of SQL strings ready to execute.
+     */
+    function getSqlCreateConstraints($model)
+    {
+        $table = $this->con->pfx.$model->_a['table'];
+        $constraints = array();
+        $alter_tbl = 'ALTER TABLE '.$table;
+        $cols = $model->_a['cols'];
+        $manytomany = array();
+
+        foreach ($cols as $col => $val) {
+            $field = new $val['type']();
+            // remember these for later
+            if ($field->type == 'manytomany') {
+                $manytomany[] = $col;
+            }
+            if ($field->type == 'foreignkey') {
+                // Add the foreignkey constraints
+                $referto = new $val['model']();
+                $constraints[] = $alter_tbl.' ADD CONSTRAINT '.$this->getShortenedIdentifierName($table.'_'.$col.'_fkey').'
+                    FOREIGN KEY ('.$this->con->qn($col).')
+                    REFERENCES '.$this->con->pfx.$referto->_a['table'].' (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION';
+            }
+        }
+
+        // Now for the many to many
+        foreach ($manytomany as $many) {
+            $omodel = new $cols[$many]['model']();
+            $hay = array(strtolower($model->_a['model']), strtolower($omodel->_a['model']));
+            sort($hay);
+            $table = $this->con->pfx.$hay[0].'_'.$hay[1].'_assoc';
+            $alter_tbl = 'ALTER TABLE '.$table;
+            $constraints[] = $alter_tbl.' ADD CONSTRAINT '.$this->getShortenedIdentifierName($table.'_fkey1').'
+                FOREIGN KEY ('.strtolower($model->_a['model']).'_id)
+                REFERENCES '.$this->con->pfx.$model->_a['table'].' (id) MATCH SIMPLE
+                ON UPDATE NO ACTION ON DELETE NO ACTION';
+            $constraints[] = $alter_tbl.' ADD CONSTRAINT '.$this->getShortenedIdentifierName($table.'_fkey2').'
+                FOREIGN KEY ('.strtolower($omodel->_a['model']).'_id)
+                REFERENCES '.$this->con->pfx.$omodel->_a['table'].' (id) MATCH SIMPLE
+                ON UPDATE NO ACTION ON DELETE NO ACTION';
+        }
+        return $constraints;
     }
 
     /**
@@ -200,7 +253,7 @@ class Pluf_DB_Schema_PostgreSQL
                 $manytomany[] = $col;
             }
         }
-        
+
         //Now for the many to many
         foreach ($manytomany as $many) {
             $omodel = new $cols[$many]['model']();
@@ -210,6 +263,46 @@ class Pluf_DB_Schema_PostgreSQL
             $sql[] = 'DROP TABLE IF EXISTS '.$this->con->pfx.$table.' CASCADE';
         }
         return $sql;
+    }
+
+    /**
+     * Get the SQL to drop the constraints for the given model
+     *
+     * @param Object Model
+     * @return array Array of SQL strings ready to execute.
+     */
+    function getSqlDeleteConstraints($model)
+    {
+        $table = $this->con->pfx.$model->_a['table'];
+        $constraints = array();
+        $alter_tbl = 'ALTER TABLE '.$table;
+        $cols = $model->_a['cols'];
+        $manytomany = array();
+
+        foreach ($cols as $col => $val) {
+            $field = new $val['type']();
+            // remember these for later
+            if ($field->type == 'manytomany') {
+                $manytomany[] = $col;
+            }
+            if ($field->type == 'foreignkey') {
+                // Add the foreignkey constraints
+                $referto = new $val['model']();
+                $constraints[] = $alter_tbl.' DROP CONSTRAINT '.$this->getShortenedIdentifierName($table.'_'.$col.'_fkey');
+            }
+        }
+
+        // Now for the many to many
+        foreach ($manytomany as $many) {
+            $omodel = new $cols[$many]['model']();
+            $hay = array(strtolower($model->_a['model']), strtolower($omodel->_a['model']));
+            sort($hay);
+            $table = $this->con->pfx.$hay[0].'_'.$hay[1].'_assoc';
+            $alter_tbl = 'ALTER TABLE '.$table;
+            $constraints[] = $alter_tbl.' DROP CONSTRAINT '.$this->getShortenedIdentifierName($table.'_fkey1');
+            $constraints[] = $alter_tbl.' DROP CONSTRAINT '.$this->getShortenedIdentifierName($table.'_fkey2');
+        }
+        return $constraints;
     }
 }
 
