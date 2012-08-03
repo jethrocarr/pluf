@@ -129,7 +129,7 @@ class Pluf_DB_Schema_SQLite
         }
         $query = $query."\n".implode(",\n", $sql_col)."\n".');';
         $tables[$this->con->pfx.$model->_a['table']] = $query;
-        
+
         //Now for the many to many
         foreach ($manytomany as $many) {
             $omodel = new $cols[$many]['model']();
@@ -147,6 +147,18 @@ class Pluf_DB_Schema_SQLite
     }
 
     /**
+     * SQLite cannot add foreign key constraints to already existing tables,
+     * so we skip their creation completely.
+     *
+     * @param Object Model
+     * @return array
+     */
+    function getSqlCreateConstraints($model)
+    {
+        return array();
+    }
+
+    /**
      * Get the SQL to generate the indexes of the given model.
      *
      * @param Object Model
@@ -160,28 +172,28 @@ class Pluf_DB_Schema_SQLite
                 $val['col'] = $idx;
             }
             $unique =  (isset($val['type']) && ($val['type'] == 'unique')) ? 'UNIQUE ' : '';
-            $index[$this->con->pfx.$model->_a['table'].'_'.$idx] = 
+            $index[$this->con->pfx.$model->_a['table'].'_'.$idx] =
                 sprintf('CREATE %sINDEX %s ON %s (%s);',
                         $unique,
-                        $this->con->pfx.$model->_a['table'].'_'.$idx, 
-                        $this->con->pfx.$model->_a['table'], 
+                        $this->con->pfx.$model->_a['table'].'_'.$idx,
+                        $this->con->pfx.$model->_a['table'],
                         Pluf_DB_Schema::quoteColumn($val['col'], $this->con)
                         );
         }
         foreach ($model->_a['cols'] as $col => $val) {
             $field = new $val['type']();
             if ($field->type == 'foreignkey') {
-                $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_foreignkey'] = 
+                $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_foreignkey'] =
                     sprintf('CREATE INDEX %s ON %s (%s);',
-                            $this->con->pfx.$model->_a['table'].'_'.$col.'_foreignkey_idx', 
-                            $this->con->pfx.$model->_a['table'], 
+                            $this->con->pfx.$model->_a['table'].'_'.$col.'_foreignkey_idx',
+                            $this->con->pfx.$model->_a['table'],
                             Pluf_DB_Schema::quoteColumn($col, $this->con));
             }
             if (isset($val['unique']) and $val['unique'] == true) {
-                $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_unique'] = 
+                $index[$this->con->pfx.$model->_a['table'].'_'.$col.'_unique'] =
                     sprintf('CREATE UNIQUE INDEX %s ON %s (%s);',
-                            $this->con->pfx.$model->_a['table'].'_'.$col.'_unique_idx', 
-                            $this->con->pfx.$model->_a['table'], 
+                            $this->con->pfx.$model->_a['table'].'_'.$col.'_unique_idx',
+                            $this->con->pfx.$model->_a['table'],
                             Pluf_DB_Schema::quoteColumn($col, $this->con)
                             );
             }
@@ -207,7 +219,7 @@ class Pluf_DB_Schema_SQLite
                 $manytomany[] = $col;
             }
         }
-        
+
         //Now for the many to many
         foreach ($manytomany as $many) {
             $omodel = new $cols[$many]['model']();
@@ -217,7 +229,18 @@ class Pluf_DB_Schema_SQLite
             $sql[] = 'DROP TABLE IF EXISTS '.$this->con->pfx.$table;
         }
         return $sql;
+    }
 
+    /**
+     * SQLite cannot drop foreign keys from existing tables,
+     * so we skip their deletion completely.
+     *
+     * @param Object Model
+     * @return array
+     */
+    function getSqlDeleteConstraints($model)
+    {
+        return array();
     }
 }
 

@@ -82,6 +82,22 @@ class Pluf_DB_Schema
     }
 
     /**
+     * Creates the constraints for the current model.
+     * This should be done _after_ all tables of all models have been created.
+     *
+     * @throws Exception
+     */
+    function createConstraints()
+    {
+        $sql = $this->schema->getSqlCreateConstraints($this->model);
+        foreach ($sql as $k => $query) {
+            if (false === $this->con->execute($query)) {
+                throw new Exception($this->con->getError());
+            }
+        }
+    }
+
+    /**
      * Drop the tables and indexes for the current model.
      *
      * @return mixed True if success or database error.
@@ -89,6 +105,24 @@ class Pluf_DB_Schema
     function dropTables()
     {
         $sql = $this->schema->getSqlDelete($this->model);
+        foreach ($sql as $k => $query) {
+            if (false === $this->con->execute($query)) {
+                throw new Exception($this->con->getError());
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Drops the constraints for the current model.
+     * This should be done _before_ all tables of all models are dropped.
+     *
+     * @throws Exception
+     * @return boolean
+     */
+    function dropConstraints()
+    {
+        $sql = $this->schema->getSqlDeleteConstraints($this->model);
         foreach ($sql as $k => $query) {
             if (false === $this->con->execute($query)) {
                 throw new Exception($this->con->getError());

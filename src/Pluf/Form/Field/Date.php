@@ -35,12 +35,19 @@ class Pluf_Form_Field_Date extends Pluf_Form_Field
     public function clean($value)
     {
         parent::clean($value);
+        if (in_array($value, $this->empty_values)) {
+            return '';
+        }
         foreach ($this->input_formats as $format) {
             if (false !== ($date = strptime($value, $format))) {
-                $day = str_pad($date['tm_mday'], 2, '0', STR_PAD_LEFT);
-                $month = str_pad($date['tm_mon']+1, 2, '0', STR_PAD_LEFT);
-                $year = str_pad($date['tm_year']+1900, 4, '0', STR_PAD_LEFT);
-                return $year.'-'.$month.'-'.$day;
+                $day   = $date['tm_mday'];
+                $month = $date['tm_mon'] + 1;
+                $year  = $date['tm_year'] + 1900;
+                if (checkdate($month, $day, $year)) {
+                    return str_pad($year,  4, '0', STR_PAD_LEFT).'-'.
+                           str_pad($month, 2, '0', STR_PAD_LEFT).'-'.
+                           str_pad($day,   2, '0', STR_PAD_LEFT);
+                }
             }
         }
         throw new Pluf_Form_Invalid(__('Enter a valid date.'));
